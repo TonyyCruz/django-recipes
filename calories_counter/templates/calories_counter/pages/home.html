@@ -1,18 +1,17 @@
-{% include "calories_counter/partials/head.html"%}
+<!DOCTYPE html>
+<html lang="pt-br">
+  {% include "calories_counter/partials/head.html"%}
 
-<body>
-  {% include "calories_counter/partials/header.html" %}
+  <body>
+    {% include "calories_counter/partials/header.html" %}
+    {% include "calories_counter/partials/search.html" %}
 
-  <div class="search-continer">
-    <div class="container">
-      <form action="" class="search-form">
-        <input class="search-input" type="search" name="search">
-        <button class="search-button" type="submit">
-          <i class="fas fa-search"></i>
-        </button>
-      </form>
-    </div>
-  </div>
-</body>
+    <main class="main-content-container">
+      <div class="main-content container main-content-list">
+
+      </div>
+
+    </main>
+  </body>
 
 </html>
