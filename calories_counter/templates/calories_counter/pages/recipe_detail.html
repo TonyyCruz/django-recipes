@@ -1,19 +1,7 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-{% include "calories_counter/partials/head.html"%}
+{% extends "global/base_template.html" %}
 
-<body>
-  {% include "calories_counter/partials/header.html" %}
-  {% include "calories_counter/partials/search.html" %}
-
-  <main class="main-content-container">
-    <div class="main-content container main-content-detail">
-      {% include "calories_counter/partials/recipe.html" %}
-    </div>
-
-  </main>
-
-  {% include "calories_counter/partials/footer.html" %}
-</body>
-
-</html>
+{% block content %}
+  <div class="main-content container main-content-detail">
+    {% include "calories_counter/partials/recipe.html" %}
+  </div>
+{% endblock content %}

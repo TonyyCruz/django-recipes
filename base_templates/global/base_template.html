@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+{% include "calories_counter/partials/head.html"%}
+
+<body>
+  {% include "calories_counter/partials/header.html" %}
+  {% include "calories_counter/partials/search.html" %}
+
+  <main class="main-content-container">
+    {% block content %}{% endblock content %}
+  </main>
+
+  {% include "calories_counter/partials/footer.html" %}
+</body>
+
+</html>
