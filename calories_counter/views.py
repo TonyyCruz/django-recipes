@@ -1,5 +1,9 @@
 from django.shortcuts import render
 
 
-def home(request):
-    return render(request, "calories_counter/pages/home.html")
+def recipes(request):
+    return render(request, "calories_counter/pages/recipes.html")
+
+
+def recipe(request, id):
+    return render(request, "calories_counter/pages/recipe.html")

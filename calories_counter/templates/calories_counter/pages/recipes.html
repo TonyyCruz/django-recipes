@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+{% include "calories_counter/partials/head.html"%}
+
+<body>
+  {% include "calories_counter/partials/header.html" %}
+  {% include "calories_counter/partials/search.html" %}
+
+  <main class="main-content-container">
+    <div class="main-content container main-content-list">
+      {% include "calories_counter/partials/recipe.html" %}
+    </div>
+
+  </main>
+
+  {% include "calories_counter/partials/footer.html" %}
+</body>
+
+</html>
