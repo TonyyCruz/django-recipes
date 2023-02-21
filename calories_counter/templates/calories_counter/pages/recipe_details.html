@@ -1,11 +1,9 @@
 {% extends "global/base_template.html" %}
 
-{% block page_title %}Alterar - recipes{% endblock page_title %}
+{% block page_title %}Alterar - details{% endblock page_title %}
 {% block content %}
 {% include "calories_counter/partials/search.html" %}
-<div class="main-content container main-content-list">
-  {% for recipe in recipes %}
+  <div class="main-content container main-content-detail">
     {% include "calories_counter/partials/recipe.html" %}
-  {% endfor %}
-</div>
+  </div>
 {% endblock content %}
