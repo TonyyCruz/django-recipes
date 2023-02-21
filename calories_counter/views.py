@@ -16,7 +16,12 @@ def recipe_list(request):
 def recipe_details(request, id):
     return render(
         request,
-        "calories_counter/pages/recipe_detail.html",
+        "calories_counter/pages/recipe_details.html",
         context={
             "recipe": make_recipe(),
+            "id": id
         })
+
+
+def home(request):
+    return render(request, "calories_counter/pages/home.html")
