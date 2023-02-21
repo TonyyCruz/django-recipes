@@ -8,7 +8,8 @@ def recipe_list(request):
         request,
         "calories_counter/pages/recipe_list.html",
         context={
-            "recipes": [make_recipe() for _ in range(10)]
+            "recipes": [make_recipe() for _ in range(10)],
+            "is_recipe_list": True,
         })
 
 
@@ -17,5 +18,5 @@ def recipe_details(request, id):
         request,
         "calories_counter/pages/recipe_detail.html",
         context={
-            "recipe": make_recipe()
+            "recipe": make_recipe(),
         })

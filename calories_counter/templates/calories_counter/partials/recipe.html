@@ -25,7 +25,11 @@
   </div>
 
   <div class="recipe-content">
+    {% if is_recipe_list %}
     <p>{{ recipe.description }}</p>
+    {% else %}
+    <p>{{ recipe.preparation_steps|linebreaksbr }}</p>
+    {% endif %}
   </div>
 
   <div class="recipe-meta-container">
@@ -43,11 +47,13 @@
     </div>
   </div>
 
+  {% if is_recipe_list %}
   <footer class="recipe-footer">
     <a class="recipe-read-more button button-dark button-full-width" href="/recipe/3/">
       <i class="fas fa-eye"></i>
       <span>ver mais...</span>
     </a>
   </footer>
+  {% endif %}
 
 </div>
