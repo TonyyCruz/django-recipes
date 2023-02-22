@@ -1,0 +1,9 @@
+{% extends "global/base_template.html" %}
+{% block page_title %}Alterar - category{% endblock page_title %}
+{% block content %}
+<div>
+  {% for recipe in recipes %}
+    <h1>Categoria = {{ recipe.title }} | id = {{ recipe.id }}</h1>
+  {% endfor %}
+</div>
+{% endblock content %}

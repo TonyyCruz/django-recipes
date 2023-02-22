@@ -25,7 +25,7 @@ class Recipe(models.Model):
     is_published = models.BooleanField(default=False)
     cover = models.ImageField(upload_to="calories_counter/covers/%Y/%m/%d")
 
-    Category = models.ForeignKey(
+    category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True
     )
     author = models.ForeignKey(
