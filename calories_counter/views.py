@@ -10,7 +10,9 @@ def home(request):
 
 
 def recipe_list(request):
-    recipes = Recipe.objects.all().order_by("-id")
+    recipes = Recipe.objects.filter(
+        is_published=True
+    ).order_by("-id")
     return render(
         request,
         "calories_counter/pages/recipe_list.html",
@@ -32,6 +34,7 @@ def recipe_details(request, id):
 
 def category(request, id):
     recipes = Recipe.objects.filter(
+        is_published=True,
         category__id=id
     ).order_by("-id")
     return render(
@@ -39,4 +42,5 @@ def category(request, id):
         "calories_counter/pages/category.html",
         context={
             "recipes": recipes,
+            "is_recipe_list": True,
         })
