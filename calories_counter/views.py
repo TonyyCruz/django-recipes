@@ -22,7 +22,7 @@ def recipe_list(request):
 
 
 def recipe_details(request, id):
-    recipe = Recipe.objects.get(id=id)
+    recipe = get_object_or_404(Recipe, id=id)
     return render(
         request,
         "calories_counter/pages/recipe_details.html",
