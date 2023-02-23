@@ -24,13 +24,13 @@ class Recipe(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=False)
     cover = models.ImageField(
-        upload_to="calories_counter/recipes/covers/%Y/%m/%d")
+        upload_to="recipes/covers/%Y/%m/%d", editable=True)
 
     category = models.ForeignKey(
-        Category, on_delete=models.SET_DEFAULT, default="sem categoria"
+        Category, on_delete=models.SET_DEFAULT, default=1,
     )
     author = models.ForeignKey(
-        User, on_delete=models.SET_DEFAULT, default="anônimo"
+        User, on_delete=models.SET_NULL, null=True
     )
 
     def __str__(self):
