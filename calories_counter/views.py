@@ -1,8 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import get_list_or_404, get_object_or_404, render
 
-from .models import Recipe
-
-# from calories_counter.utils.calories_counter.factory import make_recipe
+from .models import Category, Recipe
 
 
 def home(request):
@@ -13,6 +11,7 @@ def recipe_list(request):
     recipes = Recipe.objects.filter(
         is_published=True
     ).order_by("-id")
+
     return render(
         request,
         "calories_counter/pages/recipe_list.html",
@@ -33,14 +32,19 @@ def recipe_details(request, id):
 
 
 def category(request, id):
-    recipes = Recipe.objects.filter(
-        is_published=True,
-        category__id=id
-    ).order_by("-id")
+    category = get_object_or_404(Category, id=id)
+    recipes = get_list_or_404(
+        Recipe.objects.filter(
+            is_published=True,
+            category__id=id
+        ).order_by("-id")
+    )
+
     return render(
         request,
         "calories_counter/pages/category.html",
         context={
             "recipes": recipes,
+            "category": category,
             "is_recipe_list": True,
         })

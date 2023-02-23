@@ -30,7 +30,11 @@
     {% if is_recipe_list %}
     <p>{{ recipe.description }}</p>
     {% else %}
-    <p>{{ recipe.preparation_steps|linebreaksbr }}</p>
+      {% if recipe.preparation_staps_is_html %}
+        <p>{{ recipe.preparation_steps|safe }}</p>
+      {% else %}
+        <p>{{ recipe.preparation_steps|linebreaksbr }}</p>
+      {% endif %}
     {% endif %}
   </div>
 
