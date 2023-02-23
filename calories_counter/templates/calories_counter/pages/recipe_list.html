@@ -3,9 +3,9 @@
 {% block page_title %}Alterar - recipes{% endblock page_title %}
 {% block content %}
 {% include "calories_counter/partials/search.html" %}
-<div class="main-content container main-content-list">
-  {% for recipe in recipes %}
-    {% include "calories_counter/partials/recipe.html" %}
-  {% endfor %}
-</div>
+  <div class="main-content container main-content-list">
+    {% for recipe in recipes %}
+      {% include "calories_counter/partials/recipe.html" %}
+    {% endfor %}
+  </div>
 {% endblock content %}

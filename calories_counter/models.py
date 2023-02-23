@@ -26,10 +26,10 @@ class Recipe(models.Model):
     cover = models.ImageField(upload_to="calories_counter/covers/%Y/%m/%d")
 
     category = models.ForeignKey(
-        Category, on_delete=models.SET_NULL, null=True
+        Category, on_delete=models.SET_DEFAULT, default="sem categoria"
     )
     author = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True
+        User, on_delete=models.SET_DEFAULT, default="anônimo"
     )
 
     def __str__(self):
