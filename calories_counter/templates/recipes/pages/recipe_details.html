@@ -1,9 +1,0 @@
-{% extends "global/base_template.html" %}
-
-{% block page_title %}{{recipes.title}}{% endblock page_title %}
-{% block content %}
-{% include "recipes/partials/search.html" %}
-  <div class="main-content container main-content-detail">
-    {% include "recipes/partials/recipe.html" %}
-  </div>
-{% endblock content %}
