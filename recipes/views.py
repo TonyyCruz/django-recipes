@@ -4,7 +4,7 @@ from .models import Category, Recipe
 
 
 def home(request):
-    return render(request, "calories_counter/pages/home.html")
+    return render(request, "recipes/pages/home.html")
 
 
 def recipe_list(request):
@@ -14,7 +14,7 @@ def recipe_list(request):
 
     return render(
         request,
-        "calories_counter/pages/recipe_list.html",
+        "recipes/pages/recipe_list.html",
         context={
             "recipes": recipes,
             "is_recipe_list": True,
@@ -25,7 +25,7 @@ def recipe_details(request, id):
     recipe = get_object_or_404(Recipe, id=id)
     return render(
         request,
-        "calories_counter/pages/recipe_details.html",
+        "recipes/pages/recipe_details.html",
         context={
             "recipe": recipe,
         })
@@ -42,7 +42,7 @@ def category(request, id):
 
     return render(
         request,
-        "calories_counter/pages/category.html",
+        "recipes/pages/category.html",
         context={
             "recipes": recipes,
             "category": category,
