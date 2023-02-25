@@ -4,6 +4,8 @@ from recipes import views
 
 from .test_recipe_setup import TestCaseWithSetup
 
+# from pytest import skip  # é um dacorator para pular o teste: @skip()
+
 
 class RecipeViewsTest(TestCaseWithSetup):
     #   ===== HOME =====
@@ -61,3 +63,10 @@ class RecipeViewsTest(TestCaseWithSetup):
         self.assertIn('10 minutos', content)
         self.assertIn('3 porcoes', content)
         self.assertEqual(len(response_context_recipes), 1)
+
+    def test_recipe_list_no_published_recipes_not_appear(self):
+        self.make_recipe(is_published=False)
+        response = self.client.get(reverse("recipes:list"))
+        content = response.content.decode('utf-8')
+
+        self.assertIn('Não há nenhuma receita ainda', content)
