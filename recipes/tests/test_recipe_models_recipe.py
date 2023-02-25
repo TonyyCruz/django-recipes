@@ -1,4 +1,5 @@
 from django.forms import ValidationError
+from parameterized import parameterized
 
 from .test_testcase_with_recipe import TestCaseWithRecipe
 
@@ -8,9 +9,13 @@ class RecipeModelTest(TestCaseWithRecipe):
         self.recipe = self.make_recipe()
         return super().setUp()
 
-    def test_recipe_title_raise_error_if_title_bigger_than_65_characters(self):
-        title_with_100_characters = "A" * 100
+    @parameterized.expand([
+        ("title", 65),
+        ("description", 165),
+        ("preparation_time_unit", 65),
+        ("servings_unit", 65),
+    ])
+    def test_recipe_fields_max_length(self, field, max_length):
+        setattr(self.recipe, field, "A" * (max_length + 1))
         with self.assertRaises(ValidationError):
-            self.recipe.title = title_with_100_characters
             self.recipe.full_clean()  # valida os campos
-            self.recipe.save()
