@@ -1,12 +1,13 @@
-from django.contrib.auth.models import User
-from django.test import TestCase
 from django.urls import resolve, reverse
 
 from recipes import views
-from recipes.models import Category, Recipe
+
+from .test_testcase_with_recipe import TestCaseWithRecipe
+
+# from pytest import skip  # é um dacorator para pular o teste: @skip()
 
 
-class RecipeViewsTest(TestCase):
+class RecipeViewsTest(TestCaseWithRecipe):
     #   ===== HOME =====
     def test_recipe_view_home_is_correct(self):
         view = resolve(reverse("recipes:home"))
@@ -30,6 +31,12 @@ class RecipeViewsTest(TestCase):
             reverse("recipes:category", kwargs={"id": 999}))
         self.assertEqual(response.status_code, 404)
 
+    def test_recipe_category_return_status_404_if_recipe_not_published(self):
+        recipe = self.make_recipe(is_published=False)
+        response = self.client.get(
+            reverse("recipes:category", kwargs={"id": recipe.category.id}))
+        self.assertEqual(response.status_code, 404)
+
     #   ===== DETAILS =====
     def test_recipe_list_view_details_is_correct(self):
         view = resolve(reverse("recipes:details", kwargs={"id": 1}))
@@ -38,6 +45,12 @@ class RecipeViewsTest(TestCase):
     def test_recipe_details_view_return_status_404_if_no_recipe_found(self):
         response = self.client.get(
             reverse("recipes:details", kwargs={"id": 999}))
+        self.assertEqual(response.status_code, 404)
+
+    def test_recipe_details_return_status_404_if_recipe_not_published(self):
+        recipe = self.make_recipe(is_published=False)
+        response = self.client.get(
+            reverse("recipes:details", kwargs={"id": recipe.id}))
         self.assertEqual(response.status_code, 404)
 
     #   ===== RECIPE LIST =====
@@ -53,28 +66,7 @@ class RecipeViewsTest(TestCase):
         )
 
     def test_recipe_list_loads_recipe(self):
-        category = Category.objects.create(name="category_name")
-        author = User.objects.create_user(
-            first_name="user",
-            last_name="name",
-            username="user_name",
-            password="123456",
-            email="user@user.com",
-        )
-        Recipe.objects.create(
-            category=category,
-            author=author,
-            title="My test title",
-            description="description",
-            slug="slug",
-            preparation_time=10,
-            preparation_time_unit="minutos",
-            servings=3,
-            servings_unit="porcoes",
-            preparation_steps="cozinha e come",
-            preparation_steps_is_html=False,
-            is_published=True,
-        )
+        self.make_recipe()
         response = self.client.get(reverse("recipes:list"))
         content = response.content.decode('utf-8')
         response_context_recipes = response.context['recipes']
@@ -83,3 +75,10 @@ class RecipeViewsTest(TestCase):
         self.assertIn('10 minutos', content)
         self.assertIn('3 porcoes', content)
         self.assertEqual(len(response_context_recipes), 1)
+
+    def test_recipe_list_no_published_recipes_not_appear(self):
+        self.make_recipe(is_published=False)
+        response = self.client.get(reverse("recipes:list"))
+        content = response.content.decode('utf-8')
+
+        self.assertIn('Não há nenhuma receita ainda', content)

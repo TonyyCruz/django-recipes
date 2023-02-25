@@ -22,7 +22,11 @@ def recipe_list(request):
 
 
 def recipe_details(request, id):
-    recipe = get_object_or_404(Recipe, id=id)
+    recipe = get_object_or_404(
+        Recipe.objects.filter(
+            id=id,
+            is_published=True,
+        ))
     return render(
         request,
         "recipes/pages/recipe_details.html",
