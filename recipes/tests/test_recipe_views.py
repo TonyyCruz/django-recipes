@@ -31,6 +31,12 @@ class RecipeViewsTest(TestCaseWithSetup):
             reverse("recipes:category", kwargs={"id": 999}))
         self.assertEqual(response.status_code, 404)
 
+    def test_recipe_category_return_status_404_if_recipe_not_published(self):
+        self.make_recipe(is_published=False)
+        response = self.client.get(
+            reverse("recipes:category", kwargs={"id": 1}))
+        self.assertEqual(response.status_code, 404)
+
     #   ===== DETAILS =====
     def test_recipe_list_view_details_is_correct(self):
         view = resolve(reverse("recipes:details", kwargs={"id": 1}))
@@ -39,6 +45,12 @@ class RecipeViewsTest(TestCaseWithSetup):
     def test_recipe_details_view_return_status_404_if_no_recipe_found(self):
         response = self.client.get(
             reverse("recipes:details", kwargs={"id": 999}))
+        self.assertEqual(response.status_code, 404)
+
+    def test_recipe_details_return_status_404_if_recipe_not_published(self):
+        self.make_recipe(is_published=False)
+        response = self.client.get(
+            reverse("recipes:details", kwargs={"id": 1}))
         self.assertEqual(response.status_code, 404)
 
     #   ===== RECIPE LIST =====
