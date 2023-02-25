@@ -2,12 +2,12 @@ from django.urls import resolve, reverse
 
 from recipes import views
 
-from .test_recipe_setup import TestCaseWithSetup
+from .test_testcase_with_recipe import TestCaseWithRecipe
 
 # from pytest import skip  # é um dacorator para pular o teste: @skip()
 
 
-class RecipeViewsTest(TestCaseWithSetup):
+class RecipeViewsTest(TestCaseWithRecipe):
     #   ===== HOME =====
     def test_recipe_view_home_is_correct(self):
         view = resolve(reverse("recipes:home"))
@@ -32,9 +32,9 @@ class RecipeViewsTest(TestCaseWithSetup):
         self.assertEqual(response.status_code, 404)
 
     def test_recipe_category_return_status_404_if_recipe_not_published(self):
-        self.make_recipe(is_published=False)
+        recipe = self.make_recipe(is_published=False)
         response = self.client.get(
-            reverse("recipes:category", kwargs={"id": 1}))
+            reverse("recipes:category", kwargs={"id": recipe.category.id}))
         self.assertEqual(response.status_code, 404)
 
     #   ===== DETAILS =====
@@ -48,9 +48,9 @@ class RecipeViewsTest(TestCaseWithSetup):
         self.assertEqual(response.status_code, 404)
 
     def test_recipe_details_return_status_404_if_recipe_not_published(self):
-        self.make_recipe(is_published=False)
+        recipe = self.make_recipe(is_published=False)
         response = self.client.get(
-            reverse("recipes:details", kwargs={"id": 1}))
+            reverse("recipes:details", kwargs={"id": recipe.id}))
         self.assertEqual(response.status_code, 404)
 
     #   ===== RECIPE LIST =====

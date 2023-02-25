@@ -4,7 +4,7 @@ from django.test import TestCase
 from recipes.models import Category, Recipe
 
 
-class TestCaseWithSetup(TestCase):
+class TestCaseWithRecipe(TestCase):
     # def setUp(self):
     #     self.make_recipe()
     #     return super().setUp()
