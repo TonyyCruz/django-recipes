@@ -1,12 +1,11 @@
-from django.contrib.auth.models import User
-from django.test import TestCase
 from django.urls import resolve, reverse
 
 from recipes import views
-from recipes.models import Category, Recipe
+
+from .test_recipe_setup import TestCaseWithSetup
 
 
-class RecipeViewsTest(TestCase):
+class RecipeViewsTest(TestCaseWithSetup):
     #   ===== HOME =====
     def test_recipe_view_home_is_correct(self):
         view = resolve(reverse("recipes:home"))
@@ -53,28 +52,7 @@ class RecipeViewsTest(TestCase):
         )
 
     def test_recipe_list_loads_recipe(self):
-        category = Category.objects.create(name="category_name")
-        author = User.objects.create_user(
-            first_name="user",
-            last_name="name",
-            username="user_name",
-            password="123456",
-            email="user@user.com",
-        )
-        Recipe.objects.create(
-            category=category,
-            author=author,
-            title="My test title",
-            description="description",
-            slug="slug",
-            preparation_time=10,
-            preparation_time_unit="minutos",
-            servings=3,
-            servings_unit="porcoes",
-            preparation_steps="cozinha e come",
-            preparation_steps_is_html=False,
-            is_published=True,
-        )
+        self.make_recipe()
         response = self.client.get(reverse("recipes:list"))
         content = response.content.decode('utf-8')
         response_context_recipes = response.context['recipes']
