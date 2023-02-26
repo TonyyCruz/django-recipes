@@ -162,6 +162,18 @@ a:hover {
   gap: var(--spacing-gutter-large);
 }
 
+.main-content-list .recipe-cover {
+  height: 20em;
+}
+
+.main-content-list .recipe-title-container {
+  height: 5em;
+}
+
+.main-content-list .recipe-content {
+  height: 8em;
+}
+
 .recipe-list-item {
   height: fit-content;
   max-width: 64rem;
