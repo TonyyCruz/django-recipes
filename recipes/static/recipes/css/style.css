@@ -168,10 +168,11 @@ a:hover {
 
 .main-content-list .recipe-title-container {
   height: 5em;
+  margin-bottom: 1em;
 }
 
 .main-content-list .recipe-content {
-  height: 8em;
+  height: 5em;
 }
 
 .recipe-list-item {
