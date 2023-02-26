@@ -43,22 +43,29 @@ class TestCaseWithRecipe(TestCase):
         preparation_steps_is_html=False,
         is_published=True,
     ):
+        params = {
+            "category": category,
+            "author": author,
+            "title": title,
+            "description": description,
+            "slug": slug,
+            "preparation_time": preparation_time,
+            "preparation_time_unit": preparation_time_unit,
+            "servings": servings,
+            "servings_unit": servings_unit,
+            "preparation_steps": preparation_steps,
+            "preparation_steps_is_html": preparation_steps_is_html,
+            "is_published": is_published,
+        }
         if category is None:
-            category = self.make_category()
+            params["category"] = self.make_category()
         if author is None:
-            author = self.make_author()
+            params["author"] = self.make_author()
+        if preparation_steps_is_html is None:
+            params.pop("preparation_steps_is_html")
+        if is_published is None:
+            params.pop("is_published")
 
         return Recipe.objects.create(
-            category=category,
-            author=author,
-            title=title,
-            description=description,
-            slug=slug,
-            preparation_time=preparation_time,
-            preparation_time_unit=preparation_time_unit,
-            servings=servings,
-            servings_unit=servings_unit,
-            preparation_steps=preparation_steps,
-            preparation_steps_is_html=preparation_steps_is_html,
-            is_published=is_published,
+            **params
         )
