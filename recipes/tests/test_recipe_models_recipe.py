@@ -19,3 +19,23 @@ class RecipeModelTest(TestCaseWithRecipe):
         setattr(self.recipe, field, "A" * (max_length + 1))
         with self.assertRaises(ValidationError):
             self.recipe.full_clean()  # valida os campos
+
+    def test_recipe_preparation_steps_is_html_is_false_by_default(self):
+        recipe = self.make_recipe(
+            preparation_steps_is_html=None,
+            author=self.make_author(username="user2"),
+        )
+        self.assertFalse(
+            recipe.preparation_steps_is_html,
+            msg='Recipe preparation_steps_is_html is not False',
+        )
+
+    def test_recipe_published_is_false_by_default(self):
+        recipe = self.make_recipe(
+            is_published=None,
+            author=self.make_author(username="user2"),
+        )
+        self.assertFalse(
+            recipe.is_published,
+            msg='Recipe is_published is not False',
+        )
