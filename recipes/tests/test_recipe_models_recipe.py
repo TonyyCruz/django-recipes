@@ -27,7 +27,7 @@ class RecipeModelTest(TestCaseWithRecipe):
         )
         self.assertFalse(
             recipe.preparation_steps_is_html,
-            msg='Recipe preparation_steps_is_html is not False',
+            msg="Recipe preparation_steps_is_html is not False",
         )
 
     def test_recipe_published_is_false_by_default(self):
@@ -37,5 +37,16 @@ class RecipeModelTest(TestCaseWithRecipe):
         )
         self.assertFalse(
             recipe.is_published,
-            msg='Recipe is_published is not False',
+            msg="Recipe is_published is not False",
+        )
+
+    def test_recipe_string_representation(self):
+        test_title = "Testing Representation"
+        self.recipe.title = test_title
+        self.recipe.full_clean()
+        self.recipe.save()
+        self.assertEqual(
+            str(self.recipe), test_title,
+            msg=f"Recipe string representation must be"
+                f"\"{test_title}\" but \"{str(self.recipe)}\" was received."
         )
