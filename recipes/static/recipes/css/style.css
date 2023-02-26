@@ -246,10 +246,15 @@ a:hover {
 
 .recipe-cover {
   display: flex;
+  justify-content: center;
 }
 
-.main-content-detail img {
-  margin: 0 auto;
+.main-content-detail img{
+  border-radius: var(--spacing-gutter-very-small);
+}
+
+.main-content-detail .recipe-cover {
+  padding: var(--spacing-gutter-very-small);
 }
 
 .main-footer {
