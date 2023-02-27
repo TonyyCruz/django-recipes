@@ -24,6 +24,7 @@ class RecipeModelTest(TestCaseWithRecipe):
         recipe = self.make_recipe(
             preparation_steps_is_html=None,
             author=self.make_author(username="user2"),
+            slug="user_test2",
         )
         self.assertFalse(
             recipe.preparation_steps_is_html,
@@ -34,6 +35,7 @@ class RecipeModelTest(TestCaseWithRecipe):
         recipe = self.make_recipe(
             is_published=None,
             author=self.make_author(username="user2"),
+            slug="user_test2"
         )
         self.assertFalse(
             recipe.is_published,

@@ -9,5 +9,6 @@ urlpatterns = [
     path("", views.home, name="home"),
     path("recipes/", views.recipe_list, name="list"),
     path("recipe/<int:id>/", views.recipe_details, name="details"),
-    path("recipe/category/<int:id>/", views.category, name="category"),
+    path("recipes/category/<int:id>/", views.category, name="category"),
+    path("recipes/search/<str:q>/", views.search, name="search"),
 ]

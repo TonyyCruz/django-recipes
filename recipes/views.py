@@ -52,3 +52,21 @@ def category(request, id):
             "category": category,
             "is_recipe_list": True,
         })
+
+
+def search(request, q):
+    recipes = get_list_or_404(
+        Recipe.objects.filter(
+            is_published=True,
+
+        ).order_by("-id")
+    )
+
+    return render(
+        request,
+        "recipes/pages/query.html",
+        context={
+            "recipes": recipes,
+            "query": q,
+            "is_recipe_list": True,
+        })
