@@ -84,6 +84,14 @@ class RecipeViewsTest(TestCaseWithRecipe):
         self.assertIn('Não há nenhuma receita ainda', content)
 
     #   ===== RECIPE SEARCH =====
-    # def test_recipe_search_uses_correct_view(self):
-    #     view = resolve(reverse("recipes:search"))
-    #     self.assertIs(views.recipe_list, view.func)
+    def test_recipe_search_uses_correct_view(self):
+        view = resolve(reverse("recipes:search"))
+        self.assertIs(views.search, view.func)
+
+    def test_recipe_search_loads_a_correct_template(self):
+        response = self.client.get(reverse("recipes:search") + "?q=test")
+        self.assertTemplateUsed(response, "recipes/pages/search.html")
+
+    def test_recipe_search_raises_404_if_no_search_term(self):
+        response = self.client.get(reverse("recipes:search"))
+        self.assertEqual(response.status_code, 404)

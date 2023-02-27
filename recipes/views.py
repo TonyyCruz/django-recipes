@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import get_list_or_404, get_object_or_404, render
 
 from .models import Category, Recipe
@@ -18,6 +19,7 @@ def recipe_list(request):
         context={
             "recipes": recipes,
             "is_recipe_list": True,
+            "page_title": "Receitas",
         })
 
 
@@ -32,6 +34,7 @@ def recipe_details(request, id):
         "recipes/pages/recipe_details.html",
         context={
             "recipe": recipe,
+            "page_title": recipe.title,
         })
 
 
@@ -49,24 +52,27 @@ def category(request, id):
         "recipes/pages/category.html",
         context={
             "recipes": recipes,
-            "category": category,
             "is_recipe_list": True,
+            "page_title": category.name,
         })
 
 
-def search(request, q):
-    recipes = get_list_or_404(
-        Recipe.objects.filter(
-            is_published=True,
+def search(request):
+    # recipes = get_list_or_404(
+    #     Recipe.objects.filter(
+    #         is_published=True,
 
-        ).order_by("-id")
-    )
+    #     ).order_by("-id")
+    # )
+    search_therm = request.GET.get("q", "").strip()
+
+    if not search_therm:
+        raise Http404()
 
     return render(
         request,
-        "recipes/pages/query.html",
+        "recipes/pages/search.html",
         context={
-            "recipes": recipes,
-            "query": q,
-            "is_recipe_list": True,
-        })
+            "page_title": f"Search: \"{search_therm}\"",
+        }
+    )
