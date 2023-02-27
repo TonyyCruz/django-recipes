@@ -9,7 +9,7 @@ from .test_testcase_with_recipe import TestCaseWithRecipe
 
 class RecipeViewsTest(TestCaseWithRecipe):
     #   ===== HOME =====
-    def test_recipe_view_home_is_correct(self):
+    def test_recipe_home_uses_correct_view(self):
         view = resolve(reverse("recipes:home"))
         self.assertIs(views.home, view.func)
 
@@ -22,7 +22,7 @@ class RecipeViewsTest(TestCaseWithRecipe):
         self.assertTemplateUsed(response, "recipes/pages/home.html")
 
     #   ===== CATEGORY =====
-    def test_recipe_view_category_is_correct(self):
+    def test_recipe_category_uses_correct_view(self):
         view = resolve(reverse("recipes:category", kwargs={"id": 1}))
         self.assertIs(views.category, view.func)
 
@@ -38,7 +38,7 @@ class RecipeViewsTest(TestCaseWithRecipe):
         self.assertEqual(response.status_code, 404)
 
     #   ===== DETAILS =====
-    def test_recipe_list_view_details_is_correct(self):
+    def test_recipe_details_uses_correct_view(self):
         view = resolve(reverse("recipes:details", kwargs={"id": 1}))
         self.assertIs(views.recipe_details, view.func)
 
@@ -54,7 +54,7 @@ class RecipeViewsTest(TestCaseWithRecipe):
         self.assertEqual(response.status_code, 404)
 
     #   ===== RECIPE LIST =====
-    def test_recipe_list_view_recipes_is_correct(self):
+    def test_recipe_list_uses_correct_view(self):
         view = resolve(reverse("recipes:list"))
         self.assertIs(views.recipe_list, view.func)
 
@@ -82,3 +82,27 @@ class RecipeViewsTest(TestCaseWithRecipe):
         content = response.content.decode('utf-8')
 
         self.assertIn('Não há nenhuma receita ainda', content)
+
+    #   ===== RECIPE SEARCH =====
+    def test_recipe_search_uses_correct_view(self):
+        view = resolve(reverse("recipes:search"))
+        self.assertIs(views.search, view.func)
+
+    def test_recipe_search_loads_a_correct_template(self):
+        response = self.client.get(reverse("recipes:search") + "?q=test")
+        self.assertTemplateUsed(response, "recipes/pages/search.html")
+
+    def test_recipe_search_raises_404_if_no_search_term(self):
+        response = self.client.get(reverse("recipes:search"))
+        self.assertEqual(response.status_code, 404)
+
+    def test_recipe_search_term_is_on_page_title_and_escaped(self):
+        response = self.client.get(reverse("recipes:search") + "?q=<test>")
+        self.assertIn(
+            "Search: &quot;&lt;test&gt;&quot;",
+            response.content.decode("utf-8"),
+        )
+
+    def test_recipe_search_if_raise_404_if_search_term_is_a_space(self):
+        response = self.client.get(reverse("recipes:search") + "?q=   ")
+        self.assertEqual(response.status_code, 404)
