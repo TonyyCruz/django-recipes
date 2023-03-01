@@ -37,5 +37,31 @@ class PaginationTest(TestCase):
             qty_pages=5,
             current_page=6,
         )
+        pagination_3 = make_pagination_range(
+            page_range=list(range(1, 21)),
+            qty_pages=5,
+            current_page=10,
+        )
         self.assertEqual([2, 3, 4, 5, 6], pagination)
         self.assertEqual([4, 5, 6, 7, 8], pagination_2)
+        self.assertEqual([8, 9, 10, 11, 12], pagination_3)
+
+    def test_pagination_range_is_correct_when_current_page_is_at_end(self):
+        pagination = make_pagination_range(
+            page_range=list(range(1, 21)),
+            qty_pages=5,
+            current_page=18,
+        )
+        pagination_2 = make_pagination_range(
+            page_range=list(range(1, 21)),
+            qty_pages=5,
+            current_page=19,
+        )
+        pagination_3 = make_pagination_range(
+            page_range=list(range(1, 21)),
+            qty_pages=5,
+            current_page=20,
+        )
+        self.assertEqual([16, 17, 18, 19, 20], pagination)
+        self.assertEqual([16, 17, 18, 19, 20], pagination_2)
+        self.assertEqual([16, 17, 18, 19, 20], pagination_3)
