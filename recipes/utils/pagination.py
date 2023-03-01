@@ -2,21 +2,37 @@ import math
 
 
 def make_pagination_range(page_range, qty_pages, current_page):
-    if len(page_range) <= qty_pages:
-        return page_range
-
     start_range_idx = 0
-    end_range_pagination = len(page_range)
+    total_pages = len(page_range)
     pagination_range = math.floor(qty_pages / 2)
     pagination_middle = math.ceil(qty_pages / 2)
+    pagination = list()
 
-    if current_page <= pagination_middle:
-        return page_range[start_range_idx:pagination_middle + pagination_range]
+    if len(page_range) <= qty_pages:
+        pagination = page_range
 
-    start_range_idx = current_page - pagination_range - 1
-    pagination_middle = current_page
+    elif current_page <= pagination_middle:
+        pagination = page_range[
+            start_range_idx:pagination_middle + pagination_range]
 
-    if pagination_middle + pagination_range > end_range_pagination:
-        return page_range[- qty_pages:]
+    elif current_page + pagination_range > total_pages:
+        pagination_middle = total_pages - math.ceil(qty_pages / 2)
+        pagination = page_range[- qty_pages:]
 
-    return page_range[start_range_idx:current_page + pagination_range]
+    else:
+        pagination_middle = current_page
+        start_range_idx = current_page - pagination_range - 1
+        pagination = page_range[
+            start_range_idx:current_page + pagination_range]
+
+    return {
+        "pagination": pagination,
+        "page_range": page_range,
+        "qty_pages": qty_pages,
+        "current_page": current_page,
+        "total_pages": total_pages,
+        "start_range": start_range_idx,
+        "stop_range": pagination[-1],
+        "first_page_out_of_range": current_page > pagination_middle,
+        "last_page_out_of_range": pagination[-1] < total_pages,
+    }
