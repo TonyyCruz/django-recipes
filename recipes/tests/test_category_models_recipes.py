@@ -3,7 +3,7 @@ from django.forms import ValidationError
 from .test_testcase_with_recipe import TestCaseWithRecipe
 
 
-class CategoryModelTest(TestCaseWithRecipe):
+class RecipesCategoryModel(TestCaseWithRecipe):
     def setUp(self):
         self.category = self.make_category(
             name="test"

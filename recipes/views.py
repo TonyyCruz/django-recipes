@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_list_or_404, get_object_or_404, render
 
@@ -58,13 +59,12 @@ def category(request, id):
 
 
 def search(request):
-    # recipes = get_list_or_404(
-    #     Recipe.objects.filter(
-    #         is_published=True,
-
-    #     ).order_by("-id")
-    # )
     search_therm = request.GET.get("q", "").strip()
+    recipes = Recipe.objects.filter(
+        Q(title__icontains=search_therm)
+        | Q(description__icontains=search_therm),
+        is_published=True,
+    ).order_by("-id")
 
     if not search_therm:
         raise Http404()
@@ -73,6 +73,8 @@ def search(request):
         request,
         "recipes/pages/search.html",
         context={
+            "recipes": recipes,
             "page_title": f"Search: \"{search_therm}\"",
+            "is_recipe_list": True,
         }
     )

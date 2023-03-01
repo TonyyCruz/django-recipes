@@ -1,7 +1,10 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
+from faker import Faker
 
 from recipes.models import Category, Recipe
+
+fake = Faker()
 
 
 class TestCaseWithRecipe(TestCase):
@@ -14,12 +17,14 @@ class TestCaseWithRecipe(TestCase):
 
     def make_author(
         self,
-        first_name="user",
-        last_name="name",
-        username="user_name",
+        first_name=fake.first_name(),
+        last_name=fake.last_name(),
+        username=None,
         password="123456",
-        email="user@user.com",
+        email=fake.email(),
     ):
+        if username is None:
+            username = first_name + last_name
         return User.objects.create_user(
             first_name=first_name,
             last_name=last_name,
@@ -34,7 +39,7 @@ class TestCaseWithRecipe(TestCase):
         author=None,
         title="My test title",
         description="description",
-        slug="slug",
+        slug=fake.pystr_format(),
         preparation_time=10,
         preparation_time_unit="minutos",
         servings=3,

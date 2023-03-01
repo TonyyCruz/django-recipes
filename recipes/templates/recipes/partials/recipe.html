@@ -28,7 +28,7 @@
 
   <div class="recipe-content">
     {% if is_recipe_list %}
-    <p>{{ recipe.description }}</p>
+      <p>{{ recipe.description }}</p>
     {% else %}
       {% if recipe.preparation_staps_is_html %}
         <p>{{ recipe.preparation_steps|safe }}</p>

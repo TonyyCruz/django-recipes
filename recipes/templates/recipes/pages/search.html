@@ -4,8 +4,10 @@
 {% block content %}
 {% include "recipes/partials/search.html" %}
   <div class="main-content container main-content-list">
-    {% comment %} {% for recipe in recipes %}
+    {% for recipe in recipes %}
       {% include "recipes/partials/recipe.html" %}
-    {% endfor %} {% endcomment %}
+    {% empty %}
+      <h1>Nenhuma receita encontrada</h1>
+    {% endfor %}
   </div>
 {% endblock content %}
