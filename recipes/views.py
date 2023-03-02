@@ -1,9 +1,8 @@
-from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_list_or_404, get_object_or_404, render
 
-from recipes.utils.pagination import make_pagination_range
+from recipes.utils.pagination import make_pagination
 
 from .models import Category, Recipe
 
@@ -17,15 +16,7 @@ def recipe_list(request):
         is_published=True
     ).order_by("-id")
 
-    current_page = request.GET.get("page", 1)
-    paginator = Paginator(recipes, 12)
-    pages_obj = paginator.get_page(current_page)
-
-    pagination_range = make_pagination_range(
-        page_range=paginator.page_range,
-        qty_pages=5,
-        current_page=int(current_page),
-    )
+    pages_obj, pagination_range = make_pagination(request, recipes, 12)
 
     return render(
         request,
