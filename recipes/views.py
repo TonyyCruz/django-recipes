@@ -3,6 +3,8 @@ from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_list_or_404, get_object_or_404, render
 
+from recipes.utils.pagination import make_pagination_range
+
 from .models import Category, Recipe
 
 
@@ -19,6 +21,12 @@ def recipe_list(request):
     paginator = Paginator(recipes, 12)
     pages_obj = paginator.get_page(current_page)
 
+    pagination_range = make_pagination_range(
+        page_range=paginator.page_range,
+        qty_pages=5,
+        current_page=int(current_page),
+    )
+
     return render(
         request,
         "recipes/pages/recipe_list.html",
@@ -26,6 +34,7 @@ def recipe_list(request):
             "recipes": pages_obj,
             "is_recipe_list": True,
             "page_title": "Receitas",
+            "pagination_range": pagination_range
         })
 
 

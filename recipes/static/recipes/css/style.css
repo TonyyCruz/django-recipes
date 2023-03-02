@@ -290,6 +290,16 @@ a:hover {
   padding: var(--spacing-gutter-very-small);
 }
 
+.pagination {
+  display: flex;
+  border: 2px solid black;
+}
+
+.pagination a {
+  border: 2px solid red;
+  padding: 1rem;
+}
+
 .main-footer {
   color: var(--color-white);
   display: flex;

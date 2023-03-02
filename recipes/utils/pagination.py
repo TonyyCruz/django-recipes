@@ -33,6 +33,6 @@ def make_pagination_range(page_range, qty_pages, current_page):
         "total_pages": total_pages,
         "start_range": start_range_idx,
         "stop_range": pagination[-1],
-        "first_page_out_of_range": current_page > pagination_middle,
+        "first_page_out_of_range": current_page > math.ceil(qty_pages / 2),
         "last_page_out_of_range": pagination[-1] < total_pages,
     }
