@@ -86,5 +86,6 @@ def search(request):
             "recipes": pages_obj,
             "page_title": f"Search: \"{search_therm}\"",
             "is_recipe_list": True,
+            "aditional_url_query": f"&q={search_therm}",
         }
     )
