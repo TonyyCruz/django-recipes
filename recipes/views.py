@@ -22,10 +22,10 @@ def recipe_list(request):
         request,
         "recipes/pages/recipe_list.html",
         context={
+            "pagination_range": pagination_range,
             "recipes": pages_obj,
             "is_recipe_list": True,
             "page_title": "Receitas",
-            "pagination_range": pagination_range
         })
 
 
@@ -52,12 +52,14 @@ def category(request, id):
             category__id=id
         ).order_by("-id")
     )
+    pages_obj, pagination_range = make_pagination(request, recipes, 12)
 
     return render(
         request,
         "recipes/pages/category.html",
         context={
-            "recipes": recipes,
+            "pagination_range": pagination_range,
+            "recipes": pages_obj,
             "is_recipe_list": True,
             "page_title": category.name,
         })
@@ -74,11 +76,14 @@ def search(request):
     if not search_therm:
         raise Http404()
 
+    pages_obj, pagination_range = make_pagination(request, recipes, 12)
+
     return render(
         request,
         "recipes/pages/search.html",
         context={
-            "recipes": recipes,
+            "pagination_range": pagination_range,
+            "recipes": pages_obj,
             "page_title": f"Search: \"{search_therm}\"",
             "is_recipe_list": True,
         }
