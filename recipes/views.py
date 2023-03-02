@@ -1,7 +1,8 @@
-from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_list_or_404, get_object_or_404, render
+
+from recipes.utils.pagination import make_pagination
 
 from .models import Category, Recipe
 
@@ -15,14 +16,13 @@ def recipe_list(request):
         is_published=True
     ).order_by("-id")
 
-    current_page = request.GET.get("page", 1)
-    paginator = Paginator(recipes, 12)
-    pages_obj = paginator.get_page(current_page)
+    pages_obj, pagination_range = make_pagination(request, recipes, 12)
 
     return render(
         request,
         "recipes/pages/recipe_list.html",
         context={
+            "pagination_range": pagination_range,
             "recipes": pages_obj,
             "is_recipe_list": True,
             "page_title": "Receitas",
@@ -52,12 +52,14 @@ def category(request, id):
             category__id=id
         ).order_by("-id")
     )
+    pages_obj, pagination_range = make_pagination(request, recipes, 12)
 
     return render(
         request,
         "recipes/pages/category.html",
         context={
-            "recipes": recipes,
+            "pagination_range": pagination_range,
+            "recipes": pages_obj,
             "is_recipe_list": True,
             "page_title": category.name,
         })
@@ -74,11 +76,14 @@ def search(request):
     if not search_therm:
         raise Http404()
 
+    pages_obj, pagination_range = make_pagination(request, recipes, 12)
+
     return render(
         request,
         "recipes/pages/search.html",
         context={
-            "recipes": recipes,
+            "pagination_range": pagination_range,
+            "recipes": pages_obj,
             "page_title": f"Search: \"{search_therm}\"",
             "is_recipe_list": True,
         }

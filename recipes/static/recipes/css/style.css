@@ -290,6 +290,32 @@ a:hover {
   padding: var(--spacing-gutter-very-small);
 }
 
+.pagination {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1rem 0.5rem;
+}
+
+.pagination-content {
+  background: var(--color-primary);
+  padding: var(--spacing-gutter-very-small);
+  padding: var(--spacing-gutter-very-small);
+  border-radius: var(--spacing-gutter-small);
+}
+
+.pagination a {
+  padding: 0 0.5rem;
+}
+
+.pagination a:hover {
+  color: var(--color-white);
+}
+
+.current-page {
+  padding: 0 0.5rem;
+  font-weight: bolder;
+}
+
 .main-footer {
   color: var(--color-white);
   display: flex;
