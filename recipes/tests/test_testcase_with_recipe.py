@@ -74,3 +74,16 @@ class TestCaseWithRecipe(TestCase):
         return Recipe.objects.create(
             **params
         )
+
+    def make_multiples_recipes(self, quantity=2):
+        if quantity <= 0:
+            raise ValueError("Quantity need be greater than 0")
+        recipes = []
+        for i in range(quantity):
+            author = self.make_author(
+                username=f"fake.name(){i}",
+                email=f"fake.email(){i}"
+            )
+
+            recipes.append(self.make_recipe(author=author, slug=i))
+        return recipes
