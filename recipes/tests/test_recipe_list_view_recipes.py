@@ -76,3 +76,16 @@ class RecipesListViews(TestCaseWithRecipe):
                 "<spam class=\"page-link page-item current-page\">4</spam>",
                 content_3
             )
+
+    def test_recipe_list_is_paginated(self):
+        self.make_multiples_recipes(10)
+        with patch("recipes.views.ITEMS_PER_PAGE", new=3):
+            response = self.client.get(reverse("recipes:list"))
+            recipes = response.context["recipes"]
+            paginator = recipes.paginator
+
+        self.assertEqual(paginator.num_pages, 4)
+        self.assertEqual(len(paginator.get_page(1)), 3)
+        self.assertEqual(len(paginator.get_page(2)), 3)
+        self.assertEqual(len(paginator.get_page(3)), 3)
+        self.assertEqual(len(paginator.get_page(4)), 1)
