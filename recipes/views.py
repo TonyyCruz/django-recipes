@@ -1,3 +1,5 @@
+import os
+
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_list_or_404, get_object_or_404, render
@@ -5,6 +7,8 @@ from django.shortcuts import get_list_or_404, get_object_or_404, render
 from recipes.utils.pagination import make_pagination
 
 from .models import Category, Recipe
+
+ITEMS_PER_PAGE = int(os.environ.get("ITEMS_PER_PAGE", 12))
 
 
 def home(request):
@@ -16,7 +20,11 @@ def recipe_list(request):
         is_published=True
     ).order_by("-id")
 
-    pages_obj, pagination_range = make_pagination(request, recipes, 12)
+    pages_obj, pagination_range = make_pagination(
+        request,
+        recipes,
+        ITEMS_PER_PAGE,
+    )
 
     return render(
         request,
@@ -52,7 +60,11 @@ def category(request, id):
             category__id=id
         ).order_by("-id")
     )
-    pages_obj, pagination_range = make_pagination(request, recipes, 12)
+    pages_obj, pagination_range = make_pagination(
+        request,
+        recipes,
+        ITEMS_PER_PAGE,
+    )
 
     return render(
         request,
@@ -76,7 +88,11 @@ def search(request):
     if not search_therm:
         raise Http404()
 
-    pages_obj, pagination_range = make_pagination(request, recipes, 12)
+    pages_obj, pagination_range = make_pagination(
+        request,
+        recipes,
+        ITEMS_PER_PAGE,
+    )
 
     return render(
         request,
