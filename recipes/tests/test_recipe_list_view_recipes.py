@@ -77,7 +77,7 @@ class RecipesListViews(TestCaseWithRecipe):
                 content_3
             )
 
-    def test_recipe_list_is_paginated(self):
+    def test_recipe_list_items_per_page_is_correct(self):
         self.make_multiples_recipes(10)
         with patch("recipes.views.ITEMS_PER_PAGE", new=3):
             response = self.client.get(reverse("recipes:list"))

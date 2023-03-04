@@ -73,3 +73,19 @@ class RecipesCategoryViews(TestCaseWithRecipe):
                 "<spam class=\"page-link page-item current-page\">4</spam>",
                 content_3
             )
+
+    def test_recipe_category_items_per_page_is_correct(self):
+        category = self.make_category(name="test_category")
+        self.make_multiples_recipes(10, category=category)
+        with patch("recipes.views.ITEMS_PER_PAGE", new=3):
+            response = self.client.get(
+                reverse("recipes:category", kwargs={"id": category.id})
+            )
+            recipes = response.context["recipes"]
+            paginator = recipes.paginator
+
+            self.assertEqual(paginator.num_pages, 4)
+            self.assertEqual(len(paginator.get_page(1)), 3)
+            self.assertEqual(len(paginator.get_page(2)), 3)
+            self.assertEqual(len(paginator.get_page(3)), 3)
+            self.assertEqual(len(paginator.get_page(4)), 1)
