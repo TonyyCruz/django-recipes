@@ -84,8 +84,8 @@ class RecipesListViews(TestCaseWithRecipe):
             recipes = response.context["recipes"]
             paginator = recipes.paginator
 
-        self.assertEqual(paginator.num_pages, 4)
-        self.assertEqual(len(paginator.get_page(1)), 3)
-        self.assertEqual(len(paginator.get_page(2)), 3)
-        self.assertEqual(len(paginator.get_page(3)), 3)
-        self.assertEqual(len(paginator.get_page(4)), 1)
+            self.assertEqual(paginator.num_pages, 4)
+            self.assertEqual(len(paginator.get_page(1)), 3)
+            self.assertEqual(len(paginator.get_page(2)), 3)
+            self.assertEqual(len(paginator.get_page(3)), 3)
+            self.assertEqual(len(paginator.get_page(4)), 1)

@@ -2,4 +2,12 @@
 {% block page_title %}Home{% endblock page_title %}
 {% block content %}
   <h1>Home Page</h1>
+  {% if messages %}
+    {% for message in messages %}
+      <div class="main-content center container">
+        {{message}}
+      </div>
+    {% endfor %}
+  {% endif %}
+
 {% endblock content %}
