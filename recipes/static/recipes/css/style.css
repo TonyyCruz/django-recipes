@@ -186,6 +186,7 @@ a:hover {
 .recipe-list-item {
   height: fit-content;
   max-width: 64rem;
+  min-width: 32rem;
   position: relative;
 }
 
@@ -250,7 +251,7 @@ a:hover {
   color: var(--color-gray-4);
   margin-right: var(--spacing-gutter-very-small);
   font-style: italic;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
 }
 
 .recipe-meta-container {
