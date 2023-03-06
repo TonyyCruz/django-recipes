@@ -50,5 +50,5 @@ class RecipesModelTest(TestCaseWithRecipe):
         self.assertEqual(
             str(self.recipe), test_title,
             msg=f"Recipe string representation must be"
-                f"\"{test_title}\" but \"{str(self.recipe)}\" was received."
+                f'"{test_title}" but "{str(self.recipe)}" was received.'
         )

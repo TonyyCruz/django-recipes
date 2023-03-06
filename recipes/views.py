@@ -100,7 +100,7 @@ def search(request):
         context={
             "pagination_range": pagination_range,
             "recipes": pages_obj,
-            "page_title": f"Search: \"{search_therm}\"",
+            "page_title": f'Search: "{search_therm}"',
             "is_recipe_list": True,
             "aditional_url_query": f"&q={search_therm}",
         }
