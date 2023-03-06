@@ -12,3 +12,15 @@ class RegisterForm(forms.ModelForm):
             "email",
             "password"
         ]
+        labels = {
+            "username": "Usuário",
+            "first_name": "Nome",
+            "last_name": "Sobrenome",
+            "email": "E-mail",
+            "password": "Senha",
+        }
+        widgets = {
+            "password": forms.PasswordInput(attrs={
+                "placeholder": "Insira sua senha aqui"
+            })
+        }
