@@ -24,7 +24,7 @@ def strong_password(password):
 class RegisterForm(forms.ModelForm):
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={
-            "placeholder": "[a-z] [A-Z] [@*!#$%.?]",
+            "placeholder": "[a-z] [A-Z] [@*!#$%?...]",
         }),
         validators=[strong_password],
         help_text=(
@@ -60,16 +60,16 @@ class RegisterForm(forms.ModelForm):
         }
         widgets = {
             "first_name": forms.TextInput(attrs={
-                "placeholder": "Ex:.Ana"
+                "placeholder": "Ex.: Ana"
             }),
             "last_name": forms.TextInput(attrs={
-                "placeholder": "Ex:.Carolina"
+                "placeholder": "Ex.: Carolina"
             }),
             "username": forms.TextInput(attrs={
-                "placeholder": "Ex:.@carol"
+                "placeholder": "Ex.: @carol"
             }),
             "email": forms.TextInput(attrs={
-                "placeholder": "Ex:.email@email.com"
+                "placeholder": "Ex.: email@email.com"
             }),
         }
 
