@@ -15,18 +15,41 @@ class AuthorRegisterFormUnitTest(TestCase):
     ])
     def test_placeholder_is_correct(self, field, expect):
         form = RegisterForm()
-        placeholder = form[field].field.widget.attrs["placeholder"]
-        self.assertEqual(expect, placeholder)
+        received = form[field].field.widget.attrs["placeholder"]
+        self.assertEqual(expect, received)
 
     @parameterized.expand([
         ("first_name", "First name"),
         ("last_name", "Last name"),
-        ("username", "User"),
+        ("username", "Username"),
         ("email", "E-mail"),
         ("password", "Password"),
         ("confirm_password", "Confirm password"),
     ])
     def test_label_is_correct(self, field, expect):
         form = RegisterForm()
-        placeholder = form[field].field.label
-        self.assertEqual(expect, placeholder)
+        received = form[field].field.label
+        self.assertEqual(expect, received)
+
+    @parameterized.expand([
+        (
+            "username",
+            (
+                "Username must have letters, numbers or one of those @.+-_. "
+                "The length should be between 4 and 150 characters."
+            )
+        ),
+        (
+            "password",
+            (
+                "Password must have at least 8 characters "
+                "containing at least one uppercase, "
+                "one lowercase and one special character."
+            )
+        ),
+
+    ])
+    def test_help_text_is_correct(self, field, expect):
+        form = RegisterForm()
+        received = form[field].field.help_text
+        self.assertEqual(expect, received)

@@ -11,11 +11,9 @@ def strong_password(password):
     )
     if not regex.match(password):
         raise ValidationError((
-            """
-            Password must have at least one uppercase letter,
-            one lowercase letter and one number. The length should be
-            at least 8 characters.
-            """
+            "Password must have at least one uppercase letter, "
+            "one lowercase letter and one special character. "
+            "The length should be at least 8 characters."
         ),
             code="Invalid"
         )
@@ -29,10 +27,9 @@ class RegisterForm(forms.ModelForm):
         }),
         validators=[strong_password],
         help_text=(
-            """
-            Requires 8 characters containing at least
-            one uppercase, one lowercase and one special character
-            """
+            "Password must have at least 8 characters "
+            "containing at least one uppercase, "
+            "one lowercase and one special character."
         )
     )
 
@@ -40,6 +37,26 @@ class RegisterForm(forms.ModelForm):
         label="Confirm password",
         widget=forms.PasswordInput(attrs={
             "placeholder": "Repeat you password",
+        }),
+        min_length=8,
+    )
+
+    username = forms.CharField(
+        label='Username',
+        required=True,
+        help_text=(
+            "Username must have letters, numbers or one of those @.+-_. "
+            "The length should be between 4 and 150 characters."
+        ),
+        error_messages={
+            "required": "This field must not be empty",
+            "min_length": "Username must have at least 4 characters",
+            "max_length": "Username must have less than 150 characters",
+        },
+        min_length=4,
+        max_length=150,
+        widget=forms.TextInput(attrs={
+            "placeholder": "Ex.: @carol"
         }),
     )
 
@@ -53,7 +70,6 @@ class RegisterForm(forms.ModelForm):
             "password"
         ]
         labels = {
-            "username": "User",
             "first_name": "First name",
             "last_name": "Last name",
             "email": "E-mail",
@@ -64,9 +80,6 @@ class RegisterForm(forms.ModelForm):
             }),
             "last_name": forms.TextInput(attrs={
                 "placeholder": "Ex.: Carolina"
-            }),
-            "username": forms.TextInput(attrs={
-                "placeholder": "Ex.: @carol"
             }),
             "email": forms.TextInput(attrs={
                 "placeholder": "Ex.: email@email.com"
