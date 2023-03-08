@@ -40,13 +40,13 @@
 
   <div class="recipe-meta-container">
     <div class="recipe-meta recipe-preparation">
-      <h3 class="recipe-meta-title"><i class="fas fa-stopwatch"></i> Preparo</h3>
+      <h3 class="recipe-meta-title"><i class="fas fa-stopwatch"></i> Preparation</h3>
       <div class="recipe-meta-text">
         {{ recipe.preparation_time }} {{ recipe.preparation_time_unit }}
       </div>
     </div>
     <div class="recipe-meta recipe-servings">
-      <h3 class="recipe-meta-title"><i class="fas fa-pizza-slice"></i> Porções</h3>
+      <h3 class="recipe-meta-title"><i class="fas fa-pizza-slice"></i> Portions</h3>
       <div class="recipe-meta-text">
         {{ recipe.servings }} {{ recipe.servings_unit }}
       </div>
@@ -57,7 +57,7 @@
   <footer class="recipe-footer">
     <a class="recipe-read-more button button-dark button-full-width" href="{% url "recipes:details" recipe.id %}">
       <i class="fas fa-eye"></i>
-      <span>ver mais...</span>
+      <span>show...</span>
     </a>
   </footer>
   {% endif %}

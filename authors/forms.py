@@ -11,9 +11,11 @@ def strong_password(password):
     )
     if not regex.match(password):
         raise ValidationError((
-            "Senha precisa ter pelo menos 8 caracteres, "
-            "precisa ter pelo menos um caractere maiúsculo, "
-            "um maiúsculo e um caractere especial"
+            """
+            Password must have at least one uppercase letter,
+            one lowercase letter and one number. The length should be
+            at least 8 characters.
+            """
         ),
             code="Invalid"
         )
@@ -26,16 +28,18 @@ class RegisterForm(forms.ModelForm):
         }),
         validators=[strong_password],
         help_text=(
-            """Requer 8 charactres contendo no mínimo
-            um maiúsculo, um minúsculo e um especial"""
+            """
+            Requires 8 characters containing at least
+            one uppercase, one lowercase and one special character
+            """
         )
     )
 
     confirm_password = forms.CharField(
         widget=forms.PasswordInput(attrs={
-            "placeholder": "Repita sua senha",
+            "placeholder": "Repeat you password",
         }),
-        label="Confirmar senha",
+        label="Confirm password",
     )
 
     class Meta:
@@ -48,11 +52,11 @@ class RegisterForm(forms.ModelForm):
             "password"
         ]
         labels = {
-            "username": "Usuário",
-            "first_name": "Nome",
-            "last_name": "Sobrenome",
+            "username": "User",
+            "first_name": "Name",
+            "last_name": "Last name",
             "email": "E-mail",
-            "password": "Senha",
+            "password": "Password",
         }
         widgets = {
             "first_name": forms.TextInput(attrs={
@@ -65,7 +69,7 @@ class RegisterForm(forms.ModelForm):
                 "placeholder": "Ex:.@carol"
             }),
             "email": forms.TextInput(attrs={
-                "placeholder": "Ex:. seuEmail@email.com"
+                "placeholder": "Ex:.email@email.com"
             }),
         }
 
@@ -74,7 +78,7 @@ class RegisterForm(forms.ModelForm):
         password = cleaned_data.get("password")
         confirm_password = cleaned_data.get("confirm_password")
         if password != confirm_password:
-            error_message = 'Os campos "senha" e "confirmar senha" precisam ser iguais'  # noqa: E501
+            error_message = '"Password" and "Confirm password" must be equal'
             raise ValidationError({
                 "confirm_password": error_message,
             },
