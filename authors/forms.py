@@ -23,6 +23,7 @@ def strong_password(password):
 
 class RegisterForm(forms.ModelForm):
     password = forms.CharField(
+        label="Password",
         widget=forms.PasswordInput(attrs={
             "placeholder": "[a-z] [A-Z] [@*!#$%?...]",
         }),
@@ -36,10 +37,10 @@ class RegisterForm(forms.ModelForm):
     )
 
     confirm_password = forms.CharField(
+        label="Confirm password",
         widget=forms.PasswordInput(attrs={
             "placeholder": "Repeat you password",
         }),
-        label="Confirm password",
     )
 
     class Meta:
@@ -53,10 +54,9 @@ class RegisterForm(forms.ModelForm):
         ]
         labels = {
             "username": "User",
-            "first_name": "Name",
+            "first_name": "First name",
             "last_name": "Last name",
             "email": "E-mail",
-            "password": "Password",
         }
         widgets = {
             "first_name": forms.TextInput(attrs={
