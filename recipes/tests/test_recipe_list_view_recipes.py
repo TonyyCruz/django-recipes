@@ -15,7 +15,7 @@ class RecipesListViews(TestCaseWithRecipe):
     def test_recipe_list_template_shows_no_recipes_found_if_no_recipes(self):
         response = self.client.get(reverse("recipes:list"))
         self.assertIn(
-            "<h1>Não há nenhuma receita ainda</h1>",
+            "<h1>There are no recipes yet</h1>",
             response.content.decode("utf-8")
         )
 
@@ -35,7 +35,7 @@ class RecipesListViews(TestCaseWithRecipe):
         response = self.client.get(reverse("recipes:list"))
         content = response.content.decode("utf-8")
 
-        self.assertIn("Não há nenhuma receita ainda", content)
+        self.assertIn("There are no recipes yet", content)
 
     def test_recipe_list_have_a_correct_pagination_range(self):
         """slow"""

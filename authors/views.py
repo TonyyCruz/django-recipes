@@ -28,7 +28,7 @@ def register_create(request):
 
     if form.is_valid():
         form.save()
-        messages.success(request, "Usuário criado com sucesso")
+        messages.success(request, "User created successfully")
         del (request.session["register_form_data"])
         return redirect("recipes:home")
 
