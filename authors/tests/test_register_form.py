@@ -1,4 +1,7 @@
-from django.test import TestCase
+from unittest import TestCase
+
+from django.test import TestCase as DjangoTestCase
+from django.urls import reverse
 from parameterized import parameterized
 
 from authors.forms import RegisterForm
@@ -44,7 +47,7 @@ class AuthorRegisterFormUnitTest(TestCase):
             (
                 "Password must have at least 8 characters "
                 "containing at least one uppercase, "
-                "one lowercase and one special character."
+                "one lowercase and one special character or number."
             )
         ),
 
@@ -53,3 +56,27 @@ class AuthorRegisterFormUnitTest(TestCase):
         form = RegisterForm()
         received = form[field].field.help_text
         self.assertEqual(expect, received)
+
+
+class AuthorRegisterFormIntegrationTest(DjangoTestCase):
+    def setUp(self):
+        self.form_data = {
+            "username": "user",
+            "first_name": "first",
+            "last_name": "last",
+            "email": "email@email.com",
+            "password": "Str0ngP@ssword1",
+            "confirm_password": "Str0ngP@ssword1",
+        }
+        return super().setUp()
+
+    @parameterized.expand([
+        ("username", "This field must not be empty"),
+        ("password", "This field must not be empty"),
+        ("email", "This field must not be empty"),
+    ])
+    def test_fields_cannot_be_empty(self, field, msg):
+        self.form_data[field] = ""
+        url = reverse("authors:create")
+        response = self.client.post(url, data=self.form_data, follow=True)
+        self.assertIn(msg, response.content.decode("utf-8"))
