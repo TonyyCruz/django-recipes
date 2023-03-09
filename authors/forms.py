@@ -22,15 +22,21 @@ def strong_password(password):
 class RegisterForm(forms.ModelForm):
     password = forms.CharField(
         label="Password",
+        required=True,
         widget=forms.PasswordInput(attrs={
             "placeholder": "[a-z] [A-Z] [@*!#$%?...]",
         }),
+        min_length=8,
         validators=[strong_password],
         help_text=(
             "Password must have at least 8 characters "
             "containing at least one uppercase, "
-            "one lowercase and one special character."
-        )
+            "one lowercase and one special character or number."
+        ),
+        error_messages={
+            "required": "This field must not be empty",
+            "min_length": "Username must have at least 8 characters",
+        },
     )
 
     confirm_password = forms.CharField(
@@ -60,6 +66,18 @@ class RegisterForm(forms.ModelForm):
         }),
     )
 
+    email = forms.EmailField(
+        label="E-mail",
+        required=True,
+        widget=forms.EmailInput(
+            attrs={
+                "placeholder": "Ex.: email@email.com"
+            }),
+        error_messages={
+            "required": "This field must not be empty",
+        }
+    )
+
     class Meta:
         model = User
         fields = [
@@ -72,7 +90,6 @@ class RegisterForm(forms.ModelForm):
         labels = {
             "first_name": "First name",
             "last_name": "Last name",
-            "email": "E-mail",
         }
         widgets = {
             "first_name": forms.TextInput(attrs={
@@ -80,9 +97,6 @@ class RegisterForm(forms.ModelForm):
             }),
             "last_name": forms.TextInput(attrs={
                 "placeholder": "Ex.: Carolina"
-            }),
-            "email": forms.TextInput(attrs={
-                "placeholder": "Ex.: email@email.com"
             }),
         }
 
