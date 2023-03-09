@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 
 def strong_password(password):
     regex = re.compile(
-        r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$"
+        r"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
     )
     if not regex.match(password):
         raise ValidationError((
