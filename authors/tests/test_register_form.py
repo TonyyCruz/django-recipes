@@ -71,6 +71,8 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         return super().setUp()
 
     @parameterized.expand([
+        ("first_name", "This field must not be empty"),
+        ("last_name", "This field must not be empty"),
         ("username", "This field must not be empty"),
         ("password", "This field must not be empty"),
         ("email", "This field must not be empty"),

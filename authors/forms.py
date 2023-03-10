@@ -70,12 +70,31 @@ class RegisterForm(forms.ModelForm):
         label="E-mail",
         required=True,
         widget=forms.EmailInput(
-            attrs={
-                "placeholder": "Ex.: email@email.com"
-            }),
+            attrs={"placeholder": "Ex.: email@email.com"}
+        ),
         error_messages={
             "required": "This field must not be empty",
         }
+    )
+
+    first_name = forms.CharField(
+        label="First name",
+        required=True,
+        widget=forms.TextInput(attrs={"placeholder": "Ex.: Ana"}),
+        min_length=2,
+        error_messages={
+            "required": "This field must not be empty",
+            "min_length": "First name must have at least 2 characters",
+        },
+    )
+
+    last_name = forms.CharField(
+        label="Last name",
+        required=True,
+        widget=forms.TextInput(attrs={"placeholder": "Ex.: Carolina"}),
+        error_messages={
+            "required": "This field must not be empty",
+        },
     )
 
     class Meta:
@@ -87,18 +106,6 @@ class RegisterForm(forms.ModelForm):
             "email",
             "password"
         ]
-        labels = {
-            "first_name": "First name",
-            "last_name": "Last name",
-        }
-        widgets = {
-            "first_name": forms.TextInput(attrs={
-                "placeholder": "Ex.: Ana"
-            }),
-            "last_name": forms.TextInput(attrs={
-                "placeholder": "Ex.: Carolina"
-            }),
-        }
 
     def clean(self):
         cleaned_data = super().clean()
