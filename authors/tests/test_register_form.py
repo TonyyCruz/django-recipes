@@ -147,3 +147,8 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         response = self.client.post(url, data=self.form_data, follow=True)
 
         self.assertIn(message, response.content.decode("utf-8"))
+
+    def test_register_create_raise_a_404_error_if_method_is_not_POST(self):
+        url = reverse("authors:create")
+        response = self.client.get(url, data=self.form_data, follow=True)
+        self.assertEqual(response.status_code, 404)
