@@ -13,7 +13,7 @@ class AuthorRegisterFormUnitTest(TestCase):
         ("last_name", "Ex.: Carolina"),
         ("username", "Ex.: @carol"),
         ("email", "Ex.: email@email.com"),
-        ("password", "[a-z] [A-Z] [@*!#$%?...]"),
+        ("password", "[a-z] [A-Z] [@*!#$%?123...]"),
         ("confirm_password", "Repeat you password"),
     ])
     def test_placeholder_is_correct(self, field, expect):
@@ -82,3 +82,15 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         url = reverse("authors:create")
         response = self.client.post(url, data=self.form_data, follow=True)
         self.assertIn(msg, response.content.decode("utf-8"))
+        self.assertIn(msg, response.context["form"].errors.get(field))
+
+    @parameterized.expand([
+        ("abc", "Username must have at least 4 characters"),
+        ("a" * 151, "Username must have less than 150 characters"),
+    ])
+    def test_username_field_cannot_have_length_less_than_4_or_bigger_than_150(self, username, msg):    # noqa: E501
+        self.form_data["username"] = username
+        url = reverse("authors:create")
+        response = self.client.post(url, data=self.form_data, follow=True)
+        self.assertIn(msg, response.content.decode("utf-8"))
+        self.assertIn(msg, response.context["form"].errors.get("username"))

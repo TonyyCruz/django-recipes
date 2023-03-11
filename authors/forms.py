@@ -24,7 +24,7 @@ class RegisterForm(forms.ModelForm):
         label="Password",
         required=True,
         widget=forms.PasswordInput(attrs={
-            "placeholder": "[a-z] [A-Z] [@*!#$%?...]",
+            "placeholder": "[a-z] [A-Z] [@*!#$%?123...]",
         }),
         min_length=8,
         validators=[strong_password],
