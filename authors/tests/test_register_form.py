@@ -94,3 +94,13 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         response = self.client.post(url, data=self.form_data, follow=True)
         self.assertIn(msg, response.content.decode("utf-8"))
         self.assertIn(msg, response.context["form"].errors.get("username"))
+
+    @parameterized.expand([
+        ("abcd", "User created successfully"),
+        ("a" * 150, "User created successfully"),
+    ])
+    def test_when_create_a_username_with_a_length_of_4_and_150_characters_have_no_error(self, username, msg):    # noqa: E501
+        self.form_data["username"] = username
+        url = reverse("authors:create")
+        response = self.client.post(url, data=self.form_data, follow=True)
+        self.assertIn(msg, response.content.decode("utf-8"))
