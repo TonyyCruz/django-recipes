@@ -47,7 +47,7 @@ class AuthorRegisterFormUnitTest(TestCase):
             (
                 "Password must have at least 8 characters "
                 "containing at least one uppercase, "
-                "one lowercase and one special character or number."
+                "one lowercase one number and one special character."
             )
         ),
 
@@ -94,3 +94,56 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         response = self.client.post(url, data=self.form_data, follow=True)
         self.assertIn(msg, response.content.decode("utf-8"))
         self.assertIn(msg, response.context["form"].errors.get("username"))
+
+    @parameterized.expand([
+        ("abcd", "User created successfully"),
+        ("a" * 150, "User created successfully"),
+    ])
+    def test_when_create_a_username_with_a_length_of_4_and_150_characters_have_no_error(self, username, msg):    # noqa: E501
+        self.form_data["username"] = username
+        url = reverse("authors:create")
+        response = self.client.post(url, data=self.form_data, follow=True)
+        self.assertIn(msg, response.content.decode("utf-8"))
+
+    @parameterized.expand([
+        ("abcdefg", "Password must have at least 8 characters"),
+        ("abcdefgh", ""),
+        ("Abcdefgh", ""),
+        ("ABCDEFGH", ""),
+        ("aBCDEFGH", ""),
+    ])
+    def test_password_field_display_an_error_if_not_have_expected_characters(self, password, msg):    # noqa: E501
+        message = msg or (
+            "Password must have at least one uppercase letter, "
+            "one lowercase letter one number and one special character. "
+            "The length should be at least 8 characters."
+        )
+        self.form_data["password"] = password
+        url = reverse("authors:create")
+        response = self.client.post(url, data=self.form_data, follow=True)
+        self.assertIn(message, response.context["form"].errors.get("password"))
+
+    def test_confirm_password_field_display_an_error_if_not_equal_to_password_field(self, ):    # noqa: E501
+        message = '"Password" and "Confirm password" must be equal'
+        self.form_data["password"] = "Password1"
+        self.form_data["confirm_password"] = "Password2"
+        url = reverse("authors:create")
+        response = self.client.post(url, data=self.form_data, follow=True)
+        self.assertIn(
+            message,
+            response.context["form"].errors.get("confirm_password")
+        )
+
+    @parameterized.expand([
+        "Abcdefg9?",
+        "aBCDEF5$",
+        "aBCDEFGH1!",
+    ])
+    def test_is_possible_to_create_a_password_with_correct_characters(self, password):    # noqa: E501
+        message = "User created successfully"
+        self.form_data["password"] = password
+        self.form_data["confirm_password"] = password
+        url = reverse("authors:create")
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        self.assertIn(message, response.content.decode("utf-8"))

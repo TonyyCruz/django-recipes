@@ -7,12 +7,12 @@ from django.core.exceptions import ValidationError
 
 def strong_password(password):
     regex = re.compile(
-        r"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
+        r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
     )
     if not regex.match(password):
         raise ValidationError((
             "Password must have at least one uppercase letter, "
-            "one lowercase letter and one special character. "
+            "one lowercase letter one number and one special character. "
             "The length should be at least 8 characters."
         ),
             code="Invalid"
@@ -31,11 +31,11 @@ class RegisterForm(forms.ModelForm):
         help_text=(
             "Password must have at least 8 characters "
             "containing at least one uppercase, "
-            "one lowercase and one special character or number."
+            "one lowercase one number and one special character."
         ),
         error_messages={
             "required": "This field must not be empty",
-            "min_length": "Username must have at least 8 characters",
+            "min_length": "Password must have at least 8 characters",
         },
     )
 
