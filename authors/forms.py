@@ -35,7 +35,7 @@ class RegisterForm(forms.ModelForm):
         ),
         error_messages={
             "required": "This field must not be empty",
-            "min_length": "Username must have at least 8 characters",
+            "min_length": "Password must have at least 8 characters",
         },
     )
 
