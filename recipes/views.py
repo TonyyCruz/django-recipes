@@ -21,9 +21,9 @@ def recipe_list(request):
     ).order_by("-id")
 
     pages_obj, pagination_range = make_pagination(
-        request,
-        recipes,
-        ITEMS_PER_PAGE,
+        request=request,
+        object_list=recipes,
+        per_page=ITEMS_PER_PAGE,
     )
 
     return render(

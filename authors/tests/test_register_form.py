@@ -13,7 +13,7 @@ class AuthorRegisterFormUnitTest(TestCase):
         ("last_name", "Ex.: Carolina"),
         ("username", "Ex.: @carol"),
         ("email", "Ex.: email@email.com"),
-        ("password", "[a-z] [A-Z] [@*!#$%?123...]"),
+        ("password", "[a-z] [A-Z] [0-9] [@*!#$%?]"),
         ("confirm_password", "Repeat you password"),
     ])
     def test_placeholder_is_correct(self, field, expect):
