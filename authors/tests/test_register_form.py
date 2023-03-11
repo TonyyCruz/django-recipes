@@ -19,7 +19,6 @@ class AuthorRegisterFormUnitTest(TestCase):
     def test_placeholder_is_correct(self, field, expect):
         form = RegisterForm()
         received = form[field].field.widget.attrs["placeholder"]
-
         self.assertEqual(expect, received)
 
     @parameterized.expand([
@@ -33,7 +32,6 @@ class AuthorRegisterFormUnitTest(TestCase):
     def test_label_is_correct(self, field, expect):
         form = RegisterForm()
         received = form[field].field.label
-
         self.assertEqual(expect, received)
 
     @parameterized.expand([
@@ -49,7 +47,7 @@ class AuthorRegisterFormUnitTest(TestCase):
             (
                 "Password must have at least 8 characters "
                 "containing at least one uppercase, "
-                "one lowercase and one special character or number."
+                "one lowercase one number and one special character."
             )
         ),
 
@@ -57,7 +55,6 @@ class AuthorRegisterFormUnitTest(TestCase):
     def test_help_text_is_correct(self, field, expect):
         form = RegisterForm()
         received = form[field].field.help_text
-
         self.assertEqual(expect, received)
 
 
@@ -84,7 +81,6 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         self.form_data[field] = ""
         url = reverse("authors:create")
         response = self.client.post(url, data=self.form_data, follow=True)
-
         self.assertIn(msg, response.content.decode("utf-8"))
         self.assertIn(msg, response.context["form"].errors.get(field))
 
@@ -96,7 +92,6 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         self.form_data["username"] = username
         url = reverse("authors:create")
         response = self.client.post(url, data=self.form_data, follow=True)
-
         self.assertIn(msg, response.content.decode("utf-8"))
         self.assertIn(msg, response.context["form"].errors.get("username"))
 
@@ -108,7 +103,6 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         self.form_data["username"] = username
         url = reverse("authors:create")
         response = self.client.post(url, data=self.form_data, follow=True)
-
         self.assertIn(msg, response.content.decode("utf-8"))
 
     @parameterized.expand([
@@ -121,11 +115,35 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
     def test_password_field_display_an_error_if_not_have_expected_characters(self, password, msg):    # noqa: E501
         message = msg or (
             "Password must have at least one uppercase letter, "
-            "one lowercase letter and one special character. "
+            "one lowercase letter one number and one special character. "
             "The length should be at least 8 characters."
         )
         self.form_data["password"] = password
         url = reverse("authors:create")
         response = self.client.post(url, data=self.form_data, follow=True)
-
         self.assertIn(message, response.context["form"].errors.get("password"))
+
+    def test_confirm_password_field_display_an_error_if_not_equal_to_password_field(self, ):    # noqa: E501
+        message = '"Password" and "Confirm password" must be equal'
+        self.form_data["password"] = "Password1"
+        self.form_data["confirm_password"] = "Password2"
+        url = reverse("authors:create")
+        response = self.client.post(url, data=self.form_data, follow=True)
+        self.assertIn(
+            message,
+            response.context["form"].errors.get("confirm_password")
+        )
+
+    @parameterized.expand([
+        "Abcdefg9?",
+        "aBCDEF5$",
+        "aBCDEFGH1!",
+    ])
+    def test_is_possible_to_create_a_password_with_correct_characters(self, password):    # noqa: E501
+        message = "User created successfully"
+        self.form_data["password"] = password
+        self.form_data["confirm_password"] = password
+        url = reverse("authors:create")
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        self.assertIn(message, response.content.decode("utf-8"))
