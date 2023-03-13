@@ -24,7 +24,7 @@ class RegisterForm(forms.ModelForm):
         label="Password",
         required=True,
         widget=forms.PasswordInput(attrs={
-            "placeholder": "[a-z] [A-Z] [@*!#$%?123...]",
+            "placeholder": "[a-z] [A-Z] [0-9] [@*!#$%?]",
         }),
         min_length=8,
         validators=[strong_password],
@@ -106,6 +106,16 @@ class RegisterForm(forms.ModelForm):
             "email",
             "password"
         ]
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email", "")
+        exists = User.objects.filter(email=email).exists()
+
+        if exists:
+            raise ValidationError(
+                "This email is already in use"
+            )
+        return email
 
     def clean(self):
         cleaned_data = super().clean()

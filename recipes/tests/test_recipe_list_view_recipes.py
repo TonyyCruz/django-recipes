@@ -89,3 +89,8 @@ class RecipesListViews(TestCaseWithRecipe):
             self.assertEqual(len(paginator.get_page(2)), 3)
             self.assertEqual(len(paginator.get_page(3)), 3)
             self.assertEqual(len(paginator.get_page(4)), 1)
+
+    def test_invalid_page_query_uses_page_one(self):
+        response = self.client.get(reverse("recipes:list") + "?page=abc")
+        current_page = response.context["pagination_range"]["current_page"]
+        self.assertEqual(current_page, 1)

@@ -13,7 +13,7 @@ class AuthorRegisterFormUnitTest(TestCase):
         ("last_name", "Ex.: Carolina"),
         ("username", "Ex.: @carol"),
         ("email", "Ex.: email@email.com"),
-        ("password", "[a-z] [A-Z] [@*!#$%?123...]"),
+        ("password", "[a-z] [A-Z] [0-9] [@*!#$%?]"),
         ("confirm_password", "Repeat you password"),
     ])
     def test_placeholder_is_correct(self, field, expect):
@@ -147,3 +147,18 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         response = self.client.post(url, data=self.form_data, follow=True)
 
         self.assertIn(message, response.content.decode("utf-8"))
+
+    def test_register_create_view_raise_a_404_error_if_method_is_not_POST(self):  # noqa: E501
+        url = reverse("authors:create")
+        response = self.client.get(url, data=self.form_data, follow=True)
+        self.assertEqual(response.status_code, 404)
+
+    def test_cannot_register_a_user_with_used_email(self):
+        url = reverse("authors:create")
+        self.client.post(url, data=self.form_data)
+        response = self.client.post(url, data=self.form_data, follow=True)
+        content = response.content.decode("utf-8")
+        error = response.context["form"].errors.get("email")
+
+        self.assertIn("This email is already in use", content)
+        self.assertIn("This email is already in use", error)
