@@ -15,7 +15,8 @@ def register_view(request):
         "authors/pages/register_view.html",
         context={
             "form": form,
-            "form_action": reverse("authors:create")
+            "form_action": reverse("authors:register_create"),
+            "page_title": "Register",
         },
     )
 
@@ -37,3 +38,17 @@ def register_create(request):
         return redirect("recipes:home")
 
     return redirect("authors:register")
+
+
+def login_view(request):
+    return render(
+        request,
+        "authors/pages/login.html",
+        context={
+            "page_title": "Login",
+        }
+    )
+
+
+def login_create(request):
+    pass
