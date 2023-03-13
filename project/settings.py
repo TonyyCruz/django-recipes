@@ -141,4 +141,5 @@ MESSAGE_TAGS = {
     constants.INFO: "message-info",
     constants.SUCCESS: "message-success",
     constants.WARNING: "message-warning",
+    constants.ERROR: "message-error"
 }
