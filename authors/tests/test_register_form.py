@@ -153,12 +153,25 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         response = self.client.get(url, data=self.form_data, follow=True)
         self.assertEqual(response.status_code, 404)
 
-    def test_cannot_register_a_user_with_used_email(self):
+    def test_email_field_must_be_unique(self):
         url = reverse("authors:create")
         self.client.post(url, data=self.form_data)
         response = self.client.post(url, data=self.form_data, follow=True)
         content = response.content.decode("utf-8")
         error = response.context["form"].errors.get("email")
+        msg = "This email is already in use"
 
-        self.assertIn("This email is already in use", content)
-        self.assertIn("This email is already in use", error)
+        self.assertIn(msg, content)
+        self.assertIn(msg, error)
+
+    def test_author_created_can_login(self):
+        username = "test_user"
+        password = "Test123!"
+        self.form_data["username"] = username
+        self.form_data["password"] = password
+        self.form_data["confirm_password"] = password
+
+        self.client.post(reverse("authors:create"), data=self.form_data)
+        can_login = self.client.login(username=username, password=password)
+
+        self.assertTrue(can_login)
