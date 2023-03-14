@@ -433,3 +433,20 @@ a:hover {
   flex-flow: column nowrap;
   gap: var(--spacing-gutter-very-small);
 }
+
+.plaintext-button {
+  background: none;
+  border: none;
+  margin-left: 4px;
+  font-weight: bolder;
+  color: var(--color-primary-dark);
+  transition: all 200ms ease-in-out;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  font-size: 1.6rem;
+}
+
+.plaintext-button:hover {
+  color: var(--color-primary);
+}

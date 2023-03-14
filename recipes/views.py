@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_list_or_404, get_object_or_404, render
 
-from recipes.utils.pagination import make_pagination
+from utils.pagination import make_pagination
 
 from .models import Category, Recipe
 
@@ -33,7 +33,7 @@ def recipe_list(request):
             "pagination_range": pagination_range,
             "recipes": pages_obj,
             "is_recipe_list": True,
-            "page_title": "Receitas",
+            "page_title": "Recipes",
         })
 
 
@@ -102,6 +102,6 @@ def search(request):
             "recipes": pages_obj,
             "page_title": f'Search: "{search_therm}"',
             "is_recipe_list": True,
-            "aditional_url_query": f"&q={search_therm}",
+            "additional_url_query": f"&q={search_therm}",
         }
     )

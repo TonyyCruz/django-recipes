@@ -123,9 +123,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
-# STATICFILES_DIRS = [
-#     BASE_DIR / "base_static",
-# ]
+STATICFILES_DIRS = [
+    BASE_DIR / "base_static",
+]
 STATIC_ROOT = BASE_DIR / "static"
 
 MEDIA_URL = "media/"
@@ -141,4 +141,5 @@ MESSAGE_TAGS = {
     constants.INFO: "message-info",
     constants.SUCCESS: "message-success",
     constants.WARNING: "message-warning",
+    constants.ERROR: "message-error"
 }
