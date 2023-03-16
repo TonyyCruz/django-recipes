@@ -94,3 +94,8 @@ class RecipesHomeViews(TestCaseWithRecipe):
         response = self.client.get(reverse("recipes:home") + "?page=abc")
         current_page = response.context["pagination_range"]["current_page"]
         self.assertEqual(current_page, 1)
+
+    def test_home_have_a_correct_page_title(self):
+        response = self.client.get(reverse("recipes:home"))
+        content = response.content
+        self.assertIn("<title>Recipes</title>", content.decode("utf-8"))

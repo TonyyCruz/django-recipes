@@ -29,7 +29,7 @@ def home(request):
             "pagination_range": pagination_range,
             "recipes": pages_obj,
             "is_recipe_list": True,
-            "page_title": "Home",
+            "page_title": "Recipes",
         })
 
 
