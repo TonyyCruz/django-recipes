@@ -1,6 +1,13 @@
 {% extends "global/base_template.html" %}
-{% block page_title %}Home{% endblock page_title %}
+
+{% block page_title %}{{ page_title }}{% endblock page_title %}
 {% block content %}
-{% include "global/partials/messages.html" %}
-  <h1>Home Page</h1>
+  {% include "global/partials/search.html" %}
+    <div class="main-content container main-content-list">
+      {% for recipe in recipes %}
+        {% include "recipes/partials/recipe.html" %}
+      {% empty %}
+        <h1>There are no recipes yet</h1>
+      {% endfor %}
+    </div>
 {% endblock content %}

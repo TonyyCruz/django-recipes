@@ -1,8 +1,10 @@
 from pathlib import Path
-from time import sleep
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+
+# from time import sleep
+
 
 DRIVER_DIR = Path(__file__).parent.parent
 CHROMEDRIVER_NAME = "chromedriver"
@@ -28,5 +30,4 @@ if __name__ == "__main__":
         "--remote-debugging-port=9222",
     )
     browser.get("http:/www.google.com.br/")
-    sleep(5)
     browser.quit()
