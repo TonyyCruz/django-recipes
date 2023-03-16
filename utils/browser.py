@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 from selenium import webdriver
@@ -13,9 +14,13 @@ CHROMEDRIVER_PATH = str(DRIVER_DIR / "bin" / CHROMEDRIVER_NAME)
 
 def make_chrome_browser(*options):
     chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--remote-debugging-port=9222")
     if options is not None:
         for option in options:
             chrome_options.add_argument(option)
+
+    if os.environ.get("SELENIUM_HEADLESS") == "True":
+        chrome_options.add_argument("--headless")
 
     chrome_service = Service(executable_path=CHROMEDRIVER_PATH)
     browser = webdriver.Chrome(service=chrome_service, options=chrome_options)
@@ -27,7 +32,6 @@ if __name__ == "__main__":
         "--no-sandbox",
         "--disable-dev-shm-usage",
         "--headless",
-        "--remote-debugging-port=9222",
     )
     browser.get("http:/www.google.com.br/")
     browser.quit()
