@@ -12,10 +12,6 @@ ITEMS_PER_PAGE = int(os.environ.get("ITEMS_PER_PAGE", 12))
 
 
 def home(request):
-    return render(request, "recipes/pages/home.html")
-
-
-def recipe_list(request):
     recipes = Recipe.objects.filter(
         is_published=True
     ).order_by("-id")
@@ -28,7 +24,7 @@ def recipe_list(request):
 
     return render(
         request,
-        "recipes/pages/recipe_list.html",
+        "recipes/pages/home.html",
         context={
             "pagination_range": pagination_range,
             "recipes": pages_obj,
