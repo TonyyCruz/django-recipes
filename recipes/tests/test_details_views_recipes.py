@@ -2,10 +2,10 @@ from django.urls import resolve, reverse
 
 from recipes import views
 
-from .test_testcase_with_recipe import TestCaseWithRecipe
+from .recipe_test_base import RecipeTestBase
 
 
-class RecipesDetailsViews(TestCaseWithRecipe):
+class RecipesDetailsViews(RecipeTestBase):
     def test_recipe_details_uses_correct_view(self):
         response = resolve(reverse("recipes:details", kwargs={"id": 1}))
         self.assertIs(views.recipe_details, response.func)

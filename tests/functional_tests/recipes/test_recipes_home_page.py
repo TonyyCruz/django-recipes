@@ -2,7 +2,7 @@
 import pytest
 from selenium.webdriver.common.by import By
 
-from .base import RecipeBaseFunctionalTest
+from .recipe_functional_base import RecipeBaseFunctionalTest
 
 
 @pytest.mark.functional_test

@@ -2,12 +2,12 @@ from time import sleep
 
 from django.test import LiveServerTestCase
 
+# from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from recipes.tests.recipe_test_base import RecipeMixing
 from utils.browser import make_chrome_browser
 
-# from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
-
-class RecipeBaseFunctionalTest(LiveServerTestCase):
+class RecipeBaseFunctionalTest(LiveServerTestCase, RecipeMixing):
     def setUp(self):
         self.browser = make_chrome_browser()
         return super().setUp()

@@ -4,10 +4,10 @@ from django.urls import resolve, reverse
 
 from recipes import views
 
-from .test_testcase_with_recipe import TestCaseWithRecipe
+from .recipe_test_base import RecipeTestBase
 
 
-class RecipesHomeViews(TestCaseWithRecipe):
+class RecipesHomeViews(RecipeTestBase):
     def test_home_uses_correct_view(self):
         view = resolve(reverse("recipes:home"))
         self.assertIs(views.home, view.func)
