@@ -1,10 +1,10 @@
 from django.forms import ValidationError
 from parameterized import parameterized
 
-from .test_testcase_with_recipe import TestCaseWithRecipe
+from .recipe_test_base import RecipeTestBase
 
 
-class RecipesModelTest(TestCaseWithRecipe):
+class RecipesModelTest(RecipeTestBase):
     def setUp(self):
         self.recipe = self.make_recipe()
         return super().setUp()

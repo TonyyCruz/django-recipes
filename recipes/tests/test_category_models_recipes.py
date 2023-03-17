@@ -1,9 +1,9 @@
 from django.forms import ValidationError
 
-from .test_testcase_with_recipe import TestCaseWithRecipe
+from .recipe_test_base import RecipeTestBase
 
 
-class RecipesCategoryModel(TestCaseWithRecipe):
+class RecipesCategoryModel(RecipeTestBase):
     def setUp(self):
         self.category = self.make_category(
             name="test"

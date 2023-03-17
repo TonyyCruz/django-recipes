@@ -7,11 +7,7 @@ from recipes.models import Category, Recipe
 fake = Faker()
 
 
-class TestCaseWithRecipe(TestCase):
-    # def setUp(self):
-    #     self.make_recipe()
-    #     return super().setUp()
-
+class RecipeMixing:
     def make_category(self, name="category"):
         return Category.objects.create(name=name)
 
@@ -91,3 +87,8 @@ class TestCaseWithRecipe(TestCase):
                 category=category
             ))
         return recipes
+
+
+class RecipeTestBase(TestCase, RecipeMixing):
+    def setUp(self):
+        return super().setUp()
