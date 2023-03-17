@@ -150,7 +150,6 @@ class RecipesHomePageFunctionalTest(RecipeBaseFunctionalTest):
             self.browser.find_elements(By.CLASS_NAME, "page-link")[5].text
         )
 
-        # //////////////////////////////////////////
         last_page = self.browser.find_elements(
             By.CLASS_NAME,
             "page-link"
