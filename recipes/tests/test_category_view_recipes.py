@@ -24,9 +24,8 @@ class RecipesCategoryViews(RecipeTestBase):
         self.assertEqual(response.status_code, 404)
 
     def test_recipe_category_have_a_correct_pagination_range(self):
-        """slow"""
         category = self.make_category(name="test_category")
-        self.make_multiples_recipes(18, category=category)
+        self.make_multiples_recipes(quantity=18, category=category)
 
         with patch("recipes.views.ITEMS_PER_PAGE", new=3):
             response = self.client.get(
@@ -76,7 +75,7 @@ class RecipesCategoryViews(RecipeTestBase):
 
     def test_recipe_category_items_per_page_is_correct(self):
         category = self.make_category(name="test_category")
-        self.make_multiples_recipes(10, category=category)
+        self.make_multiples_recipes(quantity=10, category=category)
         with patch("recipes.views.ITEMS_PER_PAGE", new=3):
             response = self.client.get(
                 reverse("recipes:category", kwargs={"id": category.id})

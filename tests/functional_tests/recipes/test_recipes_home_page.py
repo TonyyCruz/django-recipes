@@ -11,3 +11,9 @@ class RecipesHomePageFunctionalTest(RecipeBaseFunctionalTest):
         self.browser.get(self.live_server_url)
         body = self.browser.find_element(By.TAG_NAME, "body")
         self.assertIn("There are no recipes yet", body.text)
+
+    def test_search_input(self):
+        self.make_multiples_recipes(quantity=1, title="test1")
+        self.make_multiples_recipes(quantity=2, title="test2")
+        self.make_multiples_recipes(quantity=3, title="test3")
+        ...

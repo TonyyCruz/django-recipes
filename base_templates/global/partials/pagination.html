@@ -4,7 +4,7 @@
     <div class="pagination-content">
       {% if pagination_range.first_page_out_of_range %}
         <a href="?page=1{{ additional_url_query }}" class="page-link page-item">
-          <i class="fa-solid fa-backward"></i>
+          1.. <i class="fa-solid fa-backward"></i>
         </a>
       {% endif %}
       {% for page in pagination_range.pagination %}
@@ -19,7 +19,7 @@
       {% if pagination_range.last_page_out_of_range %}
         <a href="?page={{ pagination_range.total_pages }}{{ additional_url_query }}
         " class="page-link page-item">
-          <i class="fa-solid fa-forward"></i>
+          <i class="fa-solid fa-forward"></i> ..{{ pagination_range.total_pages }}
         </a>
       {% endif %}
     </div>
