@@ -71,21 +71,46 @@ class RecipeMixing:
             **params
         )
 
-    def make_multiples_recipes(self, quantity=2, category=None, author=None):
+    def make_multiples_recipes(
+        self,
+        stack_name="default",
+        quantity=2,
+        category=None,
+        author=None,
+        title="My test title",
+        description="description",
+        preparation_time=10,
+        preparation_time_unit="minutos",
+        servings=3,
+        servings_unit="porcoes",
+        preparation_steps="cozinha e come",
+        preparation_steps_is_html=False,
+        is_published=True,
+    ):
         if category is None:
-            category = self.make_category()
+            category = self.make_category(name=stack_name)
         if author is None:
-            author = self.make_author()
+            author = self.make_author(username=stack_name)
         if quantity <= 0:
             raise ValueError("Quantity need be greater than 0")
 
         recipes = []
         for i in range(quantity):
-            recipes.append(self.make_recipe(
-                author=author,
-                slug=i,
-                category=category
-            ))
+            recipes.append(
+                self.make_recipe(
+                    author=author,
+                    slug=f"{stack_name}{i}",
+                    category=category,
+                    title=title,
+                    description=description,
+                    preparation_time=preparation_time,
+                    preparation_time_unit=preparation_time_unit,
+                    servings=servings,
+                    servings_unit=servings_unit,
+                    preparation_steps=preparation_steps,
+                    preparation_steps_is_html=preparation_steps_is_html,
+                    is_published=is_published,
+                ))
         return recipes
 
 

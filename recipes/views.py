@@ -9,6 +9,7 @@ from utils.pagination import make_pagination
 from .models import Category, Recipe
 
 ITEMS_PER_PAGE = int(os.environ.get("ITEMS_PER_PAGE", 12))
+QTY_PAGES_IN_PAGINATION = int(os.environ.get("QTY_PAGES_IN_PAGINATION", 5))
 
 
 def home(request):
@@ -20,6 +21,7 @@ def home(request):
         request=request,
         object_list=recipes,
         per_page=ITEMS_PER_PAGE,
+        qty_pages=QTY_PAGES_IN_PAGINATION,
     )
 
     return render(
@@ -60,6 +62,7 @@ def category(request, id):
         request,
         recipes,
         ITEMS_PER_PAGE,
+        qty_pages=QTY_PAGES_IN_PAGINATION,
     )
 
     return render(
@@ -88,6 +91,7 @@ def search(request):
         request,
         recipes,
         ITEMS_PER_PAGE,
+        qty_pages=QTY_PAGES_IN_PAGINATION,
     )
 
     return render(
