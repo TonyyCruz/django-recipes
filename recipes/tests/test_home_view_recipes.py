@@ -57,7 +57,7 @@ class RecipesHomeViews(RecipeTestBase):
             self.assertEqual(context["current_page"], 1)
             self.assertEqual(context["stop_range"], 5)
             self.assertIn(
-                '<spam class="page-link page-item current-page">1</spam>',
+                'area-label="Current page 1"',
                 content
             )
 
@@ -65,7 +65,7 @@ class RecipesHomeViews(RecipeTestBase):
             self.assertEqual(context_2["current_page"], 3)
             self.assertEqual(context_2["stop_range"], 5)
             self.assertIn(
-                '<spam class="page-link page-item current-page">3</spam>',
+                'area-label="Current page 3"',
                 content_2
             )
 
@@ -73,7 +73,7 @@ class RecipesHomeViews(RecipeTestBase):
             self.assertEqual(context_3["current_page"], 4)
             self.assertEqual(context_3["stop_range"], 6)
             self.assertIn(
-                '<spam class="page-link page-item current-page">4</spam>',
+                'area-label="Current page 4"',
                 content_3
             )
 

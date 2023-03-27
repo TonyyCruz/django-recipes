@@ -29,7 +29,7 @@ class RecipesHomePageFunctionalTest(RecipeBaseFunctionalTest):
 
         self.browser.get(self.live_server_url)
 
-        # TEST "Recipe test1"
+        # TEST "Recipe stack_name=test1"
         search_input = self.browser.find_element(
             By.XPATH,
             "//input[@placeholder='Search for a recipe...']"
@@ -46,7 +46,7 @@ class RecipesHomePageFunctionalTest(RecipeBaseFunctionalTest):
             len(self.browser.find_elements(By.CLASS_NAME, "recipe-title"))
         )
 
-        # TEST "Recipe test2"
+        # TEST "Recipe stack_name=test2"
         search_input = self.browser.find_element(
             By.XPATH,
             "//input[@placeholder='Search for a recipe...']"
@@ -64,7 +64,7 @@ class RecipesHomePageFunctionalTest(RecipeBaseFunctionalTest):
             len(self.browser.find_elements(By.CLASS_NAME, "recipe-title"))
         )
 
-        # TEST "Recipe test3"
+        # TEST "Recipe stack_name=test3"
         search_input = self.browser.find_element(
             By.XPATH,
             "//input[@placeholder='Search for a recipe...']"
@@ -99,7 +99,7 @@ class RecipesHomePageFunctionalTest(RecipeBaseFunctionalTest):
             len(self.browser.find_elements(By.CLASS_NAME, "recipe-title"))
         )
 
-    # TEST "Recipe test"
+    # TEST "Recipe stack_name=test"
         search_input = self.browser.find_element(
             By.XPATH,
             "//input[@placeholder='Search for a recipe...']"
