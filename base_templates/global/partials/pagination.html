@@ -20,6 +20,7 @@
           <spam
             class="page-link page-item current-page"
             area-label="Current page {{ page }}"
+            aria-current="true"
           >
             {{ page }}
           </spam>
@@ -27,7 +28,7 @@
           <a
             href="?page={{page}}{{ additional_url_query }}"
             class="page-link page-item"
-            area-label="Page {{ page }}"
+            area-label="go to page {{ page }}"
           >
             {{ page }}
           </a>
@@ -37,7 +38,7 @@
         <a
           href="?page={{ pagination_range.total_pages }}{{ additional_url_query }}"
           class="page-link page-item"
-          area-label="Go to last page"
+          area-label="Go to last page, {{ pagination_range.total_pages }}"
         >
           <i class="fa-solid fa-forward"></i> ..{{ pagination_range.total_pages }}
         </a>
