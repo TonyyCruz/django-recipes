@@ -20,7 +20,7 @@ class RegisterForm(forms.ModelForm):
             "one lowercase one number and one special character."
         ),
         error_messages={
-            "required": "This field must not be empty",
+            "required": "Password must not be empty",
             "min_length": "Password must have at least 8 characters",
         },
     )
@@ -31,6 +31,9 @@ class RegisterForm(forms.ModelForm):
             "placeholder": "Repeat you password",
         }),
         min_length=8,
+        error_messages={
+            "required": "Confirm password must not be empty",
+        },
     )
 
     username = forms.CharField(
@@ -41,7 +44,7 @@ class RegisterForm(forms.ModelForm):
             "The length should be between 4 and 150 characters."
         ),
         error_messages={
-            "required": "This field must not be empty",
+            "required": "Username must not be empty",
             "min_length": "Username must have at least 4 characters",
             "max_length": "Username must have less than 150 characters",
         },
@@ -59,7 +62,7 @@ class RegisterForm(forms.ModelForm):
             attrs={"placeholder": "Ex.: email@email.com"}
         ),
         error_messages={
-            "required": "This field must not be empty",
+            "required": "E-mail must not be empty",
         }
     )
 
@@ -69,7 +72,7 @@ class RegisterForm(forms.ModelForm):
         widget=forms.TextInput(attrs={"placeholder": "Ex.: Ana"}),
         min_length=2,
         error_messages={
-            "required": "This field must not be empty",
+            "required": "First name must not be empty",
             "min_length": "First name must have at least 2 characters",
         },
     )
@@ -79,7 +82,7 @@ class RegisterForm(forms.ModelForm):
         required=True,
         widget=forms.TextInput(attrs={"placeholder": "Ex.: Carolina"}),
         error_messages={
-            "required": "This field must not be empty",
+            "required": "Last name must not be empty",
         },
     )
 
