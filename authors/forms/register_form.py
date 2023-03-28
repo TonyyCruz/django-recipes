@@ -59,7 +59,7 @@ class RegisterForm(forms.ModelForm):
             attrs={"placeholder": "Ex.: email@email.com"}
         ),
         error_messages={
-            "required": "Email must not be empty",
+            "required": "E-mail must not be empty",
         }
     )
 
