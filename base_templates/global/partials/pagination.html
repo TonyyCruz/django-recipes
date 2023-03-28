@@ -24,14 +24,21 @@
             {{ page }}
           </spam>
         {% else %}
-          <a href="?page={{page}}{{ additional_url_query }}" class="page-link page-item">
+          <a
+            href="?page={{page}}{{ additional_url_query }}"
+            class="page-link page-item"
+            area-label="Page {{ page }}"
+          >
             {{ page }}
           </a>
         {% endif %}
       {% endfor %}
       {% if pagination_range.last_page_out_of_range %}
-        <a href="?page={{ pagination_range.total_pages }}{{ additional_url_query }}
-        " class="page-link page-item">
+        <a
+          href="?page={{ pagination_range.total_pages }}{{ additional_url_query }}"
+          class="page-link page-item"
+          area-label="Go to last page"
+        >
           <i class="fa-solid fa-forward"></i> ..{{ pagination_range.total_pages }}
         </a>
       {% endif %}
