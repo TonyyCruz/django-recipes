@@ -31,6 +31,9 @@ class RegisterForm(forms.ModelForm):
             "placeholder": "Repeat you password",
         }),
         min_length=8,
+        error_messages={
+            "required": "Confirm password must not be empty",
+        },
     )
 
     username = forms.CharField(
