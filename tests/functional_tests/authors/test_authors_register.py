@@ -108,3 +108,23 @@ class AuthorsFunctionalTest(AuthorBaseFunctionalTest):
         self.assertNotIn("Username must not be empty", form.text)
         self.assertIn("Password must not be empty", form.text)
         self.assertNotIn("Confirm password must not be empty", form.text)
+
+    def test_empty_confirm_password_field_error_message(self):
+        self.browser.get(self.live_server_url + "/authors/register/")
+        form = self.get_form("/html/body/main/div[2]")
+
+        self.fill_form_dummy_data(form=form, confirm_password=" " * 10)
+
+        first_name_placeholder = self.get_by_placeholder(
+            form,
+            "Repeat you password"
+        )
+        first_name_placeholder.send_keys(Keys.ENTER)
+
+        form = self.get_form("/html/body/main/div[2]")
+
+        self.assertNotIn("First name must not be empty", form.text)
+        self.assertNotIn("Last name must not be empty", form.text)
+        self.assertNotIn("Username must not be empty", form.text)
+        self.assertNotIn("Password must not be empty", form.text)
+        self.assertIn("Confirm password must not be empty", form.text)
