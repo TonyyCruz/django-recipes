@@ -128,3 +128,15 @@ class AuthorsFunctionalTest(AuthorBaseFunctionalTest):
         self.assertNotIn("Username must not be empty", form.text)
         self.assertNotIn("Password must not be empty", form.text)
         self.assertIn("Confirm password must not be empty", form.text)
+
+    def test_if_it_is_possible_to_create_a_user_with_the_correct_data(self):
+        self.browser.get(self.live_server_url + "/authors/register/")
+        form = self.get_form("/html/body/main/div[2]")
+        self.fill_form_dummy_data(form=form)
+
+        send_button = form.find_element(By.NAME, "register-user")
+        send_button.send_keys(Keys.ENTER)
+
+        login_screen = self.browser.find_element(By.TAG_NAME, "body")
+
+        self.assertIn("User created successfully", login_screen.text)
