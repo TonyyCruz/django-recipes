@@ -1,5 +1,5 @@
 <div class="main-content container">
-  <form action="{{ form_action }}" method="POST">
+  <form class="main-form" action="{{ form_action }}" method="POST">
     {% csrf_token %}
     <div class="form-content form-content-grid">
       {% for field in form %}
@@ -27,7 +27,7 @@
     {% endif %}
     <div class="form-content form-content-grid">
       <div class="form-group">
-        <button class="submit">Send</button>
+        <button name="submit-button" class="submit">Send</button>
       </div>
     </div>
   </form>
