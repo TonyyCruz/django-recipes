@@ -63,7 +63,6 @@ class RegisterForm(forms.ModelForm):
         ),
         error_messages={
             "required": "E-mail must not be empty",
-            "error": "E-mail must be valid",
         }
     )
 
