@@ -1,10 +1,11 @@
 from unittest import TestCase
 
-from django.test import TestCase as DjangoTestCase
 from django.urls import reverse
 from parameterized import parameterized
 
 from authors.forms import RegisterForm
+
+from .django_test_case_with_setup import DjangoTestCaseWithSetup
 
 
 class AuthorRegisterFormUnitTest(TestCase):
@@ -58,18 +59,7 @@ class AuthorRegisterFormUnitTest(TestCase):
         self.assertEqual(expect, received)
 
 
-class AuthorRegisterFormIntegrationTest(DjangoTestCase):
-    def setUp(self):
-        self.form_data = {
-            "username": "user",
-            "first_name": "first",
-            "last_name": "last",
-            "email": "email@email.com",
-            "password": "Str0ngP@ssword1",
-            "confirm_password": "Str0ngP@ssword1",
-        }
-        return super().setUp()
-
+class AuthorRegisterFormIntegrationTest(DjangoTestCaseWithSetup):
     @parameterized.expand([
         ("first_name", "First name must not be empty"),
         ("last_name", "Last name must not be empty"),
@@ -163,16 +153,3 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
 
         self.assertIn(msg, content)
         self.assertIn(msg, error)
-
-    def test_author_created_can_login(self):
-        username = "test_user"
-        password = "Test123!"
-        self.form_data["username"] = username
-        self.form_data["password"] = password
-        self.form_data["confirm_password"] = password
-
-        self.client.post(reverse("authors:register_create"),
-                         data=self.form_data)
-        can_login = self.client.login(username=username, password=password)
-
-        self.assertTrue(can_login)
