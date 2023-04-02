@@ -207,3 +207,38 @@ class AuthorsRegisterFunctionalTest(AuthorBaseFunctionalTest):
 
         login_page = self.browser.find_element(By.TAG_NAME, "body")
         self.assertIn("Invalid username or password", login_page.text)
+
+    def test_invalid_password_shows_login_error_message(self):
+        correct_username = "testname"
+        correct_password = "MySecr3tPass!"
+        invalid_password = "Wrongpass123?"
+        self.browser.get(self.live_server_url + reverse("authors:register"))
+
+        form = self.get_form(class_name="main-form")
+
+        # preenche os dados de criacao de usuario
+        self.fill_form_dummy_data(
+            form=form,
+            username=correct_username,
+            password=correct_password,
+            confirm_password=correct_password,
+        )
+
+        # criou o usuario e redirecionou para login page
+        self.get_form(class_name="main-form").submit()
+
+        login_form = self.get_form(class_name="main-form")
+        login_form.find_element(
+            By.NAME,
+            "username"
+        ).send_keys(correct_username)
+
+        login_form.find_element(
+            By.NAME,
+            "password"
+        ).send_keys(invalid_password)
+
+        login_form.submit()
+
+        login_page = self.browser.find_element(By.TAG_NAME, "body")
+        self.assertIn("Invalid username or password", login_page.text)
