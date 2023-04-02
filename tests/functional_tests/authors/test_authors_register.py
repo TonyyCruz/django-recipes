@@ -8,12 +8,6 @@ from .author_functional_base import AuthorBaseFunctionalTest
 
 @pytest.mark.functional_test
 class AuthorsRegisterFunctionalTest(AuthorBaseFunctionalTest):
-    # def get_by_placeholder(self, web_element, placeholder):
-    #     return web_element.find_element(
-    #         By.XPATH,
-    #         f'//input[@placeholder="{placeholder}"]'
-    #     )
-
     def fill_form_dummy_data(
         self,
         form,
@@ -34,19 +28,8 @@ class AuthorsRegisterFunctionalTest(AuthorBaseFunctionalTest):
             "confirm_password"
         ).send_keys(confirm_password)
 
-    def get_form(self, xpath=None, class_name=None):
-        if xpath is not None:
-            return self.browser.find_element(
-                By.XPATH,
-                f"{xpath}"
-            )
-        if class_name is not None:
-            return self.browser.find_element(
-                By.CLASS_NAME,
-                f"{class_name}"
-            )
-
     # >>>>> TESTS <<<<
+
     def test_empty_first_name_field_error_message(self):
         self.browser.get(self.live_server_url + reverse("authors:register"))
         form = self.get_form(xpath="/html/body/main/div[2]")
@@ -148,97 +131,3 @@ class AuthorsRegisterFunctionalTest(AuthorBaseFunctionalTest):
         login_screen = self.browser.find_element(By.TAG_NAME, "body")
 
         self.assertIn("User created successfully", login_screen.text)
-
-    def test_if_it_is_possible_to_login(self):
-        username = "testname"
-        password = "MySecr3tPass!"
-        self.browser.get(self.live_server_url + reverse("authors:register"))
-        form = self.get_form(xpath="/html/body/main/div[2]")
-        self.fill_form_dummy_data(
-            form=form,
-            username=username,
-            password=password,
-            confirm_password=password,
-        )
-
-        self.get_form(class_name="main-form").submit()
-
-        login_form = self.get_form(xpath="/html/body/main/div[3]/form")
-        login_form.find_element(By.NAME, "username").send_keys(username)
-        login_form.find_element(By.NAME, "password").send_keys(password)
-
-        login_form.submit()
-
-        recipes_page = self.browser.find_element(By.TAG_NAME, "body")
-        self.assertNotIn("Login", recipes_page.text)
-
-    def test_invalid_username_shows_login_error_message(self):
-        correct_username = "testname"
-        correct_password = "MySecr3tPass!"
-        invalid_username = "testwrong"
-        # invalid_password = "Wrongpass123?"
-        self.browser.get(self.live_server_url + reverse("authors:register"))
-
-        form = self.get_form(class_name="main-form")
-
-        # preenche os dados de criacao de usuario
-        self.fill_form_dummy_data(
-            form=form,
-            username=correct_username,
-            password=correct_password,
-            confirm_password=correct_password,
-        )
-
-        # criou o usuario e redirecionou para login page
-        self.get_form(class_name="main-form").submit()
-
-        login_form = self.get_form(class_name="main-form")
-        login_form.find_element(
-            By.NAME,
-            "username"
-        ).send_keys(invalid_username)
-
-        login_form.find_element(
-            By.NAME,
-            "password"
-        ).send_keys(correct_password)
-
-        login_form.submit()
-
-        login_page = self.browser.find_element(By.TAG_NAME, "body")
-        self.assertIn("Invalid username or password", login_page.text)
-
-    def test_invalid_password_shows_login_error_message(self):
-        correct_username = "testname"
-        correct_password = "MySecr3tPass!"
-        invalid_password = "Wrongpass123?"
-        self.browser.get(self.live_server_url + reverse("authors:register"))
-
-        form = self.get_form(class_name="main-form")
-
-        # preenche os dados de criacao de usuario
-        self.fill_form_dummy_data(
-            form=form,
-            username=correct_username,
-            password=correct_password,
-            confirm_password=correct_password,
-        )
-
-        # criou o usuario e redirecionou para login page
-        self.get_form(class_name="main-form").submit()
-
-        login_form = self.get_form(class_name="main-form")
-        login_form.find_element(
-            By.NAME,
-            "username"
-        ).send_keys(correct_username)
-
-        login_form.find_element(
-            By.NAME,
-            "password"
-        ).send_keys(invalid_password)
-
-        login_form.submit()
-
-        login_page = self.browser.find_element(By.TAG_NAME, "body")
-        self.assertIn("Invalid username or password", login_page.text)

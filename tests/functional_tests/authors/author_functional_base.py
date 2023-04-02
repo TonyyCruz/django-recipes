@@ -23,3 +23,15 @@ class AuthorBaseFunctionalTest(StaticLiveServerTestCase):
             By.XPATH,
             f'//input[@placeholder="{placeholder}"]'
         )
+
+    def get_form(self, xpath=None, class_name=None):
+        if xpath is not None:
+            return self.browser.find_element(
+                By.XPATH,
+                f"{xpath}"
+            )
+        if class_name is not None:
+            return self.browser.find_element(
+                By.CLASS_NAME,
+                f"{class_name}"
+            )
