@@ -26,7 +26,7 @@ class AuthorsLoginTest(AuthorBaseFunctionalTest):
         self.assertNotIn("Login", recipes_page.text)
         self.assertIn("There are no recipes yet", recipes_page.text)
 
-    def test_invalid_username_shows_login_error_message(self):
+    def test_login_invalid_username_shows_login_error_message(self):
         correct_username = "testname"
         correct_password = "MySecr3tPass!"
         invalid_username = "testwrong"
@@ -53,7 +53,7 @@ class AuthorsLoginTest(AuthorBaseFunctionalTest):
         login_page = self.browser.find_element(By.TAG_NAME, "body")
         self.assertIn("Invalid username or password", login_page.text)
 
-    def test_invalid_password_shows_login_error_message(self):
+    def test_login_invalid_password_shows_login_error_message(self):
         correct_username = "testname"
         correct_password = "MySecr3tPass!"
         invalid_password = "Inv4lidPass?"
@@ -79,3 +79,29 @@ class AuthorsLoginTest(AuthorBaseFunctionalTest):
 
         login_page = self.browser.find_element(By.TAG_NAME, "body")
         self.assertIn("Invalid username or password", login_page.text)
+
+    def test_login_invalid_invalid_form_data_message(self):
+        username = " " * 10
+        password = " " * 10
+
+        User.objects.create_user(
+            username=username, password=password
+        )
+
+        self.browser.get(self.live_server_url + reverse("authors:login"))
+
+        login_form = self.get_form(class_name="main-form")
+        login_form.find_element(
+            By.NAME,
+            "username"
+        ).send_keys(username)
+
+        login_form.find_element(
+            By.NAME,
+            "password"
+        ).send_keys(password)
+
+        login_form.submit()
+
+        login_page = self.browser.find_element(By.TAG_NAME, "body")
+        self.assertIn("Invalid credentials", login_page.text)
