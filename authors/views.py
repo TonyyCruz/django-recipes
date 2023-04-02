@@ -72,10 +72,10 @@ def login_create(request):
             return redirect("recipes:home")
 
         else:
-            messages.error(request, "Invalid credentials")
+            messages.error(request, "Invalid username or password")
 
     else:
-        messages.error(request, "Invalid username or password")
+        messages.error(request, "Invalid credentials")
 
     return redirect("authors:login")
 

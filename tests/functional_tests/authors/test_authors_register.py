@@ -7,12 +7,12 @@ from .author_functional_base import AuthorBaseFunctionalTest
 
 
 @pytest.mark.functional_test
-class AuthorsFunctionalTest(AuthorBaseFunctionalTest):
-    def get_by_placeholder(self, web_element, placeholder):
-        return web_element.find_element(
-            By.XPATH,
-            f'//input[@placeholder="{placeholder}"]'
-        )
+class AuthorsRegisterFunctionalTest(AuthorBaseFunctionalTest):
+    # def get_by_placeholder(self, web_element, placeholder):
+    #     return web_element.find_element(
+    #         By.XPATH,
+    #         f'//input[@placeholder="{placeholder}"]'
+    #     )
 
     def fill_form_dummy_data(
         self,
@@ -34,23 +34,29 @@ class AuthorsFunctionalTest(AuthorBaseFunctionalTest):
             "confirm_password"
         ).send_keys(confirm_password)
 
-    def get_form(self, xpath):
-        return self.browser.find_element(
-            By.XPATH,
-            f"{xpath}"
-        )
+    def get_form(self, xpath=None, class_name=None):
+        if xpath is not None:
+            return self.browser.find_element(
+                By.XPATH,
+                f"{xpath}"
+            )
+        if class_name is not None:
+            return self.browser.find_element(
+                By.CLASS_NAME,
+                f"{class_name}"
+            )
 
     # >>>>> TESTS <<<<
     def test_empty_first_name_field_error_message(self):
         self.browser.get(self.live_server_url + reverse("authors:register"))
-        form = self.get_form("/html/body/main/div[2]")
+        form = self.get_form(xpath="/html/body/main/div[2]")
 
         self.fill_form_dummy_data(form=form, first_name=" " * 10)
 
         first_name_placeholder = self.get_by_placeholder(form, "Ex.: Ana")
         first_name_placeholder.send_keys(Keys.ENTER)
 
-        form = self.get_form("/html/body/main/div[2]")
+        form = self.get_form(xpath="/html/body/main/div[2]")
 
         self.assertIn("First name must not be empty", form.text)
         self.assertNotIn("Last name must not be empty", form.text)
@@ -60,14 +66,14 @@ class AuthorsFunctionalTest(AuthorBaseFunctionalTest):
 
     def test_empty_last_name_field_error_message(self):
         self.browser.get(self.live_server_url + reverse("authors:register"))
-        form = self.get_form("/html/body/main/div[2]")
+        form = self.get_form(xpath="/html/body/main/div[2]")
 
         self.fill_form_dummy_data(form=form, last_name=" " * 10)
 
         first_name_placeholder = self.get_by_placeholder(form, "Ex.: Carolina")
         first_name_placeholder.send_keys(Keys.ENTER)
 
-        form = self.get_form("/html/body/main/div[2]")
+        form = self.get_form(xpath="/html/body/main/div[2]")
 
         self.assertNotIn("First name must not be empty", form.text)
         self.assertIn("Last name must not be empty", form.text)
@@ -77,14 +83,14 @@ class AuthorsFunctionalTest(AuthorBaseFunctionalTest):
 
     def test_empty_username_field_error_message(self):
         self.browser.get(self.live_server_url + reverse("authors:register"))
-        form = self.get_form("/html/body/main/div[2]")
+        form = self.get_form(xpath="/html/body/main/div[2]")
 
         self.fill_form_dummy_data(form=form, username=" " * 10)
 
         first_name_placeholder = self.get_by_placeholder(form, "Ex.: @carol")
         first_name_placeholder.send_keys(Keys.ENTER)
 
-        form = self.get_form("/html/body/main/div[2]")
+        form = self.get_form(xpath="/html/body/main/div[2]")
 
         self.assertNotIn("First name must not be empty", form.text)
         self.assertNotIn("Last name must not be empty", form.text)
@@ -94,7 +100,7 @@ class AuthorsFunctionalTest(AuthorBaseFunctionalTest):
 
     def test_empty_password_field_error_message(self):
         self.browser.get(self.live_server_url + reverse("authors:register"))
-        form = self.get_form("/html/body/main/div[2]")
+        form = self.get_form(xpath="/html/body/main/div[2]")
 
         self.fill_form_dummy_data(form=form, password=" " * 10)
 
@@ -104,7 +110,7 @@ class AuthorsFunctionalTest(AuthorBaseFunctionalTest):
         )
         first_name_placeholder.send_keys(Keys.ENTER)
 
-        form = self.get_form("/html/body/main/div[2]")
+        form = self.get_form(xpath="/html/body/main/div[2]")
 
         self.assertNotIn("First name must not be empty", form.text)
         self.assertNotIn("Last name must not be empty", form.text)
@@ -114,7 +120,7 @@ class AuthorsFunctionalTest(AuthorBaseFunctionalTest):
 
     def test_empty_confirm_password_field_error_message(self):
         self.browser.get(self.live_server_url + reverse("authors:register"))
-        form = self.get_form("/html/body/main/div[2]")
+        form = self.get_form(xpath="/html/body/main/div[2]")
 
         self.fill_form_dummy_data(form=form, confirm_password=" " * 10)
 
@@ -124,7 +130,7 @@ class AuthorsFunctionalTest(AuthorBaseFunctionalTest):
         )
         first_name_placeholder.send_keys(Keys.ENTER)
 
-        form = self.get_form("/html/body/main/div[2]")
+        form = self.get_form(xpath="/html/body/main/div[2]")
 
         self.assertNotIn("First name must not be empty", form.text)
         self.assertNotIn("Last name must not be empty", form.text)
@@ -134,11 +140,10 @@ class AuthorsFunctionalTest(AuthorBaseFunctionalTest):
 
     def test_if_it_is_possible_to_create_a_user_with_the_correct_data(self):
         self.browser.get(self.live_server_url + reverse("authors:register"))
-        form = self.get_form("/html/body/main/div[2]")
+        form = self.get_form(xpath="/html/body/main/div[2]")
         self.fill_form_dummy_data(form=form)
 
-        send_button = form.find_element(By.NAME, "submit-button")
-        send_button.send_keys(Keys.ENTER)
+        self.get_form(class_name="main-form").submit()
 
         login_screen = self.browser.find_element(By.TAG_NAME, "body")
 
@@ -148,7 +153,7 @@ class AuthorsFunctionalTest(AuthorBaseFunctionalTest):
         username = "testname"
         password = "MySecr3tPass!"
         self.browser.get(self.live_server_url + reverse("authors:register"))
-        form = self.get_form("/html/body/main/div[2]")
+        form = self.get_form(xpath="/html/body/main/div[2]")
         self.fill_form_dummy_data(
             form=form,
             username=username,
@@ -156,14 +161,84 @@ class AuthorsFunctionalTest(AuthorBaseFunctionalTest):
             confirm_password=password,
         )
 
-        send_button = form.find_element(By.NAME, "submit-button")
-        send_button.send_keys(Keys.ENTER)
+        self.get_form(class_name="main-form").submit()
 
-        login_form = self.get_form("/html/body/main/div[3]/form")
+        login_form = self.get_form(xpath="/html/body/main/div[3]/form")
         login_form.find_element(By.NAME, "username").send_keys(username)
         login_form.find_element(By.NAME, "password").send_keys(password)
 
-        login_form.find_element(By.NAME, "submit-button").send_keys(Keys.ENTER)
+        login_form.submit()
 
         recipes_page = self.browser.find_element(By.TAG_NAME, "body")
         self.assertNotIn("Login", recipes_page.text)
+
+    def test_invalid_username_shows_login_error_message(self):
+        correct_username = "testname"
+        correct_password = "MySecr3tPass!"
+        invalid_username = "testwrong"
+        # invalid_password = "Wrongpass123?"
+        self.browser.get(self.live_server_url + reverse("authors:register"))
+
+        form = self.get_form(class_name="main-form")
+
+        # preenche os dados de criacao de usuario
+        self.fill_form_dummy_data(
+            form=form,
+            username=correct_username,
+            password=correct_password,
+            confirm_password=correct_password,
+        )
+
+        # criou o usuario e redirecionou para login page
+        self.get_form(class_name="main-form").submit()
+
+        login_form = self.get_form(class_name="main-form")
+        login_form.find_element(
+            By.NAME,
+            "username"
+        ).send_keys(invalid_username)
+
+        login_form.find_element(
+            By.NAME,
+            "password"
+        ).send_keys(correct_password)
+
+        login_form.submit()
+
+        login_page = self.browser.find_element(By.TAG_NAME, "body")
+        self.assertIn("Invalid username or password", login_page.text)
+
+    def test_invalid_password_shows_login_error_message(self):
+        correct_username = "testname"
+        correct_password = "MySecr3tPass!"
+        invalid_password = "Wrongpass123?"
+        self.browser.get(self.live_server_url + reverse("authors:register"))
+
+        form = self.get_form(class_name="main-form")
+
+        # preenche os dados de criacao de usuario
+        self.fill_form_dummy_data(
+            form=form,
+            username=correct_username,
+            password=correct_password,
+            confirm_password=correct_password,
+        )
+
+        # criou o usuario e redirecionou para login page
+        self.get_form(class_name="main-form").submit()
+
+        login_form = self.get_form(class_name="main-form")
+        login_form.find_element(
+            By.NAME,
+            "username"
+        ).send_keys(correct_username)
+
+        login_form.find_element(
+            By.NAME,
+            "password"
+        ).send_keys(invalid_password)
+
+        login_form.submit()
+
+        login_page = self.browser.find_element(By.TAG_NAME, "body")
+        self.assertIn("Invalid username or password", login_page.text)

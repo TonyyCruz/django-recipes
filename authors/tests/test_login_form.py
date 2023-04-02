@@ -19,15 +19,14 @@ class LoginFormTest(DjangoTestCaseWithSetup):
 
         self.assertTrue(can_login)
 
-    def test_if_login_create_chows_a_not_found_message_if_the_method_received_is_not_POST(self):  # noqa: E501
-        expected_text = "Not Found"
+    def test_if_login_create_raises_404_if_method_is_not_POST(self):  # noqa: E501
         url = reverse("authors:login_create")
         response_get = self.client.get(url)
         response_put = self.client.put(url)
         response_delete = self.client.delete(url)
         response_patch = self.client.patch(url)
 
-        self.assertIn(expected_text, response_get.content.decode("utf-8"))
-        self.assertIn(expected_text, response_put.content.decode("utf-8"))
-        self.assertIn(expected_text, response_delete.content.decode("utf-8"))
-        self.assertIn(expected_text, response_patch.content.decode("utf-8"))
+        self.assertEquals(response_get.status_code, 404)
+        self.assertEquals(response_put.status_code, 404)
+        self.assertEquals(response_delete.status_code, 404)
+        self.assertEquals(response_patch.status_code, 404)
