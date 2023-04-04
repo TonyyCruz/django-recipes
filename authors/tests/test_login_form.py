@@ -10,7 +10,7 @@ class LoginFormTest(DjangoTestCaseWithSetup):
 
         self.assertTrue(can_login)
 
-    def test_if_login_create_raises_404_if_method_is_not_POST(self):  # noqa: E501
+    def test_if_login_create_raises_404_if_method_is_not_POST(self):
         url = reverse("authors:login_create")
         response_get = self.client.get(url)
         response_put = self.client.put(url)
