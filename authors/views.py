@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+# from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -80,10 +80,10 @@ def login_create(request):
     return redirect("authors:login")
 
 
-@login_required(login_url="authors:login", redirect_field_name="next")
+# @login_required(login_url="authors:login", redirect_field_name="next")
 def logout_view(request):
     if not request.POST:
-        return redirect("authors:login")
+        raise Http404()
 
     logout(request)
     return redirect("authors:login")
