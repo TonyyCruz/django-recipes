@@ -5,7 +5,7 @@ from parameterized import parameterized
 
 from authors.forms import RegisterForm
 
-from .django_test_case_with_setup import DjangoTestCaseWithSetup
+from .django_test_base import DjangoTestCaseWithSetup
 
 
 class AuthorRegisterFormUnitTest(TestCase):
