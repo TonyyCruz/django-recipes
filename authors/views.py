@@ -85,5 +85,8 @@ def logout_view(request):
     if not request.POST:
         raise Http404()
 
+    if request.POST.get("username") != request.user.username:
+        raise Http404()
+
     logout(request)
     return redirect("authors:login")
