@@ -100,6 +100,7 @@ a:hover {
 
 .main-header-container {
   background: var(--color-primary-dark);
+  position: relative;
 }
 
 .main-logo {
@@ -115,7 +116,35 @@ a:hover {
 }
 
 .main-logo-icon {
-  margin-right: 2rem;
+  margin-right: var(--spacing-gutter-small);
+}
+
+.log-container {
+  position: absolute;
+  right: 0;
+  top: var(--spacing-gutter-medium);
+}
+
+.log-container i {
+  margin-right: var(--spacing-gutter-very-small);
+}
+
+.header-link {
+  color: var(--color-gray-5);
+  background: none;
+  border: none;
+  margin-left: 15px;
+  font-weight: bolder;
+  transition: all 200ms ease-in-out;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  font-size: 1.6rem;
+}
+
+.header-link:hover {
+  color: var(--color-primary);
+  transition: 1;
 }
 
 .search-form {

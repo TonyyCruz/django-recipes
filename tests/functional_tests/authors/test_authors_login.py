@@ -7,7 +7,7 @@ from .author_functional_base import AuthorBaseFunctionalTest
 
 
 @pytest.mark.functional_test
-class AuthorsLoginTest(AuthorBaseFunctionalTest):
+class AuthorsLoginFunctionalTest(AuthorBaseFunctionalTest):
     def test_if_it_is_possible_to_login(self):
         username = "testname"
         password = "MySecr3tPass!"

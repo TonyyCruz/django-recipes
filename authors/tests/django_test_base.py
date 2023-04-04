@@ -1,4 +1,5 @@
 from django.test import TestCase as DjangoTestCase
+from django.urls import reverse
 
 
 class DjangoTestCaseWithSetup(DjangoTestCase):
@@ -12,3 +13,15 @@ class DjangoTestCaseWithSetup(DjangoTestCase):
             "confirm_password": "Str0ngP@ssword1",
         }
         return super().setUp()
+
+    def create_dummy_user(self):
+        return self.client.post(
+            reverse("authors:register_create"),
+            data=self.form_data,
+        )
+
+    def login_dummy_user(self):
+        return self.client.login(
+            username=self.form_data["username"],
+            password=self.form_data["password"],
+        )
