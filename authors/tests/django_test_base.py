@@ -20,7 +20,7 @@ class DjangoTestCaseWithSetup(DjangoTestCase):
 
         return self.client.post(
             reverse("authors:register_create"),
-            data=self.user_data,
+            data=user_data,
         )
 
     def login_dummy_user(self, username=None, password=None):

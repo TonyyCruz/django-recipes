@@ -17,3 +17,31 @@ class AuthorsLogoutTest(DjangoTestCaseWithSetup):
         self.assertEquals(response_put.status_code, 404)
         self.assertEquals(response_delete.status_code, 404)
         self.assertEquals(response_patch.status_code, 404)
+
+    def test_logout_with_another_user(self):
+        self.create_dummy_user()
+        self.login_dummy_user()
+        response = self.client.post(
+            reverse("authors:logout"),
+            data={
+                "username": "incorrectUser"
+            },
+            follow=True
+        )
+
+        self.assertEquals(response.status_code, 404)
+
+    def test_logout_successfully(self):
+        self.create_dummy_user()
+        self.login_dummy_user()
+        response = self.client.post(
+            reverse("authors:logout"),
+            data=self.form_data,
+            follow=True
+        )
+
+        self.assertEquals(response.status_code, 200)
+        self.assertIn(
+            "Successfully logged out",
+            response.content.decode("utf-8"),
+        )

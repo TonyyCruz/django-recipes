@@ -89,4 +89,5 @@ def logout_view(request):
         raise Http404()
 
     logout(request)
+    messages.success(request, "Successfully logged out")
     return redirect("authors:login")
