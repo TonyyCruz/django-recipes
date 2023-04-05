@@ -85,5 +85,14 @@ def logout_view(request):
     if not request.POST:
         raise Http404()
 
+    if request.POST.get("username") != request.user.username:
+        raise Http404()
+
     logout(request)
-    return redirect("authors:login")
+    messages.success(request, "Successfully logged out")
+    return redirect("recipes:home")
+
+
+@login_required(login_url="authors:login", redirect_field_name="next")
+def dashboard(request):
+    return render(request, "authors/pages/dashboard.html")

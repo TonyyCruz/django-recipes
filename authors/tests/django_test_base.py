@@ -14,14 +14,23 @@ class DjangoTestCaseWithSetup(DjangoTestCase):
         }
         return super().setUp()
 
-    def create_dummy_user(self):
+    def create_dummy_user(self, user_data=None):
+        if user_data is None:
+            user_data = self.form_data
+
         return self.client.post(
             reverse("authors:register_create"),
-            data=self.form_data,
+            data=user_data,
         )
 
-    def login_dummy_user(self):
+    def login_dummy_user(self, username=None, password=None):
+        if username is None:
+            username = self.form_data["username"]
+
+        if password is None:
+            password = self.form_data["password"]
+
         return self.client.login(
-            username=self.form_data["username"],
-            password=self.form_data["password"],
+            username=username,
+            password=password,
         )

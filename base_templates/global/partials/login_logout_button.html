@@ -1,0 +1,30 @@
+<div class="main-content center container log-container">
+  {% if request.user.is_authenticated %}
+    <div class="main-content center container">
+      <p>
+        Logged with 
+        <b>{{ request.user.username }}</b>. 
+      </p>
+        <form action="{% url "authors:logout" %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="username" value="{{ request.user.username }}">
+          <button type="submit" class="header-link">
+            <b>Logout</b>
+            <i class="fa-sharp fa-solid fa-right-from-bracket"></i>
+          </button>
+        </form>
+    </div>
+  {% else %}
+    <div class="main-content center container">
+      <a class="header-link" href="{% url "authors:login" %}">
+        <b>Login</b>
+        <i class="fa-sharp fa-solid fa-right-to-bracket"></i>
+      </a>
+      or
+      <a class="header-link" href="{% url "authors:login" %}">
+        <b>Create account</b>
+        <i class="fa-sharp fa-solid fa-cookie-bite"></i>
+      </a>
+    </div>
+  {% endif %}
+</div>
