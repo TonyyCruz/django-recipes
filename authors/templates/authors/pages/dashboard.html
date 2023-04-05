@@ -1,0 +1,10 @@
+{% extends "global/base_template.html" %}
+{% block page_title %}Dashboard {{ user }}{% endblock page_title %}
+
+{% block content %}
+  <div class="main-content center container">
+    <h2>Dashboard: <u>{{ user }}</u></h2>
+  </div>
+
+  {% include 'global/partials/messages.html' %}
+{% endblock content %}

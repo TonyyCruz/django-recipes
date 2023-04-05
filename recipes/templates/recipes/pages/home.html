@@ -3,6 +3,7 @@
 {% block page_title %}{{ page_title }}{% endblock page_title %}
 {% block content %}
   {% include "global/partials/search.html" %}
+  {% include 'global/partials/messages.html' %}
     <div class="main-content container main-content-list">
       {% for recipe in recipes %}
         {% include "recipes/partials/recipe.html" %}
