@@ -1,6 +1,6 @@
-<div class="main-content center container log-container">
+<div class="center log-container">
   {% if request.user.is_authenticated %}
-    <div class="main-content center container">
+    <div class="center">
       <p>
         Logged with 
         <b>{{ request.user.username }}</b>. 
@@ -15,16 +15,19 @@
         </form>
     </div>
   {% else %}
-    <div class="main-content center container">
-      <a class="header-link" href="{% url "authors:login" %}">
-        <b>Login</b>
-        <i class="fa-sharp fa-solid fa-right-to-bracket"></i>
-      </a>
-      or
-      <a class="header-link" href="{% url "authors:login" %}">
-        <b>Create account</b>
-        <i class="fa-sharp fa-solid fa-cookie-bite"></i>
-      </a>
+    <div class="center">
+      <p>
+        <a class="header-link" href="{% url "authors:login" %}">
+          <b>Login</b>
+          <i class="fa-sharp fa-solid fa-right-to-bracket"></i>
+        </a>
+      </p>
+      <p>
+        <a class="header-link" href="{% url "authors:login" %}">
+          <b>Create account</b>
+          <i class="fa-sharp fa-solid fa-cookie-bite"></i>
+        </a>
+      </p>
     </div>
   {% endif %}
 </div>
