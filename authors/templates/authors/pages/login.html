@@ -5,6 +5,7 @@
   <div class="main-content center container">
     <h2>Login</h2>
   </div>
+  {% include 'global/partials/messages.html' %}
   {% if request.user.is_authenticated %}
     <div class="main-content center container">
       <p>
@@ -19,8 +20,8 @@
             here.
           </button>
         </form>
-  </div>
+    </div>
+  {% else %}
+    {% include "global/partials/form.html" %}
   {% endif %}
-  {% include 'global/partials/messages.html' %}
-  {% include "global/partials/form.html" %}
 {% endblock content %}

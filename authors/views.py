@@ -90,7 +90,7 @@ def logout_view(request):
 
     logout(request)
     messages.success(request, "Successfully logged out")
-    return redirect("recipes:home")
+    return redirect("authors:login")
 
 
 @login_required(login_url="authors:login", redirect_field_name="next")
