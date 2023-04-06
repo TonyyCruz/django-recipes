@@ -479,3 +479,20 @@ a:hover {
 .plaintext-button:hover {
   color: var(--color-primary);
 }
+
+.authors-dashboard-container {
+  max-width: 64rem;
+  padding: var(--spacing-gutter-medium);
+  margin: 0 auto;
+}
+
+.authors-dashboard-container h3 {
+  padding-bottom: var(--spacing-gutter-small);
+}
+
+.authors-dashboard-container li {
+  text-align: left;
+  padding-top: var(--spacing-gutter-very-small);
+  text-decoration: none;
+  list-style: none;
+}
