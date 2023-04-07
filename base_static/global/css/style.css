@@ -484,10 +484,12 @@ a:hover {
   max-width: 64rem;
   padding: var(--spacing-gutter-medium);
   margin: 0 auto;
+  text-align: left;
 }
 
 .authors-dashboard-container h3 {
-  padding-bottom: var(--spacing-gutter-small);
+  padding-bottom: var(--spacing-gutter-very-small);
+  text-decoration: underline;
 }
 
 .authors-dashboard-container li {

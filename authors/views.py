@@ -1,3 +1,5 @@
+import os
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -6,8 +8,12 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from recipes.models import Recipe
+from utils.pagination import make_pagination
 
 from .forms import LoginForm, RegisterForm
+
+ITEMS_PER_PAGE = int(os.environ.get("ITEMS_PER_PAGE", 12))
+QTY_PAGES_IN_PAGINATION = int(os.environ.get("QTY_PAGES_IN_PAGINATION", 5))
 
 
 def register_view(request):
@@ -102,10 +108,21 @@ def dashboard(request):
         is_published=False,
         author=request.user,
     )
+
+    pages_obj, pagination_range = make_pagination(
+        request=request,
+        object_list=recipes,
+        per_page=ITEMS_PER_PAGE,
+        qty_pages=QTY_PAGES_IN_PAGINATION,
+    )
+
     return render(
         request,
         "authors/pages/dashboard.html",
         context={
-            "recipes": recipes,
+            "pagination_range": pagination_range,
+            "recipes": pages_obj,
+            "is_recipe_list": True,
+            "page_title": "Recipes",
         }
     )

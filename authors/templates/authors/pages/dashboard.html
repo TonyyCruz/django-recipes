@@ -2,7 +2,7 @@
 {% block page_title %}Dashboard {{ user }}{% endblock page_title %}
 
 {% block content %}
-  <div class="main-content center container">
+  <div class="main-content container">
     <h2>Dashboard: <u>{{ user }}</u></h2>
     {% include 'global/partials/messages.html' %}
 
@@ -17,7 +17,7 @@
       </li>
       {% empty %}
         <li>
-          <p class="center">You haven't written any recipes yet.</p>
+          <p>You haven't written any recipes yet.</p>
         </li>
       {% endfor %}
     </ul>
