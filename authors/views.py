@@ -10,7 +10,7 @@ from django.urls import reverse
 from recipes.models import Recipe
 from utils.pagination import make_pagination
 
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RecipeForm, RegisterForm
 
 ITEMS_PER_PAGE = int(os.environ.get("ITEMS_PER_PAGE", 12))
 QTY_PAGES_IN_PAGINATION = int(os.environ.get("QTY_PAGES_IN_PAGINATION", 5))
@@ -115,6 +115,7 @@ def dashboard(request):
         per_page=ITEMS_PER_PAGE,
         qty_pages=QTY_PAGES_IN_PAGINATION,
     )
+    user = request.user.username
 
     return render(
         request,
@@ -123,6 +124,19 @@ def dashboard(request):
             "pagination_range": pagination_range,
             "recipes": pages_obj,
             "is_recipe_list": True,
-            "page_title": "Recipes",
+            "page_title": f"Dashboard - {user}",
+        }
+    )
+
+
+def dashboard_recipe(request):
+    form = RecipeForm(request.POST)
+
+    return render(
+        request,
+        "authors/pages/dashboard_recipe.html",
+        context={
+            "form": form,
+            "page_title": "Dashboard recipe",
         }
     )

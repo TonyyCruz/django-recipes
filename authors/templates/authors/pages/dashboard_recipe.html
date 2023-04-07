@@ -1,0 +1,9 @@
+{% extends "global/base_template.html" %}
+{% block page_title %}{{ page_title }}{% endblock page_title %}
+
+{% block content %}
+  <div class="main-content container">
+    {% include "global/partials/messages.html" %}
+    {% include "global/partials/form.html" %}
+  </div>
+{% endblock content %}

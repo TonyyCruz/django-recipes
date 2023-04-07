@@ -1,10 +1,10 @@
 {% extends "global/base_template.html" %}
-{% block page_title %}Dashboard {{ user }}{% endblock page_title %}
+{% block page_title %}{{ page_title }}{% endblock page_title %}
 
 {% block content %}
   <div class="main-content container">
     <h2>Dashboard: <u>{{ user }}</u></h2>
-    {% include 'global/partials/messages.html' %}
+    {% include "global/partials/messages.html" %}
 
   </div>
   <div class="center container authors-dashboard-container">
@@ -12,9 +12,9 @@
 
     <ul>
       {% for recipe in recipes %}
-      <li>
-        <a href="#">{{ recipe.title }}</a>
-      </li>
+        <li>
+          <a href="#">{{ recipe.title }}</a>
+        </li>
       {% empty %}
         <li>
           <p>You haven't written any recipes yet.</p>
