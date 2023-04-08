@@ -129,8 +129,18 @@ def dashboard(request):
     )
 
 
-def dashboard_recipe(request):
-    form = RecipeForm(request.POST)
+@login_required(login_url="authors:login", redirect_field_name="next")
+def dashboard_recipe(request, id):
+    recipe = Recipe.objects.filter(
+        id=id,
+        is_published=False,
+        author=request.user
+    ).first()
+
+    if not recipe:
+        raise Http404()
+
+    form = RecipeForm(request.POST or None, instance=recipe)
 
     return render(
         request,
