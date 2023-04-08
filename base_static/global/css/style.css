@@ -498,3 +498,9 @@ a:hover {
   text-decoration: none;
   list-style: none;
 }
+
+
+/* ==========================DESENVOLVIMENTO====================== */
+.dev-border {
+  border: 1px solid red;
+}

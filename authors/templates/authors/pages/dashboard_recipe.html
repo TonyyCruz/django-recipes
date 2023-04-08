@@ -1,0 +1,12 @@
+{% extends "global/base_template.html" %}
+{% block page_title %}{{ page_title }}{% endblock page_title %}
+
+{% block content %}
+  <div class="container authors-dashboard-container">
+    <h3 class="center">Your reipes</h3>
+    {% include "global/partials/messages.html" %}
+    <div class="container main-content">
+      {% include "global/partials/form.html" %}
+    </div>
+  </div>
+{% endblock content %}
