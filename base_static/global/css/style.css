@@ -92,6 +92,14 @@ a:hover {
   text-align: center;
 }
 
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+}
+
 .container {
   max-width: 144rem;
   margin: 0 auto;
@@ -392,7 +400,9 @@ a:hover {
   color: var(--color-error-dark);
 }
 
-.form-content input {
+.form-content input,
+.form-content textarea,
+.form-content select {
   width: 100%;
   padding: var(--spacing-gutter-very-small);
   border-radius: 0.4rem;
@@ -410,6 +420,10 @@ a:hover {
   border: none;
   background: var(--color-primary-dark);
   color: var(--color-white);
+}
+
+.span-2 {
+  grid-column: span 2;
 }
 
 /* MESSAGES */
