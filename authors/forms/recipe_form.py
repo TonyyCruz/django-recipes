@@ -4,6 +4,23 @@ from recipes.models import Recipe
 
 
 class RecipeForm(forms.ModelForm):
+    preparation_steps = forms.FileField(
+        label="Preparation steps",
+        required=True,
+        widget=forms.Textarea(attrs={
+            "placeholder": "Write the preparation steps",
+            "class": "span-2"
+        })
+    )
+
+    cover = forms.ImageField(
+        label="Cover",
+        required=True,
+        widget=forms.FileInput(attrs={
+            "class": "span-2"
+        })
+    )
+
     class Meta:
         model = Recipe
         fields = [
@@ -14,7 +31,7 @@ class RecipeForm(forms.ModelForm):
             "servings",
             "servings_unit",
             "preparation_steps",
-            "preparation_steps_is_html",
             "cover",
-            "category"
+            "category",
+            "preparation_steps_is_html",
         ]
