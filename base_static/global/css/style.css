@@ -84,6 +84,10 @@ a {
   transition: all 200ms ease-in-out;
 }
 
+img {
+  max-width: 100%;
+}
+
 a:hover {
   color: var(--color-primary);
 }
@@ -98,6 +102,22 @@ a:hover {
 
 .right {
   text-align: right;
+}
+
+.padding-small {
+  padding: var(--spacing-gutter-small);
+}
+
+.padding-medium {
+  padding: var(--spacing-gutter-medium);
+}
+
+.padding-large {
+  padding: var(--spacing-gutter-large);
+}
+
+.absolute {
+  position: absolute;
 }
 
 .container {

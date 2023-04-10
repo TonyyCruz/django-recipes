@@ -2,8 +2,14 @@
 {% block page_title %}{{ page_title }}{% endblock page_title %}
 
 {% block content %}
+  <div class="back-link padding-medium absolute">
+    <a href="{% url "authors:dashboard" %}">
+      <i class="fa-solid fa-circle-arrow-left"></i>
+      Back to your recipes
+    </a>
+  </div>
   <div class="container authors-dashboard-container">
-    <h3 class="center">Your reipes</h3>
+    <h3 class="center">Dashboard recipe</h3>
     {% include "global/partials/messages.html" %}
     <div class="container main-content">
       {% include "global/partials/form.html" %}
