@@ -21,6 +21,29 @@ class RecipeForm(forms.ModelForm):
         })
     )
 
+    servings_unit = forms.FileField(
+        widget=forms.Select(
+            choices=[
+                ("potions", "potions"),
+                ("units", "units"),
+                ("pieces", "pieces"),
+            ]
+            # attrs={
+            # }
+        )
+    )
+
+    preparation_time_unit = forms.FileField(
+        widget=forms.Select(
+            choices=[
+                ("min", "min"),
+                ("hr", "hr"),
+            ]
+            # attrs={
+            # }
+        )
+    )
+
     class Meta:
         model = Recipe
         fields = [
@@ -31,7 +54,7 @@ class RecipeForm(forms.ModelForm):
             "servings",
             "servings_unit",
             "preparation_steps",
-            "cover",
             "category",
             "preparation_steps_is_html",
+            "cover",
         ]
