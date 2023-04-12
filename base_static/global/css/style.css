@@ -533,6 +533,21 @@ a:hover {
   list-style: none;
 }
 
+.checkbox {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.checkbox label {
+  align-self: center;
+  padding: var(--spacing-gutter-very-small);
+}
+
+.checkbox input {
+  align-self: center;
+  width: fit-content;
+}
+
 
 /* ==========================DESENVOLVIMENTO====================== */
 .dev-border {

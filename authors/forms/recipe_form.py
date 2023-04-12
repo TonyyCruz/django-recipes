@@ -4,7 +4,7 @@ from recipes.models import Recipe
 
 
 class RecipeForm(forms.ModelForm):
-    preparation_steps = forms.FileField(
+    preparation_steps = forms.CharField(
         label="Preparation steps",
         required=True,
         widget=forms.Textarea(attrs={
@@ -21,7 +21,8 @@ class RecipeForm(forms.ModelForm):
         })
     )
 
-    servings_unit = forms.FileField(
+    servings_unit = forms.CharField(
+        required=True,
         widget=forms.Select(
             choices=[
                 ("potions", "potions"),
@@ -33,11 +34,11 @@ class RecipeForm(forms.ModelForm):
         )
     )
 
-    preparation_time_unit = forms.FileField(
+    preparation_time_unit = forms.CharField(
         widget=forms.Select(
             choices=[
-                ("min", "min"),
-                ("hr", "hr"),
+                ("minute", "minute(s)"),
+                ("hour", "hour(s)"),
             ]
             # attrs={
             # }
@@ -58,3 +59,11 @@ class RecipeForm(forms.ModelForm):
             "preparation_steps_is_html",
             "cover",
         ]
+
+        widgets = {
+            "preparation_steps_is_html": forms.CheckboxInput(
+                attrs={
+                    "class": "checkbox"
+                }
+            )
+        }
