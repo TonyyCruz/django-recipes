@@ -140,7 +140,11 @@ def dashboard_recipe(request, id):
     if not recipe:
         raise Http404()
 
-    form = RecipeForm(request.POST or None, instance=recipe)
+    form = RecipeForm(
+        request.POST or None,
+        files=request.FILES or None,
+        instance=recipe,
+    )
 
     if form.is_valid():
         recipe = form.save(commit=False)
