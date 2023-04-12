@@ -142,6 +142,16 @@ def dashboard_recipe(request, id):
 
     form = RecipeForm(request.POST or None, instance=recipe)
 
+    if form.is_valid():
+        recipe = form.save(commit=False)
+        recipe.author = request.user
+        recipe.preparation_steps_is_html = False
+        recipe.is_published = False
+        recipe.save()
+
+        messages.success(request, "Recipe update successfully")
+        return redirect("authors:dashboard_recipe", id)
+
     return render(
         request,
         "authors/pages/dashboard_recipe.html",
