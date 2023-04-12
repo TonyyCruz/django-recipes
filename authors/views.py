@@ -130,7 +130,7 @@ def dashboard(request):
 
 
 @login_required(login_url="authors:login", redirect_field_name="next")
-def dashboard_recipe(request, id):
+def dashboard_recipe_edit(request, id):
     recipe = Recipe.objects.filter(
         id=id,
         is_published=False,
@@ -154,7 +154,7 @@ def dashboard_recipe(request, id):
         recipe.save()
 
         messages.success(request, "Recipe update successfully")
-        return redirect("authors:dashboard_recipe", id)
+        return redirect("authors:dashboard_recipe_edit", id)
 
     return render(
         request,

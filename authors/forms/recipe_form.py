@@ -29,8 +29,6 @@ class RecipeForm(forms.ModelForm):
                 ("units", "units"),
                 ("pieces", "pieces"),
             ]
-            # attrs={
-            # }
         )
     )
 
