@@ -4,21 +4,40 @@ from recipes.models import Recipe
 
 
 class RecipeForm(forms.ModelForm):
+    title = forms.CharField(
+        label="Title",
+        required=True,
+        min_length=2,
+        max_length=150,
+        widget=forms.TextInput(
+            attrs={"placeholder": "Write the recipe title here."},
+        ),
+        error_messages={
+            "required": "Title must not be empty",
+            "min_length": "Title must have at least 2 characters",
+            "max_length": "Title must have less than 150 characters",
+        },
+    )
+
     preparation_steps = forms.CharField(
         label="Preparation steps",
         required=True,
-        widget=forms.Textarea(attrs={
-            "placeholder": "Write the preparation steps",
-            "class": "span-2",
-        })
+        widget=forms.Textarea(
+            attrs={
+                "placeholder": "Write the preparation steps",
+                "class": "span-2",
+            }
+        ),
     )
 
     cover = forms.ImageField(
         label="Cover",
         required=True,
-        widget=forms.FileInput(attrs={
-            "class": "span-2",
-        })
+        widget=forms.FileInput(
+            attrs={
+                "class": "span-2",
+            }
+        ),
     )
 
     servings_unit = forms.CharField(
@@ -29,7 +48,7 @@ class RecipeForm(forms.ModelForm):
                 ("units", "units"),
                 ("pieces", "pieces"),
             ]
-        )
+        ),
     )
 
     preparation_time_unit = forms.CharField(
@@ -37,10 +56,8 @@ class RecipeForm(forms.ModelForm):
             choices=[
                 ("minute", "minute(s)"),
                 ("hour", "hour(s)"),
-            ]
-            # attrs={
-            # }
-        )
+            ],
+        ),
     )
 
     class Meta:
@@ -63,5 +80,5 @@ class RecipeForm(forms.ModelForm):
                 attrs={
                     "class": "checkbox",
                 }
-            )
+            ),
         }

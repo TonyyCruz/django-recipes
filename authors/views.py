@@ -166,6 +166,29 @@ def dashboard_recipe_edit(request, id):
 
 @login_required(login_url="authors:login", redirect_field_name="next")
 def dashboard_recipe_create(request):
+    register_recipe_data = request.session.get("register_recipe_data", None)
+
+    form = RecipeForm(
+        register_recipe_data,
+    )
+
+    return render(
+        request,
+        "authors/pages/dashboard_recipe.html",
+        context={
+            "page_title": "Recipe create",
+            "form": form,
+            "form_action": reverse("authors:recipe_create"),
+        },
+    )
+
+
+@login_required(login_url="authors:login", redirect_field_name="next")
+def recipe_create(request):
+    if not request.POST:
+        raise Http404()
+
+    request.session["register_recipe_data"] = request.POST
     form = RecipeForm(
         request.POST or None,
         files=request.FILES or None,
@@ -177,15 +200,8 @@ def dashboard_recipe_create(request):
         recipe.preparation_steps_is_html = False
         recipe.is_published = False
         recipe.save()
-
+        del request.session["register_recipe_data"]
         messages.success(request, "Recipe create successfully")
         return redirect("authors:dashboard")
 
-    return render(
-        request,
-        "authors/pages/dashboard_recipe.html",
-        context={
-            "page_title": "Recipe create",
-            "form": form,
-        },
-    )
+    return redirect("authors:register")
