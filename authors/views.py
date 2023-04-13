@@ -43,7 +43,7 @@ def register_create(request):
         user.set_password(user.password)
         user.save()
         messages.success(request, "User created successfully")
-        del (request.session["register_form_data"])
+        del request.session["register_form_data"]
         return redirect("authors:login")
 
     return redirect("authors:register")
@@ -58,7 +58,7 @@ def login_view(request):
             "page_title": "Login",
             "form": form,
             "form_action": reverse("authors:login_create"),
-        }
+        },
     )
 
 
@@ -125,22 +125,24 @@ def dashboard(request):
             "recipes": pages_obj,
             "is_recipe_list": True,
             "page_title": f"Dashboard - {user}",
-        }
+        },
     )
 
 
 @login_required(login_url="authors:login", redirect_field_name="next")
-def dashboard_recipe(request, id):
+def dashboard_recipe_edit(request, id):
     recipe = Recipe.objects.filter(
-        id=id,
-        is_published=False,
-        author=request.user
+        id=id, is_published=False, author=request.user
     ).first()
 
     if not recipe:
         raise Http404()
 
-    form = RecipeForm(request.POST or None, instance=recipe)
+    form = RecipeForm(
+        request.POST or None,
+        files=request.FILES or None,
+        instance=recipe,
+    )
 
     if form.is_valid():
         recipe = form.save(commit=False)
@@ -150,13 +152,40 @@ def dashboard_recipe(request, id):
         recipe.save()
 
         messages.success(request, "Recipe update successfully")
-        return redirect("authors:dashboard_recipe", id)
+        return redirect("authors:dashboard_recipe_edit", id)
 
     return render(
         request,
         "authors/pages/dashboard_recipe.html",
         context={
+            "page_title": "Recipe edit",
             "form": form,
-            "page_title": "Dashboard recipe",
-        }
+        },
+    )
+
+
+@login_required(login_url="authors:login", redirect_field_name="next")
+def dashboard_recipe_create(request):
+    form = RecipeForm(
+        request.POST or None,
+        files=request.FILES or None,
+    )
+
+    if form.is_valid():
+        recipe = form.save(commit=False)
+        recipe.author = request.user
+        recipe.preparation_steps_is_html = False
+        recipe.is_published = False
+        recipe.save()
+
+        messages.success(request, "Recipe create successfully")
+        return redirect("authors:dashboard")
+
+    return render(
+        request,
+        "authors/pages/dashboard_recipe.html",
+        context={
+            "page_title": "Recipe create",
+            "form": form,
+        },
     )

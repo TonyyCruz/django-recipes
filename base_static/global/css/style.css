@@ -535,7 +535,11 @@ a:hover {
 
 .checkbox {
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
+  margin-right: var(--spacing-gutter-very-small);
+  border-top: -50px;
+  padding: 0;
+  height: fit-content;
 }
 
 .checkbox label {

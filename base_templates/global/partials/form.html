@@ -1,5 +1,9 @@
 <div class="main-content container">
-  <form class="main-form" action="{{ form_action }}" method="POST">
+  <form class="main-form"
+    action="{{ form_action }}"
+    method="POST"
+    enctype="multipart/form-data"
+  >
     {% csrf_token %}
     <div class="form-content form-content-grid">
       {% for field in form %}
@@ -8,7 +12,7 @@
           {{ field }}
 
           {% if field.help_text %}
-          <p class="help-text">{{ field.help_text }}</p>
+            <p class="help-text">{{ field.help_text }}</p>
           {% endif %}
 
           {{ field.errors }}
@@ -19,7 +23,6 @@
             <img src="{{ field.value.url }}" alt="Image to recipe">
           </div>
         {% endif %}
-
       {% endfor %}
     </div>
 
