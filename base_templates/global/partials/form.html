@@ -1,6 +1,5 @@
 <div class="main-content container">
-  <form
-    class="main-form"
+  <form class="main-form"
     action="{{ form_action }}"
     method="POST"
     enctype="multipart/form-data"
@@ -13,7 +12,7 @@
           {{ field }}
 
           {% if field.help_text %}
-          <p class="help-text">{{ field.help_text }}</p>
+            <p class="help-text">{{ field.help_text }}</p>
           {% endif %}
 
           {{ field.errors }}
@@ -24,7 +23,6 @@
             <img src="{{ field.value.url }}" alt="Image to recipe">
           </div>
         {% endif %}
-
       {% endfor %}
     </div>
 

@@ -52,9 +52,9 @@ class RecipeForm(forms.ModelForm):
             "preparation_time_unit",
             "servings",
             "servings_unit",
-            "preparation_steps",
             "category",
-            "preparation_steps_is_html",
+            "preparation_steps",
+            # "preparation_steps_is_html",
             "cover",
         ]
 
