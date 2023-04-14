@@ -9,9 +9,11 @@ class RegisterForm(forms.ModelForm):
     password = forms.CharField(
         label="Password",
         required=True,
-        widget=forms.PasswordInput(attrs={
-            "placeholder": "[a-z] [A-Z] [0-9] [@*!#$%?]",
-        }),
+        widget=forms.PasswordInput(
+            attrs={
+                "placeholder": "[a-z] [A-Z] [0-9] [@*!#$%?]",
+            }
+        ),
         min_length=8,
         validators=[strong_password],
         help_text=(
@@ -27,9 +29,11 @@ class RegisterForm(forms.ModelForm):
 
     confirm_password = forms.CharField(
         label="Confirm password",
-        widget=forms.PasswordInput(attrs={
-            "placeholder": "Repeat you password",
-        }),
+        widget=forms.PasswordInput(
+            attrs={
+                "placeholder": "Repeat you password",
+            }
+        ),
         min_length=8,
         error_messages={
             "required": "Confirm password must not be empty",
@@ -37,7 +41,7 @@ class RegisterForm(forms.ModelForm):
     )
 
     username = forms.CharField(
-        label='Username',
+        label="Username",
         required=True,
         help_text=(
             "Username must have letters, numbers or one of those @.+-_. "
@@ -50,20 +54,16 @@ class RegisterForm(forms.ModelForm):
         },
         min_length=4,
         max_length=150,
-        widget=forms.TextInput(attrs={
-            "placeholder": "Ex.: @carol"
-        }),
+        widget=forms.TextInput(attrs={"placeholder": "Ex.: @carol"}),
     )
 
     email = forms.EmailField(
         label="E-mail",
         required=True,
-        widget=forms.EmailInput(
-            attrs={"placeholder": "Ex.: email@email.com"}
-        ),
+        widget=forms.EmailInput(attrs={"placeholder": "Ex.: email@email.com"}),
         error_messages={
             "required": "E-mail must not be empty",
-        }
+        },
     )
 
     first_name = forms.CharField(
@@ -88,23 +88,23 @@ class RegisterForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = [
-            "first_name",
-            "last_name",
-            "username",
-            "email",
-            "password"
-        ]
+        fields = ["first_name", "last_name", "username", "email", "password"]
 
     def clean_email(self):
         email = self.cleaned_data.get("email", "")
         exists = User.objects.filter(email=email).exists()
 
         if exists:
-            raise ValidationError(
-                "This email is already in use"
-            )
+            raise ValidationError("This email is already in use")
         return email
+
+    def clean_username(self):
+        username = self.cleaned_data.get("username", "")
+        exists = User.objects.filter(username=username).exists()
+
+        if exists:
+            raise ValidationError("This username is already in use")
+        return username
 
     def clean(self):
         cleaned_data = super().clean()
@@ -112,8 +112,9 @@ class RegisterForm(forms.ModelForm):
         confirm_password = cleaned_data.get("confirm_password")
         if password != confirm_password:
             error_message = '"Password" and "Confirm password" must be equal'
-            raise ValidationError({
-                "confirm_password": error_message,
-            },
-                code="Invalid"
+            raise ValidationError(
+                {
+                    "confirm_password": error_message,
+                },
+                code="Invalid",
             )

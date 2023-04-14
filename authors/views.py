@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.utils.text import slugify
 
 from recipes.models import Recipe
 from utils.pagination import make_pagination
@@ -42,8 +43,10 @@ def register_create(request):
         user = form.save(commit=False)
         user.set_password(user.password)
         user.save()
-        messages.success(request, "User created successfully")
+
         del request.session["register_form_data"]
+
+        messages.success(request, "User created successfully")
         return redirect("authors:login")
 
     return redirect("authors:register")
@@ -166,6 +169,30 @@ def dashboard_recipe_edit(request, id):
 
 @login_required(login_url="authors:login", redirect_field_name="next")
 def dashboard_recipe_create(request):
+    # register_recipe_data = request.session.get("register_recipe_data", None)
+
+    form = RecipeForm(
+        request.POST,
+        files=request.FILES or None,
+    )
+
+    return render(
+        request,
+        "authors/pages/dashboard_recipe.html",
+        context={
+            "page_title": "Recipe create",
+            "form": form,
+            "form_action": reverse("authors:recipe_create"),
+        },
+    )
+
+
+@login_required(login_url="authors:login", redirect_field_name="next")
+def recipe_create(request):
+    if not request.POST:
+        raise Http404()
+
+    # request.session["register_recipe_data"] = request.POST
     form = RecipeForm(
         request.POST or None,
         files=request.FILES or None,
@@ -176,16 +203,12 @@ def dashboard_recipe_create(request):
         recipe.author = request.user
         recipe.preparation_steps_is_html = False
         recipe.is_published = False
+        recipe.slug = slugify(recipe.title)
         recipe.save()
+
+        # del request.session["register_recipe_data"]
 
         messages.success(request, "Recipe create successfully")
         return redirect("authors:dashboard")
 
-    return render(
-        request,
-        "authors/pages/dashboard_recipe.html",
-        context={
-            "page_title": "Recipe create",
-            "form": form,
-        },
-    )
+    return redirect("authors:dashboard_recipe_create")
