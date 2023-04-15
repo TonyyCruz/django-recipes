@@ -21,9 +21,7 @@ class RecipeAdmin(admin.ModelAdmin):
     list_per_page = 15
     list_editable = ["is_published"]
     ordering = ["-id"]
-    prepopulated_fields = {
-        "slug": ["title"]
-    }
+    prepopulated_fields = {"slug": ["title"]}
 
 
 admin.site.register(Category, CategoryAdmin)

@@ -169,10 +169,11 @@ def dashboard_recipe_edit(request, id):
 
 @login_required(login_url="authors:login", redirect_field_name="next")
 def dashboard_recipe_create(request):
-    # register_recipe_data = request.session.get("register_recipe_data", None)
+    register_recipe_data = request.session.get("register_recipe_data", None)
+    # register_recipe_files = request.session.get("register_recipe_files", None)# noqa: 501
 
     form = RecipeForm(
-        request.POST,
+        register_recipe_data,
         files=request.FILES or None,
     )
 
@@ -192,7 +193,8 @@ def recipe_create(request):
     if not request.POST:
         raise Http404()
 
-    # request.session["register_recipe_data"] = request.POST
+    request.session["register_recipe_data"] = request.POST
+    # request.session["register_recipe_files"] = request.FILES
     form = RecipeForm(
         request.POST or None,
         files=request.FILES or None,
@@ -206,7 +208,7 @@ def recipe_create(request):
         recipe.slug = slugify(recipe.title)
         recipe.save()
 
-        # del request.session["register_recipe_data"]
+        del request.session["register_recipe_data"]
 
         messages.success(request, "Recipe create successfully")
         return redirect("authors:dashboard")
