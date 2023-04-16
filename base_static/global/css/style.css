@@ -552,6 +552,27 @@ a:hover {
   width: fit-content;
 }
 
+.simple-button {
+  border: 1px solid black;
+  text-align: center;
+  padding: var(--spacing-gutter-very-small);
+  border-radius: 8px;
+  align-self: right;
+}
+
+.new-recipe-button {
+  position: absolute;
+  background: var(--color-gray-3);
+  right: var(--spacing-gutter-small);
+  transition: 0.2;
+}
+
+.new-recipe-button:hover {
+  color: var(--color-white);
+  background: var(--color-primary);
+  border: 1px solid white;
+}
+
 
 /* ==========================DESENVOLVIMENTO====================== */
 .dev-border {

@@ -2,27 +2,35 @@
 {% block page_title %}{{ page_title }}{% endblock page_title %}
 
 {% block content %}
-  <div class="main-content container">
-    <h2>Dashboard: <u>{{ user }}</u></h2>
-    {% include "global/partials/messages.html" %}
+  <div class="container">
+    <div class="main-content container">
+      <h2>Dashboard: <u>{{ user }}</u></h2>
+      <a 
+        href="{% url "authors:dashboard_recipe_create" %}"
+        class="simple-button new-recipe-button"
+        >
+        <i class="fa-solid fa-plus"></i>
+        New recipe
+      </a>
+      {% include "global/partials/messages.html" %}
 
+    </div>
+    <div class="center container authors-dashboard-container">
+      <h3>Your recipes</h3>
+
+      <ul>
+        {% for recipe in recipes %}
+          <li>
+            <a href="{% url "authors:dashboard_recipe_edit" recipe.id %}">
+              {{ recipe.title }}
+            </a>
+          </li>
+        {% empty %}
+          <li>
+            <p>You haven't written any recipes yet.</p>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
   </div>
-  <div class="center container authors-dashboard-container">
-    <h3>Your recipes</h3>
-
-    <ul>
-      {% for recipe in recipes %}
-        <li>
-          <a href="{% url "authors:dashboard_recipe_edit" recipe.id %}">
-            {{ recipe.title }}
-          </a>
-        </li>
-      {% empty %}
-        <li>
-          <p>You haven't written any recipes yet.</p>
-        </li>
-      {% endfor %}
-    </ul>
-  </div>
-
 {% endblock content %}
