@@ -1,4 +1,6 @@
 from django import forms
+from django.core.exceptions import ValidationError
+from django.utils.text import slugify
 
 from recipes.models import Recipe
 
@@ -22,12 +24,17 @@ class RecipeForm(forms.ModelForm):
     preparation_steps = forms.CharField(
         label="Preparation steps",
         required=True,
+        min_length=50,
         widget=forms.Textarea(
             attrs={
                 "placeholder": "Write the preparation steps",
                 "class": "span-2",
             }
         ),
+        error_messages={
+            "required": "Preparation steps must not be empty",
+            "min_length": "Preparation steps must have at least 50 characters",
+        },
     )
 
     cover = forms.ImageField(
@@ -44,10 +51,10 @@ class RecipeForm(forms.ModelForm):
         required=True,
         widget=forms.Select(
             choices=[
-                ("potions", "potions"),
-                ("units", "units"),
-                ("pieces", "pieces"),
-            ]
+                ("potions", "potion(s)"),
+                ("units", "unit(s)"),
+                ("pieces", "piece(s)"),
+            ],
         ),
     )
 
@@ -82,3 +89,13 @@ class RecipeForm(forms.ModelForm):
                 }
             ),
         }
+
+    def clean_title(self):
+        title = self.cleaned_data.get("title", "")
+        title_slug = slugify(title)
+        slug_title_exists = Recipe.objects.filter(slug=title_slug).exists()
+
+        if slug_title_exists:
+            raise ValidationError("This recipe title already exists")
+
+        return title

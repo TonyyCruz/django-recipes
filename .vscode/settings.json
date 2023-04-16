@@ -4,7 +4,6 @@
   "editor.tabSize": 2,
   "editor.detectIndentation": true,
   "editor.fontFamily": "Fira Code",
-  // "terminal.integrated.fontFamily": "monospace",
   "editor.fontWeight": "400",
   "editor.fontSize": 20,
   "workbench.startupEditor": "none",
@@ -12,9 +11,6 @@
   "workbench.iconTheme": "vscode-icons",
   "diffEditor.ignoreTrimWhitespace": false,
   "editor.wordWrap": "on",
-  // "javascript.updateImportsOnFileMove.enabled": "always",
-  //
-  // imported configs
   "explorer.compactFolders": false,
   "explorer.confirmDelete": true,
   //
@@ -37,9 +33,7 @@
   "editor.smoothScrolling": true,
   "editor.mouseWheelZoom": true,
   "editor.linkedEditing": true,
-  "editor.glyphMargin": false,
   "editor.fontLigatures": true,
-  // "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,
@@ -51,28 +45,11 @@
   "terminal.integrated.copyOnSelection": false,
   "terminal.integrated.cursorBlinking": true,
   "terminal.integrated.cursorStyle": "line",
-  // "terminal.integrated.shell.linux": "zsh",
   "terminal.external.linuxExec": "x-terminal-emulator",
   "terminal.integrated.fontFamily": "'Operator Mono Lig Book', 'Fira Code', 'SF Mono', Consolas, 'Source Code Pro', 'Dank Mono', Menlo, 'Inconsolata', 'Droid Sans Mono', 'DejaVu Sans Mono', 'Ubuntu Mono', 'Courier New', Courier, Monaco, monospace",
   "terminal.integrated.fontSize": 18,
   "terminal.integrated.drawBoldTextInBrightColors": false,
   "terminal.integrated.enableFileLinks": "on",
-  "terminal.integrated.env.linux": {
-    // "PORT": "4000"
-  },
-  //
-  // Javascript & TypeScript
-  "javascript.preferences.quoteStyle": "single",
-  "typescript.preferences.quoteStyle": "single",
-  "javascript.validate.enable": false,
-  "javascript.updateImportsOnFileMove.enabled": "always",
-  "typescript.updateImportsOnFileMove.enabled": "always",
-  "javascript.suggest.autoImports": true,
-  "typescript.suggest.autoImports": true,
-  "[javascript]": {
-    "editor.suggestSelection": "recentlyUsed",
-    "editor.suggest.showKeywords": false,
-  },
   //
   //  PYTHON
   "python.linting.enabled": true,
@@ -144,63 +121,4 @@
     "javascript": "javascriptreact",
     "typescript": "typescriptreact",
   },
-  //
-  // ##################### Extensions ##################### //
-  // Bracket pair colorizer
-  "bracket-pair-colorizer-2.colors": [
-    "#8BE9FD",
-    "#50FA7B",
-    "#FFB86C",
-    "#FF79C6",
-    "#BD93F9",
-    "#F1FA8C"
-  ],
-  "bracket-pair-colorizer-2.colorMode": "Consecutive",
-  "bracket-pair-colorizer-2.forceUniqueOpeningColor": false,
-  "bracket-pair-colorizer-2.forceIterationColorCycle": false,
-  "bracket-pair-colorizer-2.showBracketsInGutter": true,
-  "bracket-pair-colorizer-2.showBracketsInRuler": true,
-  "bracket-pair-colorizer-2.showVerticalScopeLine": false,
-  "bracket-pair-colorizer-2.showHorizontalScopeLine": false,
-  "bracket-pair-colorizer-2.unmatchedScopeColor": "#FF5555",
-  // Code runner
-  "code-runner.clearPreviousOutput": true,
-  "code-runner.ignoreSelection": true,
-  "code-runner.saveFileBeforeRun": true,
-  "code-runner.runInTerminal": true,
-  "window.zoomLevel": 1,
-  "code-runner.preserveFocus": false,
-  "code-runner.executorMap": {
-    "python": "python3 -u",
-    "typescript": "npx ts-node --files --transpile-only"
-  },
-  //
-  // Material icon theme extension
-  "material-icon-theme.hidesExplorerArrows": true,
-  "material-icon-theme.folders.theme": "classic",
-  "material-icon-theme.folders.color": "#6273a6",
-  //
-  // VsCode Action Buttons
-  "actionButtons": {
-    "defaultColor": "#8be9fd", // Can also use string color names.
-    "loadNpmCommands": false, // Disables automatic generation of actions for npm commands.
-    "reloadButton": "🗘", // Custom reload button text or icon (default ↻). null value enables automatic reload on configuration change
-    "commands": [
-      {
-        "cwd": "./", // Terminal initial folder ${workspaceFolder} and os user home as defaults
-        "name": "Open dictionary",
-        "color": "#8be9fd",
-        "singleInstance": true,
-        "command": "code -r ~/Development/custom-cspell-dictionary.txt; exit", // This is executed in the terminal.
-      },
-    ],
-  },
-  "workbench.editorAssociations": {
-    "*.exe": "default",
-  },
-  "dotnet.help.firstView": "gettingStarted",
-  "extensions.confirmedUriHandlerExtensionIds": [
-    "ms-dotnettools.dotnet-interactive-vscode",
-    "ms-dotnettools.vscode-dotnet-pack",
-  ],
 }
