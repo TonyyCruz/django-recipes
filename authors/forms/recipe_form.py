@@ -51,9 +51,9 @@ class RecipeForm(forms.ModelForm):
         required=True,
         widget=forms.Select(
             choices=[
-                ("potions", "potions"),
-                ("units", "units"),
-                ("pieces", "pieces"),
+                ("potions", "potion(s)"),
+                ("units", "unit(s)"),
+                ("pieces", "piece(s)"),
             ],
         ),
     )
