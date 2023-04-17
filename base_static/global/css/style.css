@@ -8,6 +8,7 @@
 
   --color-white: #fff;
   --color-black: #000;
+  --color-red: #FF0000;
 
   --color-dark-text: #444;
   --color-info-light: #cce5ff;
@@ -120,6 +121,15 @@ a:hover {
   position: absolute;
 }
 
+.delete-button {
+  color: var(--color-gray-6);
+  transition: 0.5;
+}
+
+.delete-button:hover {
+  color: var(--color-red);
+}
+
 .container {
   max-width: 144rem;
   margin: 0 auto;
@@ -192,6 +202,10 @@ a:hover {
 
 .search-form:focus-within .search-button {
   color: var(--color-primary);
+}
+
+.inline-form {
+  display: inline;
 }
 
 .search-input,
