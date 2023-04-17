@@ -96,39 +96,50 @@ class RecipeForm(forms.ModelForm):
             ),
         }
 
+    def clean(self):
+        if self._my_errors:
+            raise ValidationError(self._my_errors)
+
+        return super().clean()
+
     def clean_title(self):
         title = self.cleaned_data.get("title", "")
+
         title_slug = slugify(title)
         slug_title_exists = Recipe.objects.filter(slug=title_slug).exists()
 
         if slug_title_exists:
-            raise ValidationError("This recipe title already exists")
+            self._my_errors["title"].append("This recipe title already exists")
 
         return title
 
-    def clean(self):
-        cleaned_data = self.cleaned_data
-
-        title = cleaned_data.get("title")
-        description = cleaned_data.get("description")
-        preparation_time = cleaned_data.get("preparation_time")
-        servings = cleaned_data.get("servings")
+    def clean_description(self):
+        title = self.cleaned_data.get("title", "")
+        description = self.cleaned_data.get("description", "")
 
         if title == description:
             self._my_errors["description"].append(
                 "Description cannot be equal to title"
             )
 
+        return description
+
+    def clean_preparation_time(self):
+        preparation_time = self.cleaned_data.get("preparation_time")
+
         if not isinstance(preparation_time, int) or preparation_time <= 0:
             self._my_errors["preparation_time"].append(
                 "Preparation time must be an integer greater than 0"
             )
+
+        return preparation_time
+
+    def clean_servings(self):
+        servings = self.cleaned_data.get("servings", "")
 
         if not isinstance(servings, int) or servings <= 0:
             self._my_errors["servings"].append(
                 "Servings time must be an integer greater than 0"
             )
 
-        if self._my_errors:
-            raise ValidationError(self._my_errors)
-        return super().clean()
+        return servings
