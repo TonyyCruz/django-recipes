@@ -111,10 +111,22 @@ class RecipeForm(forms.ModelForm):
 
         title = cleaned_data.get("title")
         description = cleaned_data.get("description")
+        preparation_time = cleaned_data.get("preparation_time")
+        servings = cleaned_data.get("servings")
 
         if title == description:
             self._my_errors["description"].append(
                 "Description cannot be equal to title"
+            )
+
+        if not isinstance(preparation_time, int) or preparation_time <= 0:
+            self._my_errors["preparation_time"].append(
+                "Preparation time must be an integer greater than 0"
+            )
+
+        if not isinstance(servings, int) or servings <= 0:
+            self._my_errors["servings"].append(
+                "Servings time must be an integer greater than 0"
             )
 
         if self._my_errors:
