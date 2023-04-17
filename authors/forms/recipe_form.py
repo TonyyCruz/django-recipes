@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.text import slugify
@@ -6,6 +8,10 @@ from recipes.models import Recipe
 
 
 class RecipeForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._my_errors = defaultdict(list)
+
     title = forms.CharField(
         label="Title",
         required=True,
@@ -99,3 +105,18 @@ class RecipeForm(forms.ModelForm):
             raise ValidationError("This recipe title already exists")
 
         return title
+
+    def clean(self):
+        cleaned_data = self.cleaned_data
+
+        title = cleaned_data.get("title")
+        description = cleaned_data.get("description")
+
+        if title == description:
+            self._my_errors["description"].append(
+                "Description cannot be equal to title"
+            )
+
+        if self._my_errors:
+            raise ValidationError(self._my_errors)
+        return super().clean()
