@@ -2,27 +2,44 @@
 {% block page_title %}{{ page_title }}{% endblock page_title %}
 
 {% block content %}
-  <div class="main-content container">
-    <h2>Dashboard: <u>{{ user }}</u></h2>
+  <div class="container">
+    <div class="main-content container">
+      <h2>Dashboard: <u>{{ user }}</u></h2>
+      <a 
+        href="{% url "authors:dashboard_recipe_create" %}"
+        class="simple-button new-recipe-button"
+        >
+        <i class="fa-solid fa-plus"></i>
+        New recipe
+      </a>
+    </div>
     {% include "global/partials/messages.html" %}
+    <div class="center container authors-dashboard-container">
+      <h3>Your recipes</h3>
 
+      <ul>
+        {% for recipe in recipes %}
+          <li>
+            <a href="{% url "authors:dashboard_recipe_edit" recipe.id %}">
+              {{ recipe.title }}
+            </a>
+            <form
+              class="inline-form"
+              action="{% url "authors:recipe_delete" recipe.id %}"
+              method="POST"
+            >
+              {% csrf_token %}
+              <button class="plaintext-button" type="submit">
+                <i class="fa-solid fa-trash-can delete-button"></i>
+              </button>
+            </form>
+          </li>
+        {% empty %}
+          <li>
+            <p>You haven't written any recipes yet.</p>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
   </div>
-  <div class="center container authors-dashboard-container">
-    <h3>Your recipes</h3>
-
-    <ul>
-      {% for recipe in recipes %}
-        <li>
-          <a href="{% url "authors:dashboard_recipe_edit" recipe.id %}">
-            {{ recipe.title }}
-          </a>
-        </li>
-      {% empty %}
-        <li>
-          <p>You haven't written any recipes yet.</p>
-        </li>
-      {% endfor %}
-    </ul>
-  </div>
-
 {% endblock content %}
