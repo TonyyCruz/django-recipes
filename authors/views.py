@@ -110,7 +110,7 @@ def dashboard(request):
     recipes = Recipe.objects.filter(
         is_published=False,
         author=request.user,
-    )
+    ).order_by("-id")
 
     pages_obj, pagination_range = make_pagination(
         request=request,
@@ -170,7 +170,6 @@ def dashboard_recipe_edit(request, id):
 @login_required(login_url="authors:login", redirect_field_name="next")
 def dashboard_recipe_create(request):
     register_recipe_data = request.session.get("register_recipe_data", None)
-    # register_recipe_files = request.session.get("register_recipe_files", None)# noqa: 501
 
     form = RecipeForm(
         register_recipe_data,
@@ -194,7 +193,6 @@ def recipe_create(request):
         raise Http404()
 
     request.session["register_recipe_data"] = request.POST
-    # request.session["register_recipe_files"] = request.FILES
     form = RecipeForm(
         request.POST or None,
         files=request.FILES or None,
@@ -232,5 +230,5 @@ def recipe_delete(request, id):
 
     recipe.delete()
 
-    messages.success("Recipe deleted successfully")
-    return reverse("authors:dashboard")
+    messages.success(request, "Recipe deleted successfully")
+    return redirect("authors:dashboard")
