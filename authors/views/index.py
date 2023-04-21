@@ -6,12 +6,10 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.utils.text import slugify
 
+from authors.forms import LoginForm, RecipeForm, RegisterForm
 from recipes.models import Recipe
 from utils.pagination import make_pagination
-
-from .forms import LoginForm, RecipeForm, RegisterForm
 
 ITEMS_PER_PAGE = int(os.environ.get("ITEMS_PER_PAGE", 12))
 QTY_PAGES_IN_PAGINATION = int(os.environ.get("QTY_PAGES_IN_PAGINATION", 5))
@@ -203,7 +201,6 @@ def recipe_create(request):
         recipe.author = request.user
         recipe.preparation_steps_is_html = False
         recipe.is_published = False
-        recipe.slug = slugify(recipe.title)
         recipe.save()
 
         del request.session["register_recipe_data"]
