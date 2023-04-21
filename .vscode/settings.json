@@ -57,7 +57,7 @@
   "python.formatting.blackArgs": [
     "-l 79",
   ],
-  "python.formatting.provider": "black",
+  "python.formatting.provider": "none",
   "python.languageServer": "Pylance", // ms-python.vscode-pylance
   "python.testing.unittestEnabled": false, // ms-python.python
   "python.testing.pytestEnabled": true,
@@ -72,7 +72,7 @@
   ],
   "python.defaultInterpreterPath": "venv/bin/python",
   "[python]": {
-    "editor.defaultFormatter": "ms-python.python", // ms-python.python
+    "editor.defaultFormatter": "ms-python.black-formatter", // ms-python.python
     "editor.tabSize": 4,
     "editor.insertSpaces": true,
     "editor.formatOnSave": true,
