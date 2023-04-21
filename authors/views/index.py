@@ -7,10 +7,9 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
+from authors.forms import LoginForm, RecipeForm, RegisterForm
 from recipes.models import Recipe
 from utils.pagination import make_pagination
-
-from .forms import LoginForm, RecipeForm, RegisterForm
 
 ITEMS_PER_PAGE = int(os.environ.get("ITEMS_PER_PAGE", 12))
 QTY_PAGES_IN_PAGINATION = int(os.environ.get("QTY_PAGES_IN_PAGINATION", 5))
