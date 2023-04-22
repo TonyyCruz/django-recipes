@@ -165,21 +165,21 @@ def dashboard(request):
 #     )
 
 
-@login_required(login_url="authors:login", redirect_field_name="next")
-def recipe_delete(request, id):
-    if not request.POST:
-        raise Http404()
+# @login_required(login_url="authors:login", redirect_field_name="next")
+# def recipe_delete(request, id):
+#     if not request.POST:
+#         raise Http404()
 
-    recipe = Recipe.objects.filter(
-        author=request.user,
-        id=id,
-        is_published=False,
-    ).first()
+#     recipe = Recipe.objects.filter(
+#         author=request.user,
+#         id=id,
+#         is_published=False,
+#     ).first()
 
-    if not recipe:
-        raise Http404()
+#     if not recipe:
+#         raise Http404()
 
-    recipe.delete()
+#     recipe.delete()
 
-    messages.success(request, "Recipe deleted successfully")
-    return redirect("authors:dashboard")
+#     messages.success(request, "Recipe deleted successfully")
+#     return redirect("authors:dashboard")

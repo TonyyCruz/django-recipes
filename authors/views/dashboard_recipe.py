@@ -72,7 +72,10 @@ class DashboardRecipe(View):
 
 class DashboardRecipeDelete(DashboardRecipe):
     def post(self, request, id):
-        recipe = self.get_recipe(id=id, author=request.user)
+        recipe = self.get_recipe(
+            id=id,
+            author=request.user,
+        )
         recipe.delete()
 
         messages.success(request, "Recipe deleted successfully")
