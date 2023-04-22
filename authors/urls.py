@@ -23,7 +23,7 @@ urlpatterns = [
     ),
     path(
         "dashboard/recipe/<int:id>/delete/",
-        views.recipe_delete,
+        views.DashboardRecipeDelete.as_view(),
         name="recipe_delete",
     ),
 ]
