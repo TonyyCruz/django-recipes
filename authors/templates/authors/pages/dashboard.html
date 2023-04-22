@@ -27,7 +27,7 @@
             </a>
             <form
               class="inline-form form-delete"
-              action="{% url "authors:recipe_delete" recipe.id %}"
+              action="{% url "authors:dashboard_recipe_delete" recipe.id %}"
               method="POST"
             >
               {% csrf_token %}
