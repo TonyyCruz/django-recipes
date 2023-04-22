@@ -1,15 +1,24 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.views import View
 
 from authors.forms.recipe_form import RecipeForm
 from recipes.models import Recipe
 
 
+@method_decorator(
+    login_required(login_url="authors:login", redirect_field_name="next"),
+    name="dispatch",
+)
 class DashboardRecipe(View):
     def get_recipe(self, id, author):
+        if id is None:
+            return None
+
         recipe = Recipe.objects.filter(
             id=id,
             author=author,
@@ -21,28 +30,22 @@ class DashboardRecipe(View):
 
         return recipe
 
-    def render_recipe(self, form, page_title="page"):
+    def render_recipe(self, form):
         return render(
             self.request,
             "authors/pages/dashboard_recipe.html",
             context={
-                "page_title": page_title,
                 "form": form,
             },
         )
 
-    @login_required(login_url="authors:login", redirect_field_name="next")
-    def get(self, request, id):
+    def get(self, request, id=None):
         recipe = self.get_recipe(id=id, author=request.user)
         form = RecipeForm(instance=recipe)
 
-        return self.render_recipe(
-            form=form,
-            page_title="Recipe edit",
-        )
+        return self.render_recipe(form=form)
 
-    @login_required(login_url="authors:login", redirect_field_name="next")
-    def post(self, request, id):
+    def post(self, request, id=None):
         recipe = self.get_recipe(id=id, author=request.user)
         form = RecipeForm(
             request.POST or None,
@@ -58,7 +61,10 @@ class DashboardRecipe(View):
             recipe.save()
 
             messages.success(request, "Recipe update successfully")
-            return self.render_recipe(
-                form=form,
-                page_title="Recipe edit",
+            return redirect(
+                reverse(
+                    "authors:dashboard_recipe_edit",
+                    kwargs={"id": recipe.id},
+                )
             )
+        return self.render_recipe(form=form)

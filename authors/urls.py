@@ -11,10 +11,9 @@ urlpatterns = [
     path("login/create/", views.login_create, name="login_create"),
     path("logout/", views.logout_view, name="logout"),
     path("dashboard/", views.dashboard, name="dashboard"),
-    path("recipe/create/", views.recipe_create, name="recipe_create"),
     path(
         "dashboard/recipe/create/",
-        views.dashboard_recipe_create,
+        views.DashboardRecipe.as_view(),
         name="dashboard_recipe_create",
     ),
     path(
