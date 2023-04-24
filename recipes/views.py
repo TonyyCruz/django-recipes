@@ -18,18 +18,17 @@ class RecipeListViewBase(ListView):
     paginate_by = None
     context_object_name = "recipes"
     ordering = ["-id"]
-    template_name = "recipes/pages/home.html"
 
-    def get_queryset(self, **kwargs):
-        queryset = super().get_queryset(**kwargs)
-        queryset = queryset.filter(
+    def get_queryset(self, *args, **kwargs):
+        current_queryset = super().get_queryset(*args, **kwargs)
+        new_queryset = current_queryset.filter(
             is_published=True,
         )
 
-        return queryset
+        return new_queryset
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
         pages_obj, pagination_range = make_pagination(
             request=self.request,
             object_list=context.get("recipes"),
@@ -44,25 +43,22 @@ class RecipeListViewBase(ListView):
         return context
 
 
-def home(request):
-    recipes = Recipe.objects.filter(is_published=True).order_by("-id")
+class RecipeViewHome(RecipeListViewBase):
+    template_name = "recipes/pages/home.html"
 
-    pages_obj, pagination_range = make_pagination(
-        request=request,
-        object_list=recipes,
-        per_page=ITEMS_PER_PAGE,
-        qty_pages=QTY_PAGES_IN_PAGINATION,
-    )
 
-    return render(
-        request,
-        "recipes/pages/home.html",
-        context={
-            "recipes": pages_obj,
-            "is_recipe_list": True,
-            "pagination_range": pagination_range,
-        },
-    )
+class RecipeViewCategory(RecipeListViewBase):
+    template_name = "recipes/pages/category.html"
+
+    def get_queryset(self, *args, **kwargs):
+        current_queryset = super().get_queryset(*args, **kwargs)
+        new_queryset = current_queryset.filter(category__id=self.kwargs["id"])
+
+        return new_queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
 
 def recipe_details(request, id):
@@ -102,7 +98,7 @@ def category(request, id):
             "pagination_range": pagination_range,
             "recipes": pages_obj,
             "is_recipe_list": True,
-            "page_title": category.name,
+            "category": category,
         },
     )
 
