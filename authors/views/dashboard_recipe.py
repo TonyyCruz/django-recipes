@@ -70,6 +70,10 @@ class DashboardRecipe(View):
         return self.render_recipe(form=form)
 
 
+@method_decorator(
+    login_required(login_url="authors:login", redirect_field_name="next"),
+    name="dispatch",
+)
 class DashboardRecipeDelete(DashboardRecipe):
     def post(self, request, id):
         recipe = self.get_recipe(
