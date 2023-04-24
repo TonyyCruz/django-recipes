@@ -2,7 +2,7 @@ import os
 
 from django.db.models import Q
 from django.http import Http404
-from django.shortcuts import get_list_or_404, get_object_or_404, render
+from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView
 
 from utils.pagination import make_pagination
@@ -61,6 +61,27 @@ class RecipeViewCategory(RecipeListViewBase):
         return context
 
 
+class RecipeViewSearch(RecipeListViewBase):
+    template_name = "recipes/pages/search.html"
+
+    def get_queryset(self, *args, **kwargs):
+        current_queryset = super().get_queryset(*args, **kwargs)
+        search_therm = self.request.GET.get("q", "").strip()
+        new_queryset = current_queryset.filter(
+            Q(title__icontains=search_therm)
+            | Q(description__icontains=search_therm),
+            is_published=True,
+        )
+
+        return new_queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        search_therm = self.request.GET.get("q", "").strip()
+        context["page_title"] = f'Search: "{search_therm}"'
+        return context
+
+
 def recipe_details(request, id):
     recipe = get_object_or_404(
         Recipe.objects.filter(
@@ -77,30 +98,30 @@ def recipe_details(request, id):
     )
 
 
-def category(request, id):
-    category = get_object_or_404(Category, id=id)
-    recipes = get_list_or_404(
-        Recipe.objects.filter(is_published=True, category__id=id).order_by(
-            "-id"
-        )
-    )
-    pages_obj, pagination_range = make_pagination(
-        request,
-        recipes,
-        ITEMS_PER_PAGE,
-        qty_pages=QTY_PAGES_IN_PAGINATION,
-    )
+# def category(request, id):
+#     category = get_object_or_404(Category, id=id)
+#     recipes = get_list_or_404(
+#         Recipe.objects.filter(is_published=True, category__id=id).order_by(
+#             "-id"
+#         )
+#     )
+#     pages_obj, pagination_range = make_pagination(
+#         request,
+#         recipes,
+#         ITEMS_PER_PAGE,
+#         qty_pages=QTY_PAGES_IN_PAGINATION,
+#     )
 
-    return render(
-        request,
-        "recipes/pages/category.html",
-        context={
-            "pagination_range": pagination_range,
-            "recipes": pages_obj,
-            "is_recipe_list": True,
-            "category": category,
-        },
-    )
+#     return render(
+#         request,
+#         "recipes/pages/category.html",
+#         context={
+#             "pagination_range": pagination_range,
+#             "recipes": pages_obj,
+#             "is_recipe_list": True,
+#             "category": category,
+#         },
+#     )
 
 
 def search(request):
