@@ -85,14 +85,14 @@ class RecipesCategoryViews(RecipeTestBase):
             self.assertEqual(len(paginator.get_page(3)), 3)
             self.assertEqual(len(paginator.get_page(4)), 1)
 
-    # def test_home_have_a_correct_page_title(self):
-    #     category_name = "test_category"
-    #     category = self.make_category(name=category_name)
-    #     self.make_recipe(category=category)
-    #     response = self.client.get(
-    #         reverse("recipes:category", kwargs={"id": category.id})
-    #     )
-    #     content = response.content
-    #     self.assertIn(
-    #         f"<title>{category_name}</title>", content.decode("utf-8")
-    #     )
+    def test_home_have_a_correct_page_title(self):
+        category_name = "test_category"
+        category = self.make_category(name=category_name)
+        self.make_recipe(category=category)
+        response = self.client.get(
+            reverse("recipes:category", kwargs={"id": category.id})
+        )
+        content = response.content
+        self.assertIn(
+            f"<title>Category {category_name}</title>", content.decode("utf-8")
+        )
