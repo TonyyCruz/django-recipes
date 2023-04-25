@@ -1,6 +1,7 @@
 import os
 
 from django.db.models import Q
+from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView
 
@@ -53,10 +54,14 @@ class RecipeViewCategory(RecipeListViewBase):
         qs = super().get_queryset(*args, **kwargs)
         qs = qs.filter(category__id=self.kwargs.get("id"))
 
+        if not qs:
+            raise Http404()
         return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        category_name = context.get("recipes")[0].category.name
+        context["page_title"] = f"Category {category_name}"
         return context
 
 
@@ -66,6 +71,10 @@ class RecipeViewSearch(RecipeListViewBase):
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
         search_therm = self.request.GET.get("q", "").strip()
+
+        if not search_therm:
+            raise Http404()
+
         qs = qs.filter(
             Q(title__icontains=search_therm)
             | Q(description__icontains=search_therm),
