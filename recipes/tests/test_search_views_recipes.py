@@ -8,7 +8,7 @@ from .recipe_test_base import RecipeTestBase
 class RecipesSearchViews(RecipeTestBase):
     def test_recipe_search_uses_correct_view(self):
         view = resolve(reverse("recipes:search"))
-        self.assertIs(views.search, view.func)
+        self.assertIs(views.RecipeViewSearch, view.func.view_class)
 
     def test_recipe_search_loads_a_correct_template(self):
         response = self.client.get(reverse("recipes:search") + "?q=test")
@@ -21,7 +21,7 @@ class RecipesSearchViews(RecipeTestBase):
     def test_recipe_search_term_is_on_page_title_and_escaped(self):
         response = self.client.get(reverse("recipes:search") + "?q=<test>")
         self.assertIn(
-            "Search: &quot;&lt;test&gt;&quot;",
+            'Search for "&lt;test&gt;"',
             response.content.decode("utf-8"),
         )
 
@@ -35,12 +35,12 @@ class RecipesSearchViews(RecipeTestBase):
         recipe_1 = self.make_recipe(
             title=title_1,
             slug="farofa",
-            author=self.make_author(username="user1")
+            author=self.make_author(username="user1"),
         )
         recipe_2 = self.make_recipe(
             title=title_2,
             slug="lasanha",
-            author=self.make_author(username="user2")
+            author=self.make_author(username="user2"),
         )
 
         search_url = reverse("recipes:search")

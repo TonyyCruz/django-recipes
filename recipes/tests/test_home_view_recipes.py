@@ -10,20 +10,20 @@ from .recipe_test_base import RecipeTestBase
 class RecipesHomeViews(RecipeTestBase):
     def test_home_uses_correct_view(self):
         view = resolve(reverse("recipes:home"))
-        self.assertIs(views.home, view.func)
+        self.assertIs(views.RecipeViewHome, view.func.view_class)
 
     def test_home_template_shows_no_recipes_found_if_no_recipes(self):
         response = self.client.get(reverse("recipes:home"))
         self.assertIn(
             "<h1>There are no recipes yet</h1>",
-            response.content.decode("utf-8")
+            response.content.decode("utf-8"),
         )
 
     def test_home_loads_recipe(self):
         self.make_recipe()
         response = self.client.get(reverse("recipes:home"))
         content = response.content.decode("utf-8")
-        response_context_recipes = response.context['recipes']
+        response_context_recipes = response.context["recipes"]
 
         self.assertIn("My test title", content)
         self.assertIn("10 minutos", content)
@@ -56,26 +56,17 @@ class RecipesHomeViews(RecipeTestBase):
             self.assertEqual(context["page_range"], range(1, 7))
             self.assertEqual(context["current_page"], 1)
             self.assertEqual(context["stop_range"], 5)
-            self.assertIn(
-                'area-label="Current page 1"',
-                content
-            )
+            self.assertIn('area-label="Current page 1"', content)
 
             self.assertEqual(context_2["page_range"], range(1, 7))
             self.assertEqual(context_2["current_page"], 3)
             self.assertEqual(context_2["stop_range"], 5)
-            self.assertIn(
-                'area-label="Current page 3"',
-                content_2
-            )
+            self.assertIn('area-label="Current page 3"', content_2)
 
             self.assertEqual(context_3["page_range"], range(1, 7))
             self.assertEqual(context_3["current_page"], 4)
             self.assertEqual(context_3["stop_range"], 6)
-            self.assertIn(
-                'area-label="Current page 4"',
-                content_3
-            )
+            self.assertIn('area-label="Current page 4"', content_3)
 
     def test_home_items_per_page_is_correct(self):
         self.make_multiples_recipes(quantity=10)
@@ -98,4 +89,4 @@ class RecipesHomeViews(RecipeTestBase):
     def test_home_have_a_correct_page_title(self):
         response = self.client.get(reverse("recipes:home"))
         content = response.content
-        self.assertIn("<title>Recipes</title>", content.decode("utf-8"))
+        self.assertIn("<title>Home | Recipes</title>", content.decode("utf-8"))
