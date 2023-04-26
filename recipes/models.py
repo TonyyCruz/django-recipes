@@ -41,7 +41,7 @@ class Recipe(models.Model):
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def get_absolute_url(self):
-        return reverse("recipes:details", kwargs={"id": self.id})
+        return reverse("recipes:details", kwargs={"pk": self.pk})
 
     def save(self, *args, **kwargs):
         if not self.slug:
