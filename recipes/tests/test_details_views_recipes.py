@@ -7,19 +7,19 @@ from .recipe_test_base import RecipeTestBase
 
 class RecipesDetailsViews(RecipeTestBase):
     def test_recipe_details_uses_correct_view(self):
-        response = resolve(reverse("recipes:details", kwargs={"id": 1}))
-        self.assertIs(views.recipe_details, response.func)
+        response = resolve(reverse("recipes:details", kwargs={"pk": 1}))
+        self.assertIs(views.RecipeViewDetail, response.func.view_class)
 
     def test_recipe_details_view_return_status_404_if_no_recipe_found(self):
         response = self.client.get(
-            reverse("recipes:details", kwargs={"id": 999})
+            reverse("recipes:details", kwargs={"pk": 999})
         )
         self.assertEqual(response.status_code, 404)
 
     def test_recipe_details_return_status_404_if_recipe_not_published(self):
         recipe = self.make_recipe(is_published=False)
         response = self.client.get(
-            reverse("recipes:details", kwargs={"id": recipe.id})
+            reverse("recipes:details", kwargs={"pk": recipe.id})
         )
         self.assertEqual(response.status_code, 404)
 
@@ -33,14 +33,14 @@ class RecipesDetailsViews(RecipeTestBase):
             preparation_time=5,
             preparation_time_unit="minutos",
             servings=2,
-            servings_unit="porções"
+            servings_unit="porções",
         )
 
         response = self.client.get(
-            reverse("recipes:details", kwargs={"id": recipe.id})
+            reverse("recipes:details", kwargs={"pk": recipe.id})
         )
         context = response.context["recipe"]
-        content = response.content.decode('utf-8')
+        content = response.content.decode("utf-8")
 
         self.assertEqual(context.author.first_name, "Anthony")
         self.assertEqual(context.author.last_name, "Cruz")
