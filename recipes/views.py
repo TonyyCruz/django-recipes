@@ -1,6 +1,7 @@
 import os
 
 from django.db.models import Q
+from django.forms.models import model_to_dict
 from django.http import Http404, JsonResponse
 from django.views.generic import DetailView, ListView
 
@@ -112,3 +113,27 @@ class RecipeViewDetail(DetailView):
         qs = qs.filter(is_published=True)
 
         return qs
+
+
+class RecipeViewDetailApi(RecipeViewDetail):
+    def render_to_response(self, context, **response_kwargs):
+        recipe = self.get_context_data()["recipe"]
+        recipe_dict = model_to_dict(recipe)
+
+        recipe_dict["created_at"] = str(recipe.created_at)
+        recipe_dict["updated_at"] = str(recipe.updated_at)
+
+        if recipe_dict.get("cover"):
+            recipe_dict["cover"] = (
+                self.request.build_absolute_uri()[:21]
+                + recipe_dict["cover"].url
+            )
+        else:
+            recipe_dict["cover"] = ""
+
+        del recipe_dict["is_published"]
+
+        return JsonResponse(
+            recipe_dict,
+            safe=False,
+        )
