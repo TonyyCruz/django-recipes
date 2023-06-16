@@ -119,7 +119,7 @@ class RecipeViewDetail(DetailView):
 
 class RecipeViewDetailApiV1(RecipeViewDetail):
     def render_to_response(self, context, **response_kwargs):
-        recipe = self.get_context_data()["recipe"]
+        recipe = self.get_context_data(context, **response_kwargs)["recipe"]
         recipe_dict = model_to_dict(recipe)
 
         recipe_dict["created_at"] = str(recipe.created_at)
