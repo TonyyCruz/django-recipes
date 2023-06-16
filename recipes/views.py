@@ -25,6 +25,8 @@ class RecipeListViewBase(ListView):
             is_published=True,
         )
 
+        qs = qs.select_related("author", "category")
+
         return qs
 
     def get_context_data(self, *args, **kwargs):
@@ -47,7 +49,7 @@ class RecipeViewHome(RecipeListViewBase):
     template_name = "recipes/pages/home.html"
 
 
-class RecipeViewHomeApi(RecipeListViewBase):
+class RecipeViewHomeApiV1(RecipeListViewBase):
     template_name = "recipes/pages/home.html"
 
     def render_to_response(self, context, **response_kwargs):
@@ -115,7 +117,7 @@ class RecipeViewDetail(DetailView):
         return qs
 
 
-class RecipeViewDetailApi(RecipeViewDetail):
+class RecipeViewDetailApiV1(RecipeViewDetail):
     def render_to_response(self, context, **response_kwargs):
         recipe = self.get_context_data()["recipe"]
         recipe_dict = model_to_dict(recipe)
@@ -125,7 +127,7 @@ class RecipeViewDetailApi(RecipeViewDetail):
 
         if recipe_dict.get("cover"):
             recipe_dict["cover"] = (
-                self.request.build_absolute_uri()[:21]
+                self.request.build_absolute_uri()[:-21]
                 + recipe_dict["cover"].url
             )
         else:
