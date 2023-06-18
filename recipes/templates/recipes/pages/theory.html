@@ -27,7 +27,7 @@
     <ul>
       {% for recipe in simple_recipes %}
         <li>
-          {{recipe.id}} - {{ recipe.title }} - {{ recipe.author }}
+          {{recipe.id}} - {{ recipe.title }} - {{ recipe.author__first_name }}
         </li>
       {% empty %}
         Have no simple recipes.
