@@ -1,7 +1,9 @@
 import os
 
-from django.db.models import Q
+# o "F" é usado para informar que a string é um campo do model
+from django.db.models import F, Q, Value
 from django.db.models.aggregates import Count
+from django.db.models.functions import Concat
 from django.forms.models import model_to_dict
 from django.http import Http404, JsonResponse
 from django.shortcuts import render
@@ -17,6 +19,8 @@ QTY_PAGES_IN_PAGINATION = int(os.environ.get("QTY_PAGES_IN_PAGINATION", 5))
 
 def theory(request, *args, **kwargs):
     recipes = Recipe.objects.all()[:10]
+
+    # Contando as reeceitas
     number_of_recipes = recipes.aggregate(Count("id"))
     # number_of_recipes = Recipe.objects.aggregate(Count("id"))
 
@@ -25,10 +29,20 @@ def theory(request, *args, **kwargs):
         "id", "title", "author__first_name"
     ).filter(title__icontains="frango")[:10]
 
+    # Criar novo campo na resposta da query
+    novo_campo = Recipe.objects.all().annotate(
+        author_full_name=Concat(
+            F("author__first_name"),
+            Value(" "),  # O value foi usado para adicionar um espaço vazio
+            F("author__last_name"),
+        )
+    )[:5]
+
     context = {
         "recipes": recipes,
         "simple_recipes": simple_recipes,
         "number_of_recipes": number_of_recipes["id__count"],
+        "novo_campo": novo_campo,
     }
     return render(request, "recipes/pages/theory.html", context=context)
 

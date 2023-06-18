@@ -37,5 +37,18 @@
       {% endfor %}
     </ul>
   </div>
+
+  <div>
+    <h2>Novo campo de full name</h2>
+    <ul>
+      {% for data in novo_campo %}
+        <li>
+          {{data.author_full_name}}
+        </li>
+      {% empty %}
+        Have no names.
+      {% endfor %}
+    </ul>
+  </div>
 </body>
 </html>
