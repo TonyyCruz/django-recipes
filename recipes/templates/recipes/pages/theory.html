@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theory</title>
+</head>
+
+<body>
+  <h1>Theory</h1>
+
+  <div>
+    <h3>Recipes</h3>
+    <ul>
+      {% for recipe in recipes %}
+        <li>
+          {{recipe.id}} - {{ recipe.title }} - {{ recipe.author }}
+        </li>
+      {% empty %}
+        Have no recipes.
+      {% endfor %}
+    </ul>
+  </div>
+  <br>
+  <div>
+    <h3>Simple Recipes</h3>
+    <ul>
+      {% for recipe in simple_recipes %}
+        <li>
+          {{recipe.id}} - {{ recipe.title }} - {{ recipe.author__first_name }}
+        </li>
+      {% empty %}
+        Have no simple recipes.
+      {% endfor %}
+    </ul>
+  </div>
+</body>
+</html>

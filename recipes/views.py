@@ -3,6 +3,7 @@ import os
 from django.db.models import Q
 from django.forms.models import model_to_dict
 from django.http import Http404, JsonResponse
+from django.shortcuts import render
 from django.views.generic import DetailView, ListView
 
 from utils.pagination import make_pagination
@@ -11,6 +12,17 @@ from .models import Recipe
 
 ITEMS_PER_PAGE = int(os.environ.get("ITEMS_PER_PAGE", 12))
 QTY_PAGES_IN_PAGINATION = int(os.environ.get("QTY_PAGES_IN_PAGINATION", 5))
+
+
+def theory(request, *args, **kwargs):
+    recipes = Recipe.objects.all()[:10]
+
+    # São mais rapidas
+    simple_recipes = Recipe.objects.values(
+        "id", "title", "author__first_name"
+    )[:10]
+    context = {"recipes": recipes, "simple_recipes": simple_recipes}
+    return render(request, "recipes/pages/theory.html", context=context)
 
 
 class RecipeListViewBase(ListView):
