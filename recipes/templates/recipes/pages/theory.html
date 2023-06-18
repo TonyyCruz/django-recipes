@@ -8,5 +8,31 @@
 
 <body>
   <h1>Theory</h1>
+
+  <div>
+    <h3>Recipes</h3>
+    <ul>
+      {% for recipe in recipes %}
+        <li>
+          {{recipe.id}} - {{ recipe.title }} - {{ recipe.author }}
+        </li>
+      {% empty %}
+        Have no recipes.
+      {% endfor %}
+    </ul>
+  </div>
+  <br>
+  <div>
+    <h3>Simple Recipes</h3>
+    <ul>
+      {% for recipe in simple_recipes %}
+        <li>
+          {{recipe.id}} - {{ recipe.title }} - {{ recipe.author }}
+        </li>
+      {% empty %}
+        Have no simple recipes.
+      {% endfor %}
+    </ul>
+  </div>
 </body>
 </html>

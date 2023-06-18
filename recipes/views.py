@@ -15,7 +15,9 @@ QTY_PAGES_IN_PAGINATION = int(os.environ.get("QTY_PAGES_IN_PAGINATION", 5))
 
 
 def theory(request, *args, **kwargs):
-    context = {}
+    recipes = Recipe.objects.all()[:10]
+    simple_recipes = Recipe.objects.values("id", "title")[:10]
+    context = {"recipes": recipes, "simple_recipes": simple_recipes}
     return render(request, "recipes/pages/theory.html", context=context)
 
 
