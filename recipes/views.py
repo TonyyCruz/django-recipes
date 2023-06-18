@@ -1,6 +1,7 @@
 import os
 
 from django.db.models import Q
+from django.db.models.aggregates import Count
 from django.forms.models import model_to_dict
 from django.http import Http404, JsonResponse
 from django.shortcuts import render
@@ -16,12 +17,19 @@ QTY_PAGES_IN_PAGINATION = int(os.environ.get("QTY_PAGES_IN_PAGINATION", 5))
 
 def theory(request, *args, **kwargs):
     recipes = Recipe.objects.all()[:10]
+    number_of_recipes = recipes.aggregate(Count("id"))
+    # number_of_recipes = Recipe.objects.aggregate(Count("id"))
 
     # São mais rapidas
     simple_recipes = Recipe.objects.values(
         "id", "title", "author__first_name"
-    )[:10]
-    context = {"recipes": recipes, "simple_recipes": simple_recipes}
+    ).filter(title__icontains="frango")[:10]
+
+    context = {
+        "recipes": recipes,
+        "simple_recipes": simple_recipes,
+        "number_of_recipes": number_of_recipes["id__count"],
+    }
     return render(request, "recipes/pages/theory.html", context=context)
 
 
