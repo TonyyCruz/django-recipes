@@ -9,6 +9,7 @@ from django.http import Http404, JsonResponse
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView
 
+from tag.models import Tag
 from utils.pagination import make_pagination
 
 from .models import Recipe
@@ -173,3 +174,28 @@ class RecipeViewDetailApiV1(RecipeViewDetail):
             recipe_dict,
             safe=False,
         )
+
+
+class RecipeViewTag(RecipeListViewBase):
+    template_name = "recipes/pages/tag.html"
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+
+        qs = qs.filter(tag__slug=self.kwargs.get("slug", ""))
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tag_slug = self.kwargs.get("slug", "")
+        search_therm = Tag.objects.filter(slug=tag_slug).first()
+
+        if not search_therm:
+            search_therm = "No recipes found"
+        else:
+            search_therm = search_therm.name
+
+        context["search_therm"] = f"{search_therm}"
+        # context["additional_url_query"] = f"&q={tag_slug}"
+        return context
