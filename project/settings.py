@@ -41,9 +41,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # My installed apps
-    "debug_toolbar",
     "recipes",
     "authors",
+    "tag",
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [

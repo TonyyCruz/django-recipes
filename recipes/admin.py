@@ -1,10 +1,20 @@
 from django.contrib import admin
+from django.contrib.contenttypes.admin import GenericTabularInline
+
+from tag.models import Tag
 
 from .models import Category, Recipe
 
 
 class CategoryAdmin(admin.ModelAdmin):
     pass
+
+
+# Seleciona o Model generico
+class TagGeneric(GenericTabularInline):
+    model = Tag
+    fields = ["name"]
+    extra = 1
 
 
 @admin.register(Recipe)
@@ -22,6 +32,11 @@ class RecipeAdmin(admin.ModelAdmin):
     list_editable = ["is_published"]
     ordering = ["-id"]
     prepopulated_fields = {"slug": ["title"]}
+
+    # Adiciona o campo genérico para manimpulação na tela de admin do django
+    inlines = [
+        TagGeneric,
+    ]
 
 
 admin.site.register(Category, CategoryAdmin)
