@@ -1,10 +1,12 @@
 import os
 
+# o "F" é usado para informar que a string é um campo do model
 from django.db.models import Q
 from django.forms.models import model_to_dict
 from django.http import Http404, JsonResponse
 from django.views.generic import DetailView, ListView
 
+from tag.models import Tag
 from utils.pagination import make_pagination
 
 from .models import Recipe
@@ -139,3 +141,28 @@ class RecipeViewDetailApiV1(RecipeViewDetail):
             recipe_dict,
             safe=False,
         )
+
+
+class RecipeViewTag(RecipeListViewBase):
+    template_name = "recipes/pages/tag.html"
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+
+        qs = qs.filter(tag__slug=self.kwargs.get("slug", ""))
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tag_slug = self.kwargs.get("slug", "")
+        tag_name = Tag.objects.filter(slug=tag_slug).first()
+
+        if not tag_name:
+            tag_name = "No recipes found"
+        else:
+            tag_name = tag_name.name
+
+        context["tag_name"] = f"{tag_name}"
+        # context["additional_url_query"] = f"&q={tag_slug}"
+        return context

@@ -24,6 +24,16 @@
         <span>{{ recipe.category.name }}</span>
       </a>
     </p>
+    {% if not is_recipe_list and recipe.tag.all %}
+      <p class="recipe-author-item">
+        Tags: 
+        {% for tag in recipe.tag.all %}
+            <a href="{% url 'recipes:tag' tag.slug %}">
+                {{ tag.name }} 
+            </a>
+        {% endfor %}
+      </p>
+    {% endif %}
   </div>
 
   <div class="recipe-content">
