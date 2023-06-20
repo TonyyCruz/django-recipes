@@ -189,13 +189,13 @@ class RecipeViewTag(RecipeListViewBase):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         tag_slug = self.kwargs.get("slug", "")
-        search_therm = Tag.objects.filter(slug=tag_slug).first()
+        tag_name = Tag.objects.filter(slug=tag_slug).first()
 
-        if not search_therm:
-            search_therm = "No recipes found"
+        if not tag_name:
+            tag_name = "No recipes found"
         else:
-            search_therm = search_therm.name
+            tag_name = tag_name.name
 
-        context["search_therm"] = f"{search_therm}"
+        context["tag_name"] = f"{tag_name}"
         # context["additional_url_query"] = f"&q={tag_slug}"
         return context
