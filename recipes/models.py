@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
@@ -44,7 +43,7 @@ class Recipe(models.Model):
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     # Faz a relação com o Model genérico "Tag"
-    tag = GenericRelation(Tag, related_query_name="recipes")
+    tag = models.ManyToManyField(Tag)
 
     def get_absolute_url(self):
         return reverse("recipes:details", kwargs={"pk": self.pk})
