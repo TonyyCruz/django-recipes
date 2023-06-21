@@ -587,6 +587,10 @@ a:hover {
   border: 1px solid white;
 }
 
+.hidden-text {
+  display: none;
+}
+
 
 /* ==========================DESENVOLVIMENTO====================== */
 .dev-border {
