@@ -42,7 +42,6 @@ class Recipe(models.Model):
     )
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
-    # Faz a relação com o Model genérico "Tag"
     tag = models.ManyToManyField(Tag)
 
     def get_absolute_url(self):
