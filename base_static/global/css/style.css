@@ -644,7 +644,7 @@ a:hover {
   background: var(--color-gray-2);
   border: none;
   font-size: 2rem;
-  z-index: 3;
+  z-index: 2;
   padding: 1rem;
   visibility: visible;
   opacity: 1;
