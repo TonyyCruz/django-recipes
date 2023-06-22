@@ -3,16 +3,18 @@
     <div class="center">
       <p>
         Logged with 
-        <b>{{ request.user.username }}</b>. 
+        <a href="{% url "authors:dashboard" %}">
+          <b>{{ request.user.username }}</b>. 
+        </a>
       </p>
-        <form action="{% url "authors:logout" %}" method="POST">
-          {% csrf_token %}
-          <input type="hidden" name="username" value="{{ request.user.username }}">
-          <button type="submit" class="header-link">
-            <b>Logout</b>
-            <i class="fa-sharp fa-solid fa-right-from-bracket"></i>
-          </button>
-        </form>
+      <form action="{% url "authors:logout" %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="username" value="{{ request.user.username }}">
+        <button type="submit" class="header-link">
+          <b>Logout</b>
+          <i class="fa-sharp fa-solid fa-right-from-bracket"></i>
+        </button>
+      </form>
     </div>
   {% else %}
     <div class="center">
