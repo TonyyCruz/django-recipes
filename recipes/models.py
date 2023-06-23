@@ -45,7 +45,7 @@ class Recipe(models.Model):
     )
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
-    tag = models.ManyToManyField(Tag)
+    tag = models.ManyToManyField(Tag, blank=True, default="None")
 
     def get_absolute_url(self):
         return reverse("recipes:details", kwargs={"pk": self.pk})
