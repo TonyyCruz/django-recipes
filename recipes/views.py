@@ -1,9 +1,10 @@
 import os
 
-# o "F" é usado para informar que a string é um campo do model
 from django.db.models import Q
 from django.forms.models import model_to_dict
 from django.http import Http404, JsonResponse
+from django.utils import translation
+from django.utils.translation import gettext as _
 from django.views.generic import DetailView, ListView
 
 from tag.models import Tag
@@ -41,9 +42,12 @@ class RecipeListViewBase(ListView):
             qty_pages=QTY_PAGES_IN_PAGINATION,
         )
 
+        html_language = translation.get_language()
+
         context["is_recipe_list"] = True
         context["recipes"] = pages_obj
         context["pagination_range"] = pagination_range
+        context["html_language"] = html_language
 
         return context
 
@@ -78,7 +82,8 @@ class RecipeViewCategory(RecipeListViewBase):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         category_name = context.get("recipes")[0].category.name
-        context["page_title"] = f"Category {category_name}"
+        category_translation = _("Category")
+        context["page_title"] = f"{category_translation} {category_name}"
         return context
 
 
