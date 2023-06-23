@@ -28,7 +28,7 @@ class RecipeListViewBase(ListView):
         )
 
         qs = qs.select_related("author", "category")
-        qs = qs.prefetch_related("tag")
+        qs = qs.prefetch_related("tag", "author__profile")
 
         return qs
 

@@ -10,10 +10,17 @@
   </div>
 
   <div class="recipe-author">
+    {% if recipe.author.profile %}
+      <a href="{% url "authors:profile" recipe.author.profile.id %}">
+    {% endif %}
     <span class="recipe-author-item">
       <i class="fas fa-user"></i>
       {{recipe.author.first_name}} {{recipe.author.last_name}}
     </span>
+    {% if recipe.author.profile %}
+      </a>
+    {% endif %}
+
     <span class="recipe-author-item">
       <i class="fas fa-calendar-alt"></i>
       {{ recipe.created_at|date:"d/m/Y" }}
