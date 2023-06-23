@@ -1,0 +1,9 @@
+{% extends "global/base_template.html" %}
+{% block page_title %}{{ page_title }}{% endblock page_title %}
+
+{% block content %}
+  <div class="center container">
+    <h2>{{ profile.author.username }}</h2>
+    <p>{{ profile.bio }}</p>
+  </div>
+{% endblock content %}
