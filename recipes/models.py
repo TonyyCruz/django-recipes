@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 
 from tag.models import Tag
+from utils.image_helper import resize_image
 
 
 class Category(models.Model):
@@ -54,7 +55,16 @@ class Recipe(models.Model):
         if not self.slug:
             slug = f"{slugify(self.title)}"
             self.slug = slug
-        return super().save(*args, **kwargs)
+
+        saved = super().save(*args, **kwargs)
+
+        if self.cover:
+            try:
+                resize_image(self.cover, 840)
+            except FileNotFoundError:
+                ...
+
+        return saved
 
     def __str__(self):
         return self.title
