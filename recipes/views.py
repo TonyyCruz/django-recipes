@@ -1,6 +1,5 @@
 import os
 
-# o "F" é usado para informar que a string é um campo do model
 from django.db.models import Q
 from django.forms.models import model_to_dict
 from django.http import Http404, JsonResponse
@@ -78,7 +77,7 @@ class RecipeViewCategory(RecipeListViewBase):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         category_name = context.get("recipes")[0].category.name
-        context["page_title"] = f"Category {category_name}"
+        context["page_title"] = f"Category | {category_name}"
         return context
 
 
