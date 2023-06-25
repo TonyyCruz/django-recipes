@@ -40,7 +40,7 @@ class RecipesHomeViews(RecipeTestBase):
     def test_home_have_a_correct_pagination_range(self):
         """slow"""
         self.make_multiples_recipes(quantity=18)
-        with patch("recipes.views.ITEMS_PER_PAGE", new=3):
+        with patch("recipes.views.site.ITEMS_PER_PAGE", new=3):
             response = self.client.get(reverse("recipes:home") + "?page=1")
             response_2 = self.client.get(reverse("recipes:home") + "?page=3")
             response_3 = self.client.get(reverse("recipes:home") + "?page=4")
@@ -70,7 +70,7 @@ class RecipesHomeViews(RecipeTestBase):
 
     def test_home_items_per_page_is_correct(self):
         self.make_multiples_recipes(quantity=10)
-        with patch("recipes.views.ITEMS_PER_PAGE", new=3):
+        with patch("recipes.views.site.ITEMS_PER_PAGE", new=3):
             response = self.client.get(reverse("recipes:home"))
             recipes = response.context["recipes"]
             paginator = recipes.paginator
