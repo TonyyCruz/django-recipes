@@ -8,7 +8,7 @@ from django.views.generic import DetailView, ListView
 from tag.models import Tag
 from utils.pagination import make_pagination
 
-from .models import Recipe
+from ..models import Recipe
 
 ITEMS_PER_PAGE = int(os.environ.get("ITEMS_PER_PAGE", 12))
 QTY_PAGES_IN_PAGINATION = int(os.environ.get("QTY_PAGES_IN_PAGINATION", 5))
