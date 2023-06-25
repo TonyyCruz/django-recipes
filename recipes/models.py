@@ -23,7 +23,23 @@ class Category(models.Model):
 
 
 class RecipeManager(models.Manager):
-    def get_published(self):
+    def get_published(self, pk=False):
+        if pk:
+            return (
+                self.filter(is_published=True, pk=pk)
+                .annotate(
+                    author_full_name=Concat(
+                        F("author__first_name"),
+                        Value(" "),
+                        F("author__last_name"),
+                        Value(" ("),
+                        F("author__username"),
+                        Value(")"),
+                    )
+                )
+                .first()
+            )
+
         return (
             self.filter(is_published=True)
             .annotate(
@@ -38,7 +54,7 @@ class RecipeManager(models.Manager):
             )
             .order_by("-id")
             .select_related("category", "author")
-            .prefetch_related("tags")
+            .prefetch_related("tag")
         )
 
 
