@@ -3,11 +3,7 @@ from rest_framework import serializers
 
 from tag.models import Tag
 
-
-class TagSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
-    name = serializers.CharField(max_length=255)
-    slug = serializers.SlugField()
+from .tag_serializer import TagSerializer
 
 
 class RecipeSerializer(serializers.Serializer):
@@ -29,6 +25,12 @@ class RecipeSerializer(serializers.Serializer):
     tag_objects = TagSerializer(
         many=True,
         source="tag",
+    )
+    tag_links = serializers.HyperlinkedRelatedField(
+        source="tag",
+        many=True,
+        queryset=Tag.objects.all(),
+        view_name="recipes:recipes_tag_api_v2",
     )
 
     # informa para "preparation" qual sera seu valor.
