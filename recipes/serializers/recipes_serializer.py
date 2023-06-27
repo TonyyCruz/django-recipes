@@ -1,6 +1,6 @@
-from collections import defaultdict
-
 from rest_framework import serializers
+
+from authors.validators import RecipeValidator
 
 from ..models import Recipe
 from .tag_serializer import TagSerializer
@@ -56,26 +56,15 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     # VALIDATIONS
     def validate(self, attrs):
-        _my_errors = defaultdict(list)
-
-        title = attrs.get("title")
-        description = attrs.get("description")
-
-        if title.upper() == description.upper():
-            _my_errors["title"].append("Title cannot be equal to description")
-            _my_errors["description"].append(
-                "Description cannot be equal to title"
-            )
-
-        if _my_errors:
-            raise serializers.ValidationError(_my_errors)
-
+        RecipeValidator(
+            data=attrs,
+            ErrorClass=serializers.ValidationError,
+            ignore_fields=(
+                "preparation_time",
+                "preparation_time_unit",
+                "servings",
+                "servings_unit",
+                "preparation_steps",
+            ),
+        )
         return super().validate(attrs)
-
-    def validate_title(self, title):
-        if len(title) < 5:
-            raise serializers.ValidationError(
-                "Title must have at least 5 chars"
-            )
-        print("validacao do titulo ====>>>", title)
-        return title
