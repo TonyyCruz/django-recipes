@@ -20,6 +20,11 @@ class RecipeSerializer(serializers.ModelSerializer):
             "tag",
             "tag_objects",
             "tag_links",
+            "preparation_time",
+            "preparation_time_unit",
+            "servings",
+            "servings_unit",
+            "preparation_steps",
         ]
 
     # Utilizamos "source" para indicar o campo origem, caso os nomes dos campo
@@ -60,11 +65,11 @@ class RecipeSerializer(serializers.ModelSerializer):
             data=attrs,
             ErrorClass=serializers.ValidationError,
             ignore_fields=(
-                "preparation_time",
-                "preparation_time_unit",
-                "servings",
-                "servings_unit",
-                "preparation_steps",
+                # "preparation_time",
+                # "preparation_time_unit",
+                # "servings",
+                # "servings_unit",
+                # "preparation_steps",
             ),
         )
         return super().validate(attrs)
