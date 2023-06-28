@@ -1,4 +1,6 @@
+import string
 from collections import defaultdict
+from random import SystemRandom
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -91,8 +93,14 @@ class Recipe(models.Model):
         return reverse("recipes:details", kwargs={"pk": self.pk})
 
     def save(self, *args, **kwargs):
+        rand_letters = "".join(
+            SystemRandom().choices(
+                string.ascii_letters + string.digits,
+                k=5,
+            )
+        )
         if not self.slug:
-            slug = f"{slugify(self.title)}"
+            slug = slugify(f"{self.title}-{rand_letters}")
             self.slug = slug
 
         saved = super().save(*args, **kwargs)
