@@ -76,18 +76,21 @@ class Recipe(models.Model):
     is_published = models.BooleanField(default=False)
     cover = models.ImageField(
         upload_to="recipes/covers/%Y/%m/%d",
+        blank=True,
         editable=True,
         default="base_images/recipes/covers/No-Image-Placeholder.svg.png",
     )
 
     category = models.ForeignKey(
         Category,
-        on_delete=models.SET_DEFAULT,
-        default=1,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        default=None,
     )
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
-    tag = models.ManyToManyField(Tag, blank=True, default="None")
+    tag = models.ManyToManyField(Tag, blank=True, default="")
 
     def get_absolute_url(self):
         return reverse("recipes:details", kwargs={"pk": self.pk})
