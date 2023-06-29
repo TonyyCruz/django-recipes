@@ -9,6 +9,7 @@ from ..models import Recipe
 from ..serializers import RecipeSerializer, TagSerializer
 
 
+# FUNCTION BASED VIEWS
 @api_view(http_method_names=["get", "post"])
 def recipe_api_list(request):
     if request.method == "GET":
