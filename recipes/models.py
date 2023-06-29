@@ -1,4 +1,6 @@
+import string
 from collections import defaultdict
+from random import SystemRandom
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -74,25 +76,34 @@ class Recipe(models.Model):
     is_published = models.BooleanField(default=False)
     cover = models.ImageField(
         upload_to="recipes/covers/%Y/%m/%d",
+        blank=True,
         editable=True,
         default="base_images/recipes/covers/No-Image-Placeholder.svg.png",
     )
 
     category = models.ForeignKey(
         Category,
-        on_delete=models.SET_DEFAULT,
-        default=1,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        default=None,
     )
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
-    tag = models.ManyToManyField(Tag, blank=True, default="None")
+    tag = models.ManyToManyField(Tag, blank=True, default="")
 
     def get_absolute_url(self):
         return reverse("recipes:details", kwargs={"pk": self.pk})
 
     def save(self, *args, **kwargs):
+        rand_letters = "".join(
+            SystemRandom().choices(
+                string.ascii_letters + string.digits,
+                k=5,
+            )
+        )
         if not self.slug:
-            slug = f"{slugify(self.title)}"
+            slug = slugify(f"{self.title}-{rand_letters}")
             self.slug = slug
 
         saved = super().save(*args, **kwargs)
@@ -112,15 +123,16 @@ class Recipe(models.Model):
     def clean(self, *args, **kwargs):
         error_messages = defaultdict(list)
 
-        recipe_from_db = Recipe.objects.filter(
-            title__iexact=self.title
-        ).first()
+        # FOI COMENTADO POIS RECIPES CRIADAS ANTERIORMENTE ESTAVAM DANDO ERRO
+        # recipe_from_db = Recipe.objects.filter(
+        #     title__iexact=self.title
+        # ).first()
 
-        if recipe_from_db:
-            if recipe_from_db.pk != self.pk:
-                error_messages["title"].append(
-                    "Found recipes with the same title"
-                )
+        # if recipe_from_db:
+        #     if recipe_from_db.pk != self.pk:
+        #         error_messages["title"].append(
+        #             "Found recipes with the same title"
+        #         )
 
         if error_messages:
             raise ValidationError(error_messages)

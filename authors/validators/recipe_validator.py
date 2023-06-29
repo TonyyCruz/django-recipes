@@ -1,9 +1,10 @@
 from collections import defaultdict
 
 from django.core.exceptions import ValidationError
-from django.utils.text import slugify
 
-from recipes.models import Recipe
+# from django.utils.text import slugify
+
+# from recipes.models import Recipe
 
 
 class RecipeValidator:
@@ -24,9 +25,9 @@ class RecipeValidator:
         ]
 
         methods_to_call = [
-            mtd
-            for mtd in my_validate_methods
-            if mtd[6:] not in self.ignore_fields
+            method_name
+            for method_name in my_validate_methods
+            if method_name[6:] not in self.ignore_fields
         ]
 
         for method in methods_to_call:
@@ -53,11 +54,11 @@ class RecipeValidator:
                 "Title must have less than 150 characters"
             )
 
-        title_slug = slugify(title)
-        slug_title_exists = Recipe.objects.filter(slug=title_slug).exists()
+        # title_slug = slugify(title)
+        # slug_title_exists = Recipe.objects.filter(slug=title_slug).exists()
 
-        if slug_title_exists:
-            self.errors["title"].append("This recipe title already exists")
+        # if slug_title_exists:
+        #     self.errors["title"].append("This recipe title already exists")
 
         return title
 
@@ -84,7 +85,6 @@ class RecipeValidator:
         preparation_time = self.data.get("preparation_time", "")
 
         if not isinstance(preparation_time, int) or preparation_time <= 0:
-            print("preparation time ==>>>", preparation_time)
             self.errors["preparation_time"].append(
                 "Preparation time must be an integer greater than 0"
             )

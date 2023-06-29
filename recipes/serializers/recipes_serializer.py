@@ -20,6 +20,11 @@ class RecipeSerializer(serializers.ModelSerializer):
             "tag",
             "tag_objects",
             "tag_links",
+            "preparation_time",
+            "preparation_time_unit",
+            "servings",
+            "servings_unit",
+            "preparation_steps",
         ]
 
     # Utilizamos "source" para indicar o campo origem, caso os nomes dos campo
@@ -56,15 +61,26 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     # VALIDATIONS
     def validate(self, attrs):
-        RecipeValidator(
-            data=attrs,
-            ErrorClass=serializers.ValidationError,
-            ignore_fields=(
-                "preparation_time",
-                "preparation_time_unit",
-                "servings",
-                "servings_unit",
-                "preparation_steps",
-            ),
-        )
+        if self.partial:
+            fields_to_ignore = tuple(
+                [field for field in self.fields if field not in attrs]
+            )
+
+            RecipeValidator(
+                data=attrs,
+                ErrorClass=serializers.ValidationError,
+                ignore_fields=fields_to_ignore,
+            )
+        else:
+            RecipeValidator(
+                data=attrs,
+                ErrorClass=serializers.ValidationError,
+                ignore_fields=(
+                    # "preparation_time",
+                    # "preparation_time_unit",
+                    # "servings",
+                    # "servings_unit",
+                    # "preparation_steps",
+                ),
+            )
         return super().validate(attrs)
