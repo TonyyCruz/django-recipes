@@ -121,4 +121,10 @@
     "javascript": "javascriptreact",
     "typescript": "typescriptreact",
   },
+  "cSpell.words": [
+    "dotenv",
+    "simplejwt",
+    "viewset",
+    "viewsets"
+  ],
 }
