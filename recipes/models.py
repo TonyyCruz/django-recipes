@@ -78,7 +78,7 @@ class Recipe(models.Model):
         upload_to="recipes/covers/%Y/%m/%d",
         blank=True,
         editable=True,
-        default="base_images/recipes/covers/No-Image-Placeholder.svg.png",
+        default="",
     )
 
     category = models.ForeignKey(
