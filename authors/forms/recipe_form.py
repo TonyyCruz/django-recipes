@@ -72,7 +72,6 @@ class RecipeForm(forms.ModelForm):
             "servings_unit",
             "category",
             "preparation_steps",
-            # "preparation_steps_is_html",
             "cover",
         ]
 

@@ -1,46 +1,12 @@
-from collections import defaultdict
-
-from django.core.exceptions import ValidationError
+from .base_validate import BaseValidator
 
 # from django.utils.text import slugify
 
 # from recipes.models import Recipe
 
 
-class RecipeValidator:
-    def __init__(self, data, errors=None, ErrorClass=None, ignore_fields=None):
-        self.errors = defaultdict(list) if errors is None else errors
-        self.ErrorClass = ValidationError if ErrorClass is None else ErrorClass
-        self.data = data
-        self.ignore_fields = (
-            tuple() if ignore_fields is None else ignore_fields
-        )
-        self.clean()
-
-    def methods_call_manager(self):
-        my_validate_methods = [
-            method_name
-            for method_name in dir(RecipeValidator)
-            if method_name.startswith("clean_")
-        ]
-
-        methods_to_call = [
-            method_name
-            for method_name in my_validate_methods
-            if method_name[6:] not in self.ignore_fields
-        ]
-
-        for method in methods_to_call:
-            method_select = getattr(self, method)
-            method_select()
-
-    def clean(self):
-        self.methods_call_manager()
-
-        if self.errors:
-            raise self.ErrorClass(self.errors)
-
-    def clean_title(self):
+class RecipeValidator(BaseValidator):
+    def validate_title(self):
         title = self.data.get("title", "")
 
         if not title:
@@ -62,7 +28,7 @@ class RecipeValidator:
 
         return title
 
-    def clean_description(self):
+    def validate_description(self):
         title = self.data.get("title", "")
         description = self.data.get("description", "")
 
@@ -81,7 +47,7 @@ class RecipeValidator:
 
         return description
 
-    def clean_preparation_time(self):
+    def validate_preparation_time(self):
         preparation_time = self.data.get("preparation_time", "")
 
         if not isinstance(preparation_time, int) or preparation_time <= 0:
@@ -91,7 +57,7 @@ class RecipeValidator:
 
         return preparation_time
 
-    def clean_preparation_time_unit(self):
+    def validate_preparation_time_unit(self):
         preparation_time_unit = self.data.get("preparation_time_unit", "")
 
         if not preparation_time_unit:
@@ -101,7 +67,7 @@ class RecipeValidator:
 
         return preparation_time_unit
 
-    def clean_servings(self):
+    def validate_servings(self):
         servings = self.data.get("servings", "")
 
         if not isinstance(servings, int) or servings <= 0:
@@ -111,7 +77,7 @@ class RecipeValidator:
 
         return servings
 
-    def clean_servings_unit(self):
+    def validate_servings_unit(self):
         servings_unit = self.data.get("servings_unit", "")
 
         if not servings_unit:
@@ -119,7 +85,7 @@ class RecipeValidator:
 
         return servings_unit
 
-    def clean_preparation_steps(self):
+    def validate_preparation_steps(self):
         preparation_steps = self.data.get("preparation_steps", "")
         if len(preparation_steps) < 50:
             self.errors["preparation_steps"].append(
