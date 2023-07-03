@@ -1,45 +1,15 @@
-from collections import defaultdict
+# from collections import defaultdict
 
-from django.core.exceptions import ValidationError
+# from django.core.exceptions import ValidationError
+
+from .base_validate import BaseValidator
 
 # from django.utils.text import slugify
 
 # from recipes.models import Recipe
 
 
-class RecipeValidator:
-    def __init__(self, data, errors=None, ErrorClass=None, ignore_fields=None):
-        self.errors = defaultdict(list) if errors is None else errors
-        self.ErrorClass = ValidationError if ErrorClass is None else ErrorClass
-        self.data = data
-        self.ignore_fields = (
-            tuple() if ignore_fields is None else ignore_fields
-        )
-        self.clean()
-
-    def methods_call_manager(self):
-        my_validate_methods = [
-            method_name
-            for method_name in dir(RecipeValidator)
-            if method_name.startswith("clean_")
-        ]
-
-        methods_to_call = [
-            method_name
-            for method_name in my_validate_methods
-            if method_name[6:] not in self.ignore_fields
-        ]
-
-        for method in methods_to_call:
-            method_select = getattr(self, method)
-            method_select()
-
-    def clean(self):
-        self.methods_call_manager()
-
-        if self.errors:
-            raise self.ErrorClass(self.errors)
-
+class RecipeValidator(BaseValidator):
     def clean_title(self):
         title = self.data.get("title", "")
 

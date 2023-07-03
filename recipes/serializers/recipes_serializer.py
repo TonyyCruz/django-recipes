@@ -61,26 +61,10 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     # VALIDATIONS
     def validate(self, attrs):
-        if self.partial:
-            fields_to_ignore = tuple(
-                [field for field in self.fields if field not in attrs]
-            )
-
-            RecipeValidator(
-                data=attrs,
-                ErrorClass=serializers.ValidationError,
-                ignore_fields=fields_to_ignore,
-            )
-        else:
-            RecipeValidator(
-                data=attrs,
-                ErrorClass=serializers.ValidationError,
-                ignore_fields=(
-                    # "preparation_time",
-                    # "preparation_time_unit",
-                    # "servings",
-                    # "servings_unit",
-                    # "preparation_steps",
-                ),
-            )
+        RecipeValidator(
+            data=attrs,
+            ErrorClass=serializers.ValidationError,
+            partial_update=self.partial,
+            fields=self.fields,
+        )
         return super().validate(attrs)
