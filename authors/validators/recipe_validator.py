@@ -1,7 +1,3 @@
-# from collections import defaultdict
-
-# from django.core.exceptions import ValidationError
-
 from .base_validate import BaseValidator
 
 # from django.utils.text import slugify
@@ -10,7 +6,7 @@ from .base_validate import BaseValidator
 
 
 class RecipeValidator(BaseValidator):
-    def clean_title(self):
+    def validate_title(self):
         title = self.data.get("title", "")
 
         if not title:
@@ -32,7 +28,7 @@ class RecipeValidator(BaseValidator):
 
         return title
 
-    def clean_description(self):
+    def validate_description(self):
         title = self.data.get("title", "")
         description = self.data.get("description", "")
 
@@ -51,7 +47,7 @@ class RecipeValidator(BaseValidator):
 
         return description
 
-    def clean_preparation_time(self):
+    def validate_preparation_time(self):
         preparation_time = self.data.get("preparation_time", "")
 
         if not isinstance(preparation_time, int) or preparation_time <= 0:
@@ -61,7 +57,7 @@ class RecipeValidator(BaseValidator):
 
         return preparation_time
 
-    def clean_preparation_time_unit(self):
+    def validate_preparation_time_unit(self):
         preparation_time_unit = self.data.get("preparation_time_unit", "")
 
         if not preparation_time_unit:
@@ -71,7 +67,7 @@ class RecipeValidator(BaseValidator):
 
         return preparation_time_unit
 
-    def clean_servings(self):
+    def validate_servings(self):
         servings = self.data.get("servings", "")
 
         if not isinstance(servings, int) or servings <= 0:
@@ -81,7 +77,7 @@ class RecipeValidator(BaseValidator):
 
         return servings
 
-    def clean_servings_unit(self):
+    def validate_servings_unit(self):
         servings_unit = self.data.get("servings_unit", "")
 
         if not servings_unit:
@@ -89,7 +85,7 @@ class RecipeValidator(BaseValidator):
 
         return servings_unit
 
-    def clean_preparation_steps(self):
+    def validate_preparation_steps(self):
         preparation_steps = self.data.get("preparation_steps", "")
         if len(preparation_steps) < 50:
             self.errors["preparation_steps"].append(

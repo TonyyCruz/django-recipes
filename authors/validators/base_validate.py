@@ -18,21 +18,20 @@ class BaseValidator:
         self.partial_update = partial_update
         self.fields = fields
         self.ignore_fields = tuple()
-        self.clean()
+        self.validator()
 
     def methods_call_manager(self):
-        print("err==>", self.errors)
         my_validate_methods = [
             method_name
             for method_name in dir(self)
-            if method_name.startswith("clean_")
+            if method_name.startswith("validate_")
         ]
 
         if self.partial_update:
             methods_to_call = [
                 method_name
                 for method_name in my_validate_methods
-                if method_name[6:] not in self.ignore_fields
+                if method_name[9:] not in self.ignore_fields
             ]
         else:
             methods_to_call = [
@@ -48,7 +47,7 @@ class BaseValidator:
             [field for field in self.fields if field not in self.data]
         )
 
-    def clean(self):
+    def validator(self):
         if self.partial_update:
             self.ignore_fields_manage()
 
