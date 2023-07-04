@@ -25,6 +25,7 @@ class RegisterForm(forms.ModelForm):
 
     confirm_password = forms.CharField(
         label="Confirm password",
+        required=True,
         widget=forms.PasswordInput(
             attrs={
                 "placeholder": "Repeat you password",
@@ -35,10 +36,7 @@ class RegisterForm(forms.ModelForm):
     username = forms.CharField(
         label="Username",
         required=True,
-        help_text=(
-            "Username must have letters, numbers or one of those @.+-_. "
-            "The length should be between 4 and 150 characters."
-        ),
+        help_text=("The length should be between 4 and 150 characters."),
         widget=forms.TextInput(attrs={"placeholder": "Ex.: @carol"}),
     )
 

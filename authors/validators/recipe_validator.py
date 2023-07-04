@@ -10,14 +10,14 @@ class RecipeValidator(BaseValidator):
         title = self.data.get("title", "")
 
         if not title:
-            self.errors["title"].append("Title must not be empty")
+            self.errors["title"].append("Title must not be empty.")
 
         if len(title) < 5:
-            self.errors["title"].append("Title must have at least 5 chars")
+            self.errors["title"].append("Title must have at least 5 chars.")
 
         if len(title) > 150:
             self.errors["title"].append(
-                "Title must have less than 150 characters"
+                "Title must have less than 150 characters."
             )
 
         # title_slug = slugify(title)
@@ -33,16 +33,16 @@ class RecipeValidator(BaseValidator):
         description = self.data.get("description", "")
 
         if not description:
-            self.errors["description"].append("Description must not be empty")
+            self.errors["description"].append("Description must not be empty.")
 
         if len(description) < 5:
             self.errors["description"].append(
-                "Description must have at least 5 chars"
+                "Description must have at least 5 chars."
             )
 
         if title == description:
             self.errors["description"].append(
-                "Description cannot be equal to title"
+                "Description cannot be equal to title."
             )
 
         return description
@@ -52,7 +52,7 @@ class RecipeValidator(BaseValidator):
 
         if not isinstance(preparation_time, int) or preparation_time <= 0:
             self.errors["preparation_time"].append(
-                "Preparation time must be an integer greater than 0"
+                "Preparation time must be an integer greater than 0."
             )
 
         return preparation_time
@@ -62,7 +62,7 @@ class RecipeValidator(BaseValidator):
 
         if not preparation_time_unit:
             self.errors["preparation_time_unit"].append(
-                "Preparation time unit is required"
+                "Preparation time unit is required."
             )
 
         return preparation_time_unit
@@ -72,7 +72,7 @@ class RecipeValidator(BaseValidator):
 
         if not isinstance(servings, int) or servings <= 0:
             self.errors["servings"].append(
-                "Servings time must be an integer greater than 0"
+                "Servings time must be an integer greater than 0."
             )
 
         return servings
@@ -81,7 +81,7 @@ class RecipeValidator(BaseValidator):
         servings_unit = self.data.get("servings_unit", "")
 
         if not servings_unit:
-            self.errors["servings_unit"].append("Serving unit is required")
+            self.errors["servings_unit"].append("Serving unit is required.")
 
         return servings_unit
 
@@ -89,5 +89,5 @@ class RecipeValidator(BaseValidator):
         preparation_steps = self.data.get("preparation_steps", "")
         if len(preparation_steps) < 50:
             self.errors["preparation_steps"].append(
-                "Preparation steps must have at least 50 characters"
+                "Preparation steps must have at least 50 characters."
             )
