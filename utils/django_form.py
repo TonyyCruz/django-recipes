@@ -9,19 +9,19 @@ def strong_password(password):
     regex_special_character = re.compile(r"(?=.*[@$!%*?&-(),.~#;:])")
 
     if not password:
-        errors.append("Password must not be empty")
+        errors.append("Password must not be empty.")
 
     if len(password) < 8:
-        errors.append("Password must have at least 8 characters")
+        errors.append("Password must have at least 8 characters.")
 
     if not regex_upper_case.match(password):
-        errors.append("Password must have at least one uppercase letter")
+        errors.append("Password must have at least one uppercase letter.")
 
     if not regex_lower_case.match(password):
-        errors.append("Password must have at least one lowercase letter")
+        errors.append("Password must have at least one lowercase letter.")
 
     if not regex_one_number.match(password):
-        errors.append("Password must have at least one number")
+        errors.append("Password must have at least one number.")
 
     if not regex_special_character.match(password):
         errors.append("Password must have at least one special character.")
