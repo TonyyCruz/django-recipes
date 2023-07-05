@@ -61,18 +61,3 @@ class AuthorValidator(BaseValidator):
         password_errors = strong_password(password)
         if password_errors:
             self.errors["password"].append(password_errors)
-
-    def validate_confirm_password(self):
-        confirm_password = self.data.get("confirm_password", "")
-
-        if not confirm_password:
-            self.errors["confirm_password"].append(
-                "Confirm password must not be empty."
-            )
-
-        password = self.data.get("password", "")
-
-        if password != confirm_password:
-            self.errors["confirm_password"].append(
-                '"Password" and "Confirm password" must be equal.'
-            )

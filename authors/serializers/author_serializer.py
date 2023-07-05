@@ -15,23 +15,16 @@ class AuthorSerializer(serializers.ModelSerializer):
             "email",
             "password",
         ]
+
         extra_kwargs = {
             "password": {"write_only": True},
         }
 
     def validate(self, attrs):
-        data = dict(attrs)
-        confirm_password = self.initial_data.get("confirm_password", "")
-        if confirm_password:
-            data["confirm_password"] = confirm_password
-
         AuthorValidator(
-            data=data,
+            data=attrs,
             ErrorClass=serializers.ValidationError,
             partial_update=self.partial,
             fields=self.fields,
         )
         return super().validate(attrs)
-
-    def create(self, validated_data):
-        return super().create(validated_data)
