@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -8,6 +10,10 @@ from authors.validators import AuthorValidator
 
 
 class RegisterForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._my_errors = defaultdict(list)
+
     password = forms.CharField(
         label="Password",
         required=True,
@@ -70,6 +76,24 @@ class RegisterForm(forms.ModelForm):
         ]
 
     def clean(self):
-        AuthorValidator(data=self.cleaned_data, ErrorClass=ValidationError)
+        AuthorValidator(
+            data=self.cleaned_data,
+            ErrorClass=ValidationError,
+            errors=self._my_errors,
+        )
 
         return super().clean()
+
+    def clean_confirm_password(self):
+        confirm_password = self.cleaned_data.get("confirm_password", "")
+        password = self.cleaned_data.get("password", "")
+
+        if not confirm_password:
+            self._my_errors["confirm_password"].append(
+                "Confirm password must not be empty."
+            )
+
+        if password != confirm_password:
+            self._my_errors["confirm_password"].append(
+                '"Password" and "Confirm password" must be equal.'
+            )
