@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import include, path
 from rest_framework.routers import SimpleRouter
 
 from . import views
@@ -35,6 +35,5 @@ urlpatterns = [
         views.DashboardRecipeDelete.as_view(),
         name="dashboard_recipe_delete",
     ),
+    path("", include(authors_API_v2_router.urls)),
 ]
-
-urlpatterns += authors_API_v2_router.urls
