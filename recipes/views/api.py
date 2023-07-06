@@ -5,15 +5,15 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
+from recipes.permissions import isOwner
 from tag.models import Tag
 
 from ..models import Recipe
-from ..permissions import isOwner
 from ..serializers import RecipeSerializer, TagSerializer
 
 
 class RecipeAPIv2Pagination(PageNumberPagination):
-    page_size = 12
+    page_size = 10
 
 
 class RecipeAPIv2ViewSet(ModelViewSet):
