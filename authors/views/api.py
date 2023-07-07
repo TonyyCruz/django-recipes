@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from authors.permissions import isOwner
@@ -25,8 +27,9 @@ class AuthorsAPIv2ViewSet(ModelViewSet):
     ]
 
     def get_queryset(self):
-        pk = self.kwargs.get("pk", "")
-        qs = User.objects.filter(pk=pk)
+        user_id = self.request.user.pk or ""
+        pk = self.kwargs.get("pk", user_id)
+        qs = self.queryset.filter(pk=pk)
 
         return qs
 
@@ -49,3 +52,12 @@ class AuthorsAPIv2ViewSet(ModelViewSet):
             return [isOwner()]
 
         return super().get_permissions()
+
+    @action(methods=["get"], detail=False)
+    def me(self, *args, **kwargs):
+        obj = self.get_queryset().first()
+        serializer = AuthorSerializer(
+            instance=obj,
+        )
+
+        Response(serializer.data)
