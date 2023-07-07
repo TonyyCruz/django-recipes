@@ -25,6 +25,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             "servings",
             "servings_unit",
             "preparation_steps",
+            "cover",
         ]
 
     # Utilizamos "source" para indicar o campo origem, caso os nomes dos campo

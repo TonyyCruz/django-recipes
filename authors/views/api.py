@@ -54,10 +54,10 @@ class AuthorsAPIv2ViewSet(ModelViewSet):
         return super().get_permissions()
 
     @action(methods=["get"], detail=False)
-    def me(self, *args, **kwargs):
+    def me(self, request, *args, **kwargs):
         obj = self.get_queryset().first()
-        serializer = AuthorSerializer(
+        serializer = self.get_serializer(
             instance=obj,
         )
 
-        Response(serializer.data)
+        return Response(data=serializer.data)
