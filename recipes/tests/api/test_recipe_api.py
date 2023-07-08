@@ -99,3 +99,8 @@ class RecipeAPIv2Test(test.APITestCase, RecipeMixing):
 
         self.assertEqual(response_category_1.data["count"], 2)
         self.assertEqual(response_category_2.data["count"], 3)
+
+    def test_recipe_api_list_user_must_send_jwt_token_to_create_recipe(self):
+        response = self.client.post(self.recipe_api_list_url)
+
+        self.assertEqual(response.status_code, 401)
