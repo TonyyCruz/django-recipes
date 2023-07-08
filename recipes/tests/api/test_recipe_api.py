@@ -21,7 +21,9 @@ class RecipeAPIv2Test(test.APITestCase, RecipeMixing):
         total_number_of_recipes = 7
         max_number_of_recipes_per_Page = 3
         wanted_recipes_in_third_page = 1
+
         self.make_multiples_recipes(quantity=total_number_of_recipes)
+
         qty_of_loaded_recipes_first_page = len(
             self.recipe_list_response().data.get("results")
         )
@@ -43,4 +45,28 @@ class RecipeAPIv2Test(test.APITestCase, RecipeMixing):
         self.assertEqual(
             wanted_recipes_in_third_page,
             qty_of_loaded_recipes_third_page,
+        )
+
+    def test_recipe_api_list_do_not_show_not_published_recipes(self):
+        expected_recipes_found = 2
+
+        # Make 3 not published recipes
+        self.make_multiples_recipes(
+            is_published=False,
+            title="Not published",
+            quantity=3,
+            stack_name="Not published",
+        )
+
+        # Make 2 published recipes
+        self.make_multiples_recipes(
+            is_published=True,
+            title="Published",
+            quantity=2,
+            stack_name="Published",
+        )
+
+        self.assertEqual(
+            self.recipe_list_response().data["count"],
+            expected_recipes_found,
         )
