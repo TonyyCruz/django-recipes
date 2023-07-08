@@ -76,6 +76,14 @@ class RegisterForm(forms.ModelForm):
         ]
 
     def clean(self):
+        confirm_password = self.cleaned_data.get("confirm_password", "")
+        password = self.cleaned_data.get("password", "")
+
+        if password != confirm_password:
+            self._my_errors["confirm_password"].append(
+                '"Password" and "Confirm password" must be equal.'
+            )
+
         AuthorValidator(
             data=self.cleaned_data,
             ErrorClass=ValidationError,
@@ -83,17 +91,3 @@ class RegisterForm(forms.ModelForm):
         )
 
         return super().clean()
-
-    def clean_confirm_password(self):
-        confirm_password = self.cleaned_data.get("confirm_password", "")
-        password = self.cleaned_data.get("password", "")
-
-        if not confirm_password:
-            self._my_errors["confirm_password"].append(
-                "Confirm password must not be empty."
-            )
-
-        if password != confirm_password:
-            self._my_errors["confirm_password"].append(
-                '"Password" and "Confirm password" must be equal.'
-            )
