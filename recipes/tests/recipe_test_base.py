@@ -67,9 +67,7 @@ class RecipeMixing:
         if is_published is None:
             params.pop("is_published")
 
-        return Recipe.objects.create(
-            **params
-        )
+        return Recipe.objects.create(**params)
 
     def make_multiples_recipes(
         self,
@@ -101,7 +99,7 @@ class RecipeMixing:
                     author=author,
                     slug=f"{stack_name}{i}",
                     category=category,
-                    title=title,
+                    title=f"{title} - {i}",
                     description=description,
                     preparation_time=preparation_time,
                     preparation_time_unit=preparation_time_unit,
@@ -110,7 +108,8 @@ class RecipeMixing:
                     preparation_steps=preparation_steps,
                     preparation_steps_is_html=preparation_steps_is_html,
                     is_published=is_published,
-                ))
+                )
+            )
         return recipes
 
 
