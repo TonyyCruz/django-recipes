@@ -1,21 +1,10 @@
 from unittest.mock import patch
 
-from django.urls import reverse
-from rest_framework import test
-
-from recipes.tests.recipe_test_base import RecipeMixing
+from .recipe_api_test_base import RecipeApiTestBase
 
 
 # flake8: noqa
-class RecipeAPIv2Test(test.APITestCase, RecipeMixing):
-    recipe_api_list_url = reverse("recipes:recipes-api-list")
-
-    def get_recipe_list_response(self, page="1", url_query=None):
-        if url_query:
-            page = page + f"&{url_query}"
-
-        return self.client.get(self.recipe_api_list_url + f"?page={page}")
-
+class RecipeAPIv2Test(RecipeApiTestBase):
     def test_recipe_api_list_returns_status_code_200(self):
         self.assertAlmostEqual(
             self.get_recipe_list_response().status_code, 200
@@ -90,6 +79,7 @@ class RecipeAPIv2Test(test.APITestCase, RecipeMixing):
             quantity=3,
             category=category_2,
         )
+
         response_category_1 = self.get_recipe_list_response(
             url_query=f"category_id={category_1.id}"
         )
@@ -104,3 +94,12 @@ class RecipeAPIv2Test(test.APITestCase, RecipeMixing):
         response = self.client.post(self.recipe_api_list_url)
 
         self.assertEqual(response.status_code, 401)
+
+    def test_jwt_login(self):
+        jwt_access_token = self.get_jwt_token().get("access", "")
+
+        jwt_login = self.client.post(
+            self.recipe_api_token_verify,
+            {"token": jwt_access_token},
+        )
+        self.assertEqual(jwt_login.status_code, 200)
