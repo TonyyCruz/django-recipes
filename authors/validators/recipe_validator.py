@@ -27,8 +27,8 @@ class RecipeValidator(BaseValidator):
         #     self.errors["title"].append("This recipe title already exists")
 
     def validate_description(self):
-        title = self.data.get("title", "")
         description = self.data.get("description", "")
+        title = self.data.get("title", "")
 
         if not description:
             self.errors["description"].append("Description must not be empty.")

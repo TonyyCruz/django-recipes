@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 from parameterized import parameterized
 
-from ..mock.mock_recipe import mock_recipe
+from .. import mock
 from .recipe_api_test_base import RecipeApiTestBase
 
 
@@ -93,7 +93,7 @@ class RecipeAPIv2Test(RecipeApiTestBase):
         self.assertEqual(response.status_code, 401)
 
     def test_jwt_login(self):
-        jwt_access_token = self.get_jwt_token().get("access", "")
+        jwt_access_token = self.get_logged_author().get("access", "")
 
         jwt_login = self.client.post(
             self.recipe_api_token_verify,
@@ -102,8 +102,8 @@ class RecipeAPIv2Test(RecipeApiTestBase):
         self.assertEqual(jwt_login.status_code, 200)
 
     def test_recipe_api_list_logged_user_can_create_a_recipe(self):
-        data = json.dumps(mock_recipe)
-        jwt_access_token = self.get_jwt_token().get("access", "")
+        data = json.dumps(mock.mock_recipe)
+        jwt_access_token = self.get_logged_author().get("access", "")
 
         response = self.client.post(
             path=self.recipe_api_list_url,
@@ -130,14 +130,14 @@ class RecipeAPIv2Test(RecipeApiTestBase):
             ),
         ]
     )
-    def test_recipe_api_list_new_recipe_errors(
+    def test_recipe_api_list_raise_an_expected_error_if_created_with_invalid_field(
         self, field, new_value, expect_error
     ):
-        data = mock_recipe
+        data = mock.mock_recipe
         data[field] = new_value
-        data = json.dumps(mock_recipe)
+        data = json.dumps(mock.mock_recipe)
 
-        jwt_access_token = self.get_jwt_token().get("access", "")
+        jwt_access_token = self.get_logged_author().get("access", "")
         response = self.client.post(
             path=self.recipe_api_list_url,
             data=data,
@@ -147,3 +147,32 @@ class RecipeAPIv2Test(RecipeApiTestBase):
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data.get(field)[0], expect_error)
+
+    def test_recipe_api_list_just_can_be_updated_by_the_owner(self):
+        mock_author = mock.mock_author
+        correct_author = self.get_logged_author(user=mock_author)
+        correct_author_jwt_token = correct_author.get("access", "")
+        correct_author_obj = correct_author.get("author", "")
+
+        recipe = self.make_recipe(author=correct_author_obj)
+        field_to_edit = '{"title": "New Title"}'
+
+        owner_author_response = self.client.patch(
+            path=f"{self.recipe_api_list_url}{recipe.id}/",
+            data=field_to_edit,
+            HTTP_AUTHORIZATION=f"Bearer {correct_author_jwt_token}",
+            content_type="application/json",
+        )
+
+        dummy_author = self.get_logged_author()
+        dummy_author_jwt_token = dummy_author.get("access", "")
+
+        dummy_author_response = self.client.patch(
+            path=f"{self.recipe_api_list_url}{recipe.id}/",
+            data=field_to_edit,
+            HTTP_AUTHORIZATION=f"Bearer {dummy_author_jwt_token}",
+            content_type="application/json",
+        )
+
+        self.assertEqual(owner_author_response.status_code, 200)
+        self.assertEqual(dummy_author_response.status_code, 403)
