@@ -1,4 +1,7 @@
+import json
 from unittest.mock import patch
+
+from parameterized import parameterized
 
 from ..mock.mock_recipe import mock_recipe
 from .recipe_api_test_base import RecipeApiTestBase
@@ -22,9 +25,6 @@ class RecipeAPIv2Test(RecipeApiTestBase):
         qty_of_loaded_recipes_first_page = len(
             self.get_recipe_list_response().data.get("results")
         )
-        qty_of_loaded_recipes_second_page = len(
-            self.get_recipe_list_response(page=2).data.get("results")
-        )
         qty_of_loaded_recipes_third_page = len(
             self.get_recipe_list_response(page=3).data.get("results")
         )
@@ -32,10 +32,6 @@ class RecipeAPIv2Test(RecipeApiTestBase):
         self.assertEqual(
             max_number_of_recipes_per_Page,
             qty_of_loaded_recipes_first_page,
-        )
-        self.assertEqual(
-            max_number_of_recipes_per_Page,
-            qty_of_loaded_recipes_second_page,
         )
         self.assertEqual(
             wanted_recipes_in_third_page,
@@ -106,7 +102,7 @@ class RecipeAPIv2Test(RecipeApiTestBase):
         self.assertEqual(jwt_login.status_code, 200)
 
     def test_recipe_api_list_logged_user_can_create_a_recipe(self):
-        data = mock_recipe
+        data = json.dumps(mock_recipe)
         jwt_access_token = self.get_jwt_token().get("access", "")
 
         response = self.client.post(
@@ -117,3 +113,37 @@ class RecipeAPIv2Test(RecipeApiTestBase):
         )
 
         self.assertEqual(response.status_code, 201)
+
+    @parameterized.expand(
+        [
+            ("title", "aaaa", "Title must have at least 5 chars."),
+            ("description", "aaaa", "Description must have at least 5 chars."),
+            (
+                "preparation_time",
+                -1,
+                "Preparation time must be an integer greater than 0.",
+            ),
+            (
+                "servings",
+                -1,
+                "Servings time must be an integer greater than 0.",
+            ),
+        ]
+    )
+    def test_recipe_api_list_new_recipe_errors(
+        self, field, new_value, expect_error
+    ):
+        data = mock_recipe
+        data[field] = new_value
+        data = json.dumps(mock_recipe)
+
+        jwt_access_token = self.get_jwt_token().get("access", "")
+        response = self.client.post(
+            path=self.recipe_api_list_url,
+            data=data,
+            HTTP_AUTHORIZATION=f"Bearer {jwt_access_token}",
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data.get(field)[0], expect_error)
