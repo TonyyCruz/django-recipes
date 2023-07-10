@@ -15,9 +15,9 @@ class RecipeValidator(BaseValidator):
         if len(title) < 5:
             self.errors["title"].append("Title must have at least 5 chars.")
 
-        if len(title) > 150:
+        if len(title) > 65:
             self.errors["title"].append(
-                "Title must have less than 150 characters."
+                "Title must have less than 65 characters."
             )
 
         # title_slug = slugify(title)
@@ -25,8 +25,6 @@ class RecipeValidator(BaseValidator):
 
         # if slug_title_exists:
         #     self.errors["title"].append("This recipe title already exists")
-
-        return title
 
     def validate_description(self):
         title = self.data.get("title", "")
@@ -40,12 +38,15 @@ class RecipeValidator(BaseValidator):
                 "Description must have at least 5 chars."
             )
 
+        if len(description) > 165:
+            self.errors["title"].append(
+                "Description must have less than 165 characters."
+            )
+
         if title == description:
             self.errors["description"].append(
                 "Description cannot be equal to title."
             )
-
-        return description
 
     def validate_preparation_time(self):
         preparation_time = self.data.get("preparation_time", "")
@@ -55,8 +56,6 @@ class RecipeValidator(BaseValidator):
                 "Preparation time must be an integer greater than 0."
             )
 
-        return preparation_time
-
     def validate_preparation_time_unit(self):
         preparation_time_unit = self.data.get("preparation_time_unit", "")
 
@@ -64,8 +63,6 @@ class RecipeValidator(BaseValidator):
             self.errors["preparation_time_unit"].append(
                 "Preparation time unit is required."
             )
-
-        return preparation_time_unit
 
     def validate_servings(self):
         servings = self.data.get("servings", "")
@@ -75,15 +72,11 @@ class RecipeValidator(BaseValidator):
                 "Servings time must be an integer greater than 0."
             )
 
-        return servings
-
     def validate_servings_unit(self):
         servings_unit = self.data.get("servings_unit", "")
 
         if not servings_unit:
             self.errors["servings_unit"].append("Serving unit is required.")
-
-        return servings_unit
 
     def validate_preparation_steps(self):
         preparation_steps = self.data.get("preparation_steps", "")
