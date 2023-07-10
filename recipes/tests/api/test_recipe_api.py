@@ -1,5 +1,6 @@
 from unittest.mock import patch
 
+from ..mock.mock_recipe import mock_recipe
 from .recipe_api_test_base import RecipeApiTestBase
 
 
@@ -103,3 +104,16 @@ class RecipeAPIv2Test(RecipeApiTestBase):
             {"token": jwt_access_token},
         )
         self.assertEqual(jwt_login.status_code, 200)
+
+    def test_recipe_api_list_logged_user_can_create_a_recipe(self):
+        data = mock_recipe
+        jwt_access_token = self.get_jwt_token().get("access", "")
+
+        response = self.client.post(
+            path=self.recipe_api_list_url,
+            data=data,
+            HTTP_AUTHORIZATION=f"Bearer {jwt_access_token}",
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, 201)
