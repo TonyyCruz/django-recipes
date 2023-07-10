@@ -14,15 +14,23 @@ class RecipeForm(forms.ModelForm):
 
     title = forms.CharField(
         label="Title",
-        required=True,
+        required=False,
         widget=forms.TextInput(
             attrs={"placeholder": "Write the recipe title here."},
         ),
     )
 
+    description = forms.CharField(
+        label="Description",
+        required=False,
+        widget=forms.TextInput(
+            attrs={"placeholder": "Write the recipe description here."},
+        ),
+    )
+
     preparation_steps = forms.CharField(
         label="Preparation steps",
-        required=True,
+        required=False,
         widget=forms.Textarea(
             attrs={
                 "placeholder": "Write the preparation steps",
@@ -42,7 +50,7 @@ class RecipeForm(forms.ModelForm):
     )
 
     servings_unit = forms.CharField(
-        required=True,
+        required=False,
         widget=forms.Select(
             choices=[
                 ("portions", "potion(s)"),

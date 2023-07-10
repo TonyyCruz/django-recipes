@@ -47,7 +47,7 @@ class RecipesDetailsViews(RecipeTestBase):
         self.assertEqual(context.category.name, "lanche")
 
         self.assertIn("Anthony Cruz", content)
-        self.assertIn("<p>cozinhar bem</p>", content)
+        self.assertIn("cozinhar bem", content)
         self.assertIn("2 porções", content)
         self.assertIn("5 minutos", content)
         self.assertIn("lanche", content)

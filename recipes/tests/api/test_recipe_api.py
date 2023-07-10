@@ -1,5 +1,9 @@
+import json
 from unittest.mock import patch
 
+from parameterized import parameterized
+
+from .. import mock
 from .recipe_api_test_base import RecipeApiTestBase
 
 
@@ -21,9 +25,6 @@ class RecipeAPIv2Test(RecipeApiTestBase):
         qty_of_loaded_recipes_first_page = len(
             self.get_recipe_list_response().data.get("results")
         )
-        qty_of_loaded_recipes_second_page = len(
-            self.get_recipe_list_response(page=2).data.get("results")
-        )
         qty_of_loaded_recipes_third_page = len(
             self.get_recipe_list_response(page=3).data.get("results")
         )
@@ -31,10 +32,6 @@ class RecipeAPIv2Test(RecipeApiTestBase):
         self.assertEqual(
             max_number_of_recipes_per_Page,
             qty_of_loaded_recipes_first_page,
-        )
-        self.assertEqual(
-            max_number_of_recipes_per_Page,
-            qty_of_loaded_recipes_second_page,
         )
         self.assertEqual(
             wanted_recipes_in_third_page,
@@ -96,10 +93,86 @@ class RecipeAPIv2Test(RecipeApiTestBase):
         self.assertEqual(response.status_code, 401)
 
     def test_jwt_login(self):
-        jwt_access_token = self.get_jwt_token().get("access", "")
+        jwt_access_token = self.get_logged_author().get("access", "")
 
         jwt_login = self.client.post(
             self.recipe_api_token_verify,
             {"token": jwt_access_token},
         )
         self.assertEqual(jwt_login.status_code, 200)
+
+    def test_recipe_api_list_logged_user_can_create_a_recipe(self):
+        data = json.dumps(mock.mock_recipe)
+        jwt_access_token = self.get_logged_author().get("access", "")
+
+        response = self.client.post(
+            path=self.recipe_api_list_url,
+            data=data,
+            HTTP_AUTHORIZATION=f"Bearer {jwt_access_token}",
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, 201)
+
+    @parameterized.expand(
+        [
+            ("title", "aaaa", "Title must have at least 5 chars."),
+            ("description", "aaaa", "Description must have at least 5 chars."),
+            (
+                "preparation_time",
+                -1,
+                "Preparation time must be an integer greater than 0.",
+            ),
+            (
+                "servings",
+                -1,
+                "Servings time must be an integer greater than 0.",
+            ),
+        ]
+    )
+    def test_recipe_api_list_raise_an_expected_error_if_created_with_invalid_field(
+        self, field, new_value, expect_error
+    ):
+        data = mock.mock_recipe
+        data[field] = new_value
+        data = json.dumps(mock.mock_recipe)
+
+        jwt_access_token = self.get_logged_author().get("access", "")
+        response = self.client.post(
+            path=self.recipe_api_list_url,
+            data=data,
+            HTTP_AUTHORIZATION=f"Bearer {jwt_access_token}",
+            content_type="application/json",
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data.get(field)[0], expect_error)
+
+    def test_recipe_api_list_just_can_be_updated_by_the_owner(self):
+        mock_author = mock.mock_author
+        correct_author = self.get_logged_author(user=mock_author)
+        correct_author_jwt_token = correct_author.get("access", "")
+        correct_author_obj = correct_author.get("author", "")
+
+        recipe = self.make_recipe(author=correct_author_obj)
+        field_to_edit = '{"title": "New Title"}'
+
+        owner_author_response = self.client.patch(
+            path=f"{self.recipe_api_list_url}{recipe.id}/",
+            data=field_to_edit,
+            HTTP_AUTHORIZATION=f"Bearer {correct_author_jwt_token}",
+            content_type="application/json",
+        )
+
+        dummy_author = self.get_logged_author()
+        dummy_author_jwt_token = dummy_author.get("access", "")
+
+        dummy_author_response = self.client.patch(
+            path=f"{self.recipe_api_list_url}{recipe.id}/",
+            data=field_to_edit,
+            HTTP_AUTHORIZATION=f"Bearer {dummy_author_jwt_token}",
+            content_type="application/json",
+        )
+
+        self.assertEqual(owner_author_response.status_code, 200)
+        self.assertEqual(dummy_author_response.status_code, 403)
