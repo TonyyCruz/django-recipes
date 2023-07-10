@@ -20,7 +20,7 @@ class RecipeApiTestBase(test.APITestCase, RecipeApiMixing):
     def setUp(self):
         return super().setUp()
 
-    def get_logged_author(
+    def get_auth_data(
         self,
         user={"username": "dev01", "password": "Password1!"},
     ):

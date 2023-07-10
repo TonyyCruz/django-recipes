@@ -93,7 +93,7 @@ class RecipeAPIv2Test(RecipeApiTestBase):
         self.assertEqual(response.status_code, 401)
 
     def test_jwt_login(self):
-        jwt_access_token = self.get_logged_author().get("access", "")
+        jwt_access_token = self.get_auth_data().get("access", "")
 
         jwt_login = self.client.post(
             self.recipe_api_token_verify,
@@ -103,7 +103,7 @@ class RecipeAPIv2Test(RecipeApiTestBase):
 
     def test_recipe_api_list_logged_user_can_create_a_recipe(self):
         data = json.dumps(mock.mock_recipe)
-        jwt_access_token = self.get_logged_author().get("access", "")
+        jwt_access_token = self.get_auth_data().get("access", "")
 
         response = self.client.post(
             path=self.recipe_api_list_url,
@@ -137,7 +137,7 @@ class RecipeAPIv2Test(RecipeApiTestBase):
         data[field] = new_value
         data = json.dumps(mock.mock_recipe)
 
-        jwt_access_token = self.get_logged_author().get("access", "")
+        jwt_access_token = self.get_auth_data().get("access", "")
         response = self.client.post(
             path=self.recipe_api_list_url,
             data=data,
@@ -150,29 +150,46 @@ class RecipeAPIv2Test(RecipeApiTestBase):
 
     def test_recipe_api_list_just_can_be_updated_by_the_owner(self):
         mock_author = mock.mock_author
-        correct_author = self.get_logged_author(user=mock_author)
-        correct_author_jwt_token = correct_author.get("access", "")
-        correct_author_obj = correct_author.get("author", "")
+        author_auth = self.get_auth_data(user=mock_author)
+        author_jwt_token = author_auth.get("access", "")
+        author = author_auth.get("author", "")
 
-        recipe = self.make_recipe(author=correct_author_obj)
-        field_to_edit = '{"title": "New Title"}'
+        recipe = self.make_recipe(author=author, title="My Recipe")
+        field_to_update = '{"title": "New recipe Title"}'
+        recipe_url = f"{self.recipe_api_list_url}{recipe.id}/"
 
-        owner_author_response = self.client.patch(
-            path=f"{self.recipe_api_list_url}{recipe.id}/",
-            data=field_to_edit,
-            HTTP_AUTHORIZATION=f"Bearer {correct_author_jwt_token}",
+        author_response = self.client.patch(
+            path=recipe_url,
+            data=field_to_update,
+            HTTP_AUTHORIZATION=f"Bearer {author_jwt_token}",
             content_type="application/json",
         )
 
-        dummy_author = self.get_logged_author()
-        dummy_author_jwt_token = dummy_author.get("access", "")
+        updated_recipe = self.client.get(recipe_url)
 
-        dummy_author_response = self.client.patch(
-            path=f"{self.recipe_api_list_url}{recipe.id}/",
-            data=field_to_edit,
-            HTTP_AUTHORIZATION=f"Bearer {dummy_author_jwt_token}",
+        self.assertEqual(author_response.status_code, 200)
+        self.assertEqual(updated_recipe.data.get("title"), "New recipe Title")
+
+    def test_recipe_api_list_cannot_be_updated_by_another_user(self):
+        mock_author = mock.mock_author
+        auth_data = self.get_auth_data(user=mock_author)
+        owner_author = auth_data.get("author", "")
+
+        recipe = self.make_recipe(author=owner_author, title="My Recipe")
+        field_to_update = '{"title": "New recipe Title"}'
+        recipe_url = f"{self.recipe_api_list_url}{recipe.id}/"
+
+        another_user = self.get_auth_data()
+        another_user_jwt_token = another_user.get("access", "")
+
+        another_user_response = self.client.patch(
+            path=recipe_url,
+            data=field_to_update,
+            HTTP_AUTHORIZATION=f"Bearer {another_user_jwt_token}",
             content_type="application/json",
         )
 
-        self.assertEqual(owner_author_response.status_code, 200)
-        self.assertEqual(dummy_author_response.status_code, 403)
+        verify_recipe = self.client.get(recipe_url)
+
+        self.assertEqual(another_user_response.status_code, 403)
+        self.assertEqual(verify_recipe.data.get("title"), "My Recipe")
