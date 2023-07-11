@@ -21,7 +21,8 @@ class AuthorAPIv2Test(AuthorApiTestBase):
 
         # cria o segundo usuario (id = 2)
         another_user = self.get_auth_data(
-            user={"username": "usr", "password": "Myp4s.s3"},
+            username="usr",
+            password="Myp4s.s3",
         ).get("author")
 
         # tenta acessar as informacoes do another_user com o token do user
@@ -103,3 +104,31 @@ class AuthorAPIv2Test(AuthorApiTestBase):
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data.get(field)[0], expect_error)
+
+    @parameterized.expand(
+        [
+            ("first_name", "MyName"),
+            ("last_name", "MyLast"),
+            ("username", "MyUserName"),
+            ("email", "myemail@email.com"),
+        ]
+    )
+    def test_author_api_is_possible_update_an_authenticated_user_data(
+        self, field, new_value
+    ):
+        # dados para criação de um autor
+        data = self.mock_author_dict
+        # cria um autor com os dados mockados
+        author = self.make_author(**data)
+        token = self.get_token(**data).get("access", "")
+
+        # campo a ser alterado
+        new_data = {field: new_value}
+        updated_author = self.patch_author_response(
+            data=new_data,
+            token=token,
+            id=author.id,
+        )
+
+        self.assertEqual(updated_author.status_code, 200)
+        self.assertEqual(updated_author.data.get(field), new_value)
