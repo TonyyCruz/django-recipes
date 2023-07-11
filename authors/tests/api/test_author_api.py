@@ -15,12 +15,12 @@ class AuthorAPIv2Test(AuthorApiTestBase):
 
     def test_author_api_logged_user_cannot_get_data_of_another_user(self):
         # cria o primeiro usuario (id = 1)
-        user_auth = self.get_auth_data()
+        user_auth = self.get_author_and_token()
         # pega o token do user
         user_token = user_auth.get("access", "")
 
         # cria o segundo usuario (id = 2)
-        another_user = self.get_auth_data(
+        another_user = self.get_author_and_token(
             username="usr",
             password="Myp4s.s3",
         ).get("author")
@@ -32,7 +32,7 @@ class AuthorAPIv2Test(AuthorApiTestBase):
         self.assertAlmostEqual(response.status_code, 404)
 
     def test_author_api_authenticated_user_can_get_own_data(self):
-        user_auth = self.get_auth_data()
+        user_auth = self.get_author_and_token()
         user = user_auth.get("author", "")
         user_token = user_auth.get("access", "")
 
@@ -40,7 +40,7 @@ class AuthorAPIv2Test(AuthorApiTestBase):
         self.assertAlmostEqual(response.status_code, 200)
 
     def test_author_api_me_route_get_data_from_authenticated_user(self):
-        user_auth = self.get_auth_data()
+        user_auth = self.get_author_and_token()
         user = user_auth.get("author", "")
         user_token = user_auth.get("access", "")
 
@@ -99,7 +99,7 @@ class AuthorAPIv2Test(AuthorApiTestBase):
         data = self.mock_author_dict
         data[field] = value
 
-        jwt_access_token = self.get_auth_data().get("access", "")
+        jwt_access_token = self.get_author_and_token().get("access", "")
         response = self.post_author_response(data=data, token=jwt_access_token)
 
         self.assertEqual(response.status_code, 400)
@@ -132,3 +132,24 @@ class AuthorAPIv2Test(AuthorApiTestBase):
 
         self.assertEqual(updated_author.status_code, 200)
         self.assertEqual(updated_author.data.get(field), new_value)
+
+    def test_author_api_user_can_delete_himself(self):
+        # dados para criação de um autor
+        data = self.mock_author_dict
+
+        # cria um autor com os dados mockados
+        author_data = self.get_author_and_token(**data)
+        token = author_data.get("access", "")
+        author = author_data.get("author", "")
+
+        delete_response = self.delete_author_response(
+            id=author.id, token=token
+        )
+
+        try_auth = self.get_token(**data)
+
+        self.assertEqual(delete_response.status_code, 204)
+        self.assertEqual(
+            try_auth.get("detail"),
+            "No active account found with the given credentials",
+        )
