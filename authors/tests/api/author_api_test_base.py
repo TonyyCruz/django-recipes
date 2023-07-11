@@ -27,3 +27,13 @@ class AuthorApiTestBase(RecipeApiTestBase):
             content_type="application/json",
             **kw,
         )
+
+    def patch_author_response(self, data, token, id, **kw):
+        patch = f"{self.author_api_url}{id}/"
+        return self.client.patch(
+            path=patch,
+            data=json.dumps(data),
+            HTTP_AUTHORIZATION=f"Bearer {token}",
+            content_type="application/json",
+            **kw,
+        )
