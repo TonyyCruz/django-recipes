@@ -92,7 +92,7 @@ class RecipeAPIv2Test(RecipeApiTestBase):
         self.assertEqual(response.status_code, 401)
 
     def test_jwt_login(self):
-        jwt_access_token = self.get_auth_data().get("access", "")
+        jwt_access_token = self.get_author_and_token().get("access", "")
 
         jwt_login = self.client.post(
             self.recipe_api_token_verify,
@@ -102,7 +102,7 @@ class RecipeAPIv2Test(RecipeApiTestBase):
 
     def test_recipe_api_list_logged_user_can_create_a_recipe(self):
         data = json.dumps(self.mock_recipe_dict)
-        jwt_access_token = self.get_auth_data().get("access", "")
+        jwt_access_token = self.get_author_and_token().get("access", "")
 
         response = self.client.post(
             path=self.recipe_api_list_url,
@@ -136,7 +136,7 @@ class RecipeAPIv2Test(RecipeApiTestBase):
         data[field] = new_value
         data = json.dumps(self.mock_recipe_dict)
 
-        jwt_access_token = self.get_auth_data().get("access", "")
+        jwt_access_token = self.get_author_and_token().get("access", "")
         response = self.client.post(
             path=self.recipe_api_list_url,
             data=data,
@@ -149,7 +149,7 @@ class RecipeAPIv2Test(RecipeApiTestBase):
 
     def test_recipe_api_list_just_can_be_updated_by_the_owner(self):
         mock_author = self.mock_author_dict
-        author_auth = self.get_auth_data(user=mock_author)
+        author_auth = self.get_author_and_token(user=mock_author)
         author_jwt_token = author_auth.get("access", "")
         author = author_auth.get("author", "")
 
@@ -172,7 +172,7 @@ class RecipeAPIv2Test(RecipeApiTestBase):
 
     def test_recipe_api_list_cannot_be_updated_by_another_user(self):
         mock_author = self.mock_author_dict
-        auth_data = self.get_auth_data(**mock_author)
+        auth_data = self.get_author_and_token(**mock_author)
         owner_author = auth_data.get("author", "")
 
         # cria uma receita com o "owner_author" como proprietario
@@ -181,7 +181,7 @@ class RecipeAPIv2Test(RecipeApiTestBase):
         recipe_url = f"{self.recipe_api_list_url}{recipe.id}/"
 
         # cria um usuario diferente do owner_author para tentar alterar a recipe
-        another_user = self.get_auth_data()
+        another_user = self.get_author_and_token()
         another_user_jwt_token = another_user.get("access", "")
 
         # tenta alterar a receita com o token do usuario diferente do autor

@@ -30,7 +30,7 @@ class RecipeApiTestBase(test.APITestCase, RecipeApiMixing):
         )
         return token.data
 
-    def get_auth_data(self, **kwargs):
+    def get_author_and_token(self, **kwargs):
         username = kwargs.get("username", "dev01")
         password = kwargs.get("password", "Password1!")
 
