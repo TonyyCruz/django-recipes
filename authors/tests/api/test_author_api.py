@@ -47,6 +47,13 @@ class AuthorAPIv2Test(AuthorApiTestBase):
         self.assertAlmostEqual(response.status_code, 200)
         self.assertAlmostEqual(response.data.get("username"), user.username)
 
+    def test_author_api_is_possible_register_an_user_with_correct_data(self):
+        data = self.mock_author_dict
+        response = self.post_author_response(data=data)
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data.get("username"), data.get("username"))
+
     @parameterized.expand(
         [
             ("first_name", "a", "First name must have at least 2 characters."),
