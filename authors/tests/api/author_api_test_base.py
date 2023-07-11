@@ -19,9 +19,9 @@ class AuthorApiTestBase(RecipeApiTestBase):
             **kw,
         )
 
-    def post_author_response(self, id="", path=None, data={}, token="", **kw):
+    def post_author_response(self, data={}, token="", **kw):
         return self.client.post(
-            path=path or (self.author_api_url + id),
+            path=self.author_api_url,
             data=json.dumps(data),
             HTTP_AUTHORIZATION=f"Bearer {token}" if token else "",
             content_type="application/json",
