@@ -1,6 +1,6 @@
 # import json
 
-# from parameterized import parameterized
+from parameterized import parameterized
 
 from .author_api_test_base import AuthorApiTestBase
 
@@ -46,3 +46,53 @@ class AuthorAPIv2Test(AuthorApiTestBase):
         response = self.get_author_response(token=user_token, id="me")
         self.assertAlmostEqual(response.status_code, 200)
         self.assertAlmostEqual(response.data.get("username"), user.username)
+
+    @parameterized.expand(
+        [
+            ("first_name", "a", "First name must have at least 2 characters."),
+            ("first_name", " ", "First name must not be empty."),
+            ("last_name", " ", "Last name must not be empty."),
+            ("username", "abc", "Username must have at least 4 characters."),
+            ("email", " ", "E-mail must not be empty."),
+            ("email", "test@email.com", "This email is already in use."),
+            (
+                "password",
+                "Abcde9*",
+                "Password must have at least 8 characters.",
+            ),
+            (
+                "password",
+                "abcdef8.",
+                "Password must have at least one uppercase letter.",
+            ),
+            (
+                "password",
+                "Abcdefgh9",
+                "Password must have at least one special character.",
+            ),
+            (
+                "password",
+                "ABCDEF9%",
+                "Password must have at least one lowercase letter.",
+            ),
+            (
+                "password",
+                "aBCDEFG#",
+                "Password must have at least one number.",
+            ),
+        ]
+    )
+    def test_author_api_raise_an_expected_error_if_created_with_invalid_field_data(
+        self, field, value, expect_error
+    ):
+        # cria um usuario com o email que sera usado no teste de email unico
+        self.make_author(email="test@email.com")
+
+        data = self.mock_author_dict
+        data[field] = value
+
+        jwt_access_token = self.get_auth_data().get("access", "")
+        response = self.post_author_response(data=data, token=jwt_access_token)
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data.get(field)[0], expect_error)
