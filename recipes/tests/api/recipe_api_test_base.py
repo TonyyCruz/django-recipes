@@ -20,15 +20,23 @@ class RecipeApiTestBase(test.APITestCase, RecipeApiMixing):
     def setUp(self):
         return super().setUp()
 
-    def get_logged_author(
-        self,
-        user={"username": "dev01", "password": "Password1!"},
-    ):
-        author = self.make_author(**user)
+    def get_token(self, **kwargs):
+        username = kwargs.get("username", "dev01")
+        password = kwargs.get("password", "Password1!")
 
-        jwt_token = self.client.post(
+        token = self.client.post(
             self.recipe_api_token_obtain,
-            {"username": user["username"], "password": user["password"]},
+            {"username": username, "password": password},
         )
+        return token.data
 
-        return {**jwt_token.data, "author": author}
+    def get_author_and_token(self, **kwargs):
+        username = kwargs.get("username", "dev01")
+        password = kwargs.get("password", "Password1!")
+
+        # cria um author com o username e password recebido
+        author = self.make_author(username=username, password=password)
+        jwt_token = self.get_token(username=username, password=password)
+
+        # jwt_token.data have "refresh" and "access" token.
+        return {**jwt_token, "author": author}

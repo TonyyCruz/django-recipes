@@ -4,10 +4,15 @@ from faker import Faker
 
 from recipes.models import Category, Recipe
 
+from . import mock
+
 fake = Faker()
 
 
 class RecipeMixing:
+    mock_author_dict = mock.mock_author
+    mock_recipe_dict = mock.mock_recipe
+
     def make_category(self, name="category"):
         return Category.objects.create(name=name)
 

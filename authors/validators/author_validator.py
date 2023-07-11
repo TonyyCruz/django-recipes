@@ -59,5 +59,6 @@ class AuthorValidator(BaseValidator):
         password = self.data.get("password", "")
 
         password_errors = strong_password(password)
+
         if password_errors:
-            self.errors["password"].append(password_errors)
+            self.errors["password"] = password_errors
