@@ -30,5 +30,5 @@ class RecipeApiTestBase(test.APITestCase, RecipeApiMixing):
             self.recipe_api_token_obtain,
             {"username": user["username"], "password": user["password"]},
         )
-
+        # jwt_token.data have "refresh" and "access" token.
         return {**jwt_token.data, "author": author}
