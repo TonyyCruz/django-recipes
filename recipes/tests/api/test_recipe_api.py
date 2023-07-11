@@ -172,7 +172,7 @@ class RecipeAPIv2Test(RecipeApiTestBase):
 
     def test_recipe_api_list_cannot_be_updated_by_another_user(self):
         mock_author = self.mock_author_dict
-        auth_data = self.get_auth_data(user=mock_author)
+        auth_data = self.get_auth_data(**mock_author)
         owner_author = auth_data.get("author", "")
 
         # cria uma receita com o "owner_author" como proprietario
