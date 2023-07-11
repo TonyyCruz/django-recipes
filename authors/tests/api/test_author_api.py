@@ -37,3 +37,12 @@ class AuthorAPIv2Test(AuthorApiTestBase):
 
         response = self.get_author_response(token=user_token, id=user.id)
         self.assertAlmostEqual(response.status_code, 200)
+
+    def test_author_api_me_route_get_data_from_authenticated_user(self):
+        user_auth = self.get_auth_data()
+        user = user_auth.get("author", "")
+        user_token = user_auth.get("access", "")
+
+        response = self.get_author_response(token=user_token, id="me")
+        self.assertAlmostEqual(response.status_code, 200)
+        self.assertAlmostEqual(response.data.get("username"), user.username)
