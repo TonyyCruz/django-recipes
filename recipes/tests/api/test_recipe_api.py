@@ -3,7 +3,6 @@ from unittest.mock import patch
 
 from parameterized import parameterized
 
-from .. import mock
 from .recipe_api_test_base import RecipeApiTestBase
 
 
@@ -102,7 +101,7 @@ class RecipeAPIv2Test(RecipeApiTestBase):
         self.assertEqual(jwt_login.status_code, 200)
 
     def test_recipe_api_list_logged_user_can_create_a_recipe(self):
-        data = json.dumps(mock.mock_recipe)
+        data = json.dumps(self.mock_recipe_dict)
         jwt_access_token = self.get_auth_data().get("access", "")
 
         response = self.client.post(
@@ -133,9 +132,9 @@ class RecipeAPIv2Test(RecipeApiTestBase):
     def test_recipe_api_list_raise_an_expected_error_if_created_with_invalid_field(
         self, field, new_value, expect_error
     ):
-        data = mock.mock_recipe
+        data = self.mock_recipe_dict
         data[field] = new_value
-        data = json.dumps(mock.mock_recipe)
+        data = json.dumps(self.mock_recipe_dict)
 
         jwt_access_token = self.get_auth_data().get("access", "")
         response = self.client.post(
@@ -149,11 +148,12 @@ class RecipeAPIv2Test(RecipeApiTestBase):
         self.assertEqual(response.data.get(field)[0], expect_error)
 
     def test_recipe_api_list_just_can_be_updated_by_the_owner(self):
-        mock_author = mock.mock_author
+        mock_author = self.mock_author_dict
         author_auth = self.get_auth_data(user=mock_author)
         author_jwt_token = author_auth.get("access", "")
         author = author_auth.get("author", "")
 
+        # cria uma receita com o autor que acabamos de criar como proprietario
         recipe = self.make_recipe(author=author, title="My Recipe")
         field_to_update = '{"title": "New recipe Title"}'
         recipe_url = f"{self.recipe_api_list_url}{recipe.id}/"
@@ -171,17 +171,20 @@ class RecipeAPIv2Test(RecipeApiTestBase):
         self.assertEqual(updated_recipe.data.get("title"), "New recipe Title")
 
     def test_recipe_api_list_cannot_be_updated_by_another_user(self):
-        mock_author = mock.mock_author
+        mock_author = self.mock_author_dict
         auth_data = self.get_auth_data(user=mock_author)
         owner_author = auth_data.get("author", "")
 
+        # cria uma receita com o "owner_author" como proprietario
         recipe = self.make_recipe(author=owner_author, title="My Recipe")
         field_to_update = '{"title": "New recipe Title"}'
         recipe_url = f"{self.recipe_api_list_url}{recipe.id}/"
 
+        # cria um usuario diferente do owner_author para tentar alterar a recipe
         another_user = self.get_auth_data()
         another_user_jwt_token = another_user.get("access", "")
 
+        # tenta alterar a receita com o token do usuario diferente do autor
         another_user_response = self.client.patch(
             path=recipe_url,
             data=field_to_update,
