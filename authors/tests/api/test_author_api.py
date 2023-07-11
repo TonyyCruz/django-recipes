@@ -1,8 +1,14 @@
-from rest_framework import test
+# import json
 
-from recipes.tests.recipe_test_base import RecipeMixing
+# from parameterized import parameterized
+
+from .author_api_test_base import AuthorApiTestBase
+
+# from unittest.mock import patch
 
 
-class AuthorsAPIv2Test(test.APITestCase, RecipeMixing):
-    def test_test(self):
-        assert 1 > 0
+# flake8:noqa
+class AuthorsAPIv2Test(AuthorApiTestBase):
+    def test_author_api_anonymous_get_method_receive_status_code_401(self):
+        response = self.get_author_response()
+        self.assertAlmostEqual(response.status_code, 401)
