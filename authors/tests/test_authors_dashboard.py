@@ -15,3 +15,11 @@ class AuthorDashboardIntegrationTest(DjangoTestCaseWithSetup):
     def test_author_dashboard_is_not_accessible_by_unauthorized_user(self):
         response = self.client.get(self.dashboard_url)
         self.assertEqual(response.status_code, 302)
+
+    def test_author_dashboard_unauthorized_user_is_redirect_to_login(self):
+        response = self.client.get(self.dashboard_url, follow=True)
+
+        content = response.content.decode("utf-8")
+
+        self.assertIn("Login", content)
+        self.assertNotIn("Dashboard", content)
