@@ -1,8 +1,10 @@
 from django.test import TestCase as DjangoTestCase
 from django.urls import reverse
 
+from recipes.tests.recipe_test_base import RecipeMixing
 
-class DjangoTestCaseWithSetup(DjangoTestCase):
+
+class DjangoTestCaseWithSetup(DjangoTestCase, RecipeMixing):
     def setUp(self):
         self.form_data = {
             "username": "user",
