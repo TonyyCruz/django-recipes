@@ -1,8 +1,10 @@
 from django.test import TestCase as DjangoTestCase
 from django.urls import reverse
 
+from recipes.tests.recipe_test_base import RecipeMixing
 
-class DjangoTestCaseWithSetup(DjangoTestCase):
+
+class DjangoTestCaseWithSetup(DjangoTestCase, RecipeMixing):
     def setUp(self):
         self.form_data = {
             "username": "user",
@@ -21,9 +23,10 @@ class DjangoTestCaseWithSetup(DjangoTestCase):
         return self.client.post(
             reverse("authors:register_create"),
             data=user_data,
+            follow=True,
         )
 
-    def login_dummy_user(self, username=None, password=None):
+    def login_dummy_user(self, username=None, password=None, **kwargs):
         if username is None:
             username = self.form_data["username"]
 
