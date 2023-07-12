@@ -11,6 +11,7 @@ from .django_test_base import DjangoTestCaseWithSetup
 # flake8:noqa
 class AuthorDashboardIntegrationTest(DjangoTestCaseWithSetup):
     dashboard_url = reverse("authors:dashboard")
+    dashboard_recipe_create_url = reverse("authors:dashboard_recipe_create")
 
     def test_author_dashboard_is_not_accessible_by_unauthenticated_user(self):
         response = self.client.get(self.dashboard_url)
@@ -33,3 +34,15 @@ class AuthorDashboardIntegrationTest(DjangoTestCaseWithSetup):
 
         self.assertEqual(response.status_code, 200)
         self.assertIn("Dashboard", content)
+
+    def test_author_dashboard_authenticated_user_can_create_a_recipe(self):
+        self.login_dummy_user()
+
+        response = self.client.post(
+            self.dashboard_recipe_create_url, data=self.mock_recipe_dict
+        )
+
+        content = response.content.decode("utf-8")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(self.mock_recipe_dict["title"], content)
