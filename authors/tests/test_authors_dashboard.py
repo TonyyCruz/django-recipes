@@ -12,14 +12,24 @@ from .django_test_base import DjangoTestCaseWithSetup
 class AuthorDashboardIntegrationTest(DjangoTestCaseWithSetup):
     dashboard_url = reverse("authors:dashboard")
 
-    def test_author_dashboard_is_not_accessible_by_unauthorized_user(self):
+    def test_author_dashboard_is_not_accessible_by_unauthenticated_user(self):
         response = self.client.get(self.dashboard_url)
         self.assertEqual(response.status_code, 302)
 
-    def test_author_dashboard_unauthorized_user_is_redirect_to_login(self):
+    def test_author_dashboard_unauthenticated_user_is_redirect_to_login(self):
         response = self.client.get(self.dashboard_url, follow=True)
 
         content = response.content.decode("utf-8")
 
         self.assertIn("Login", content)
         self.assertNotIn("Dashboard", content)
+
+    def test_author_dashboard_authenticated_user_can_access_dashboard(self):
+        self.login_dummy_user()
+
+        response = self.client.get(self.dashboard_url)
+
+        content = response.content.decode("utf-8")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("Dashboard", content)
