@@ -23,13 +23,15 @@ class DjangoTestCaseWithSetup(DjangoTestCase, RecipeMixing):
         return self.client.post(
             reverse("authors:register_create"),
             data=user_data,
+            follow=True,
         )
 
-    def login_dummy_user(self, **kwargs):
-        username = kwargs.get("username", self.form_data["username"])
-        password = kwargs.get("password", self.form_data["password"])
+    def login_dummy_user(self, username=None, password=None, **kwargs):
+        if username is None:
+            username = self.form_data["username"]
 
-        self.make_author(username=username, password=password)
+        if password is None:
+            password = self.form_data["password"]
 
         return self.client.login(
             username=username,
