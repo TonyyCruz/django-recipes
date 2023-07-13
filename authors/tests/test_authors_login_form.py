@@ -17,7 +17,7 @@ class LoginFormTest(DjangoTestCaseWithSetup):
         response_delete = self.client.delete(url)
         response_patch = self.client.patch(url)
 
-        self.assertEquals(response_get.status_code, 404)
-        self.assertEquals(response_put.status_code, 404)
-        self.assertEquals(response_delete.status_code, 404)
-        self.assertEquals(response_patch.status_code, 404)
+        self.assertEqual(response_get.status_code, 404)
+        self.assertEqual(response_put.status_code, 404)
+        self.assertEqual(response_delete.status_code, 404)
+        self.assertEqual(response_patch.status_code, 404)

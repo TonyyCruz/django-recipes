@@ -7,6 +7,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # CORS headers
+    "corsheaders",
+    # Django rest framework
     "rest_framework",
     # My installed apps
     "recipes",
