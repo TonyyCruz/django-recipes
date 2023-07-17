@@ -1,0 +1,30 @@
+version: '3'
+
+# lista os serviços que serao executados
+services:
+  # nome do serviço
+  web:
+    # imagem utilizada caso não tenha um Dockerfile
+    # image: python:3
+
+    container_name: recipes
+
+    # faz o servidor rodar como um linux
+    # platform: linux/x86_64
+
+    # builda um Dockerfile, recebe o caminho relativo
+    build: .
+
+    tty: true
+
+    restart: always
+
+    working_dir: /usr/src/app
+
+    # bind da pasta atual para a do container
+    volumes:
+      - ./:/usr/src/app
+
+    # porta utilizada <servidor>:<container>
+    ports:
+      - 8001:8001
