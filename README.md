@@ -23,6 +23,7 @@
 - É recomendado utilizar algum cliente HTTP, como [Postman](https://www.postman.com/) ou o [Insomnia](https://insomnia.rest/download).
 
 <details>
+	<p align="center">⚠️ Atenção, caso opte por rodar localmente a porta será 8000 e não 8001</p>
   <summary><strong>Ver rotas</strong></summary><br />
 
   <details>
@@ -222,8 +223,6 @@ _Clone o repositorio_
 
 <details>
   <summary><strong>:computer: Rodando Localmente</strong></summary><br />
-    Será necessário ter o Node instalado:
-    - [Node.js](https://nodejs.org/en/)
 
  _Crie o ambiente virtual_
 
