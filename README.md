@@ -202,7 +202,6 @@ Para todos os métodos PATCH, o usuário devera enviar o "access" token no Heade
 - **[Django debug toolbar](https://django-debug-toolbar.readthedocs.io/en/latest/)**
 - **[Pillow](https://pillow.readthedocs.io/en/stable/)**
 - **[CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)**
-- **[Node.js](https://nodejs.org/en/)**
 
 ---
 
