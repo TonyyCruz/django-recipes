@@ -91,54 +91,54 @@
   		<img src="public/multipart_form.png">
 	</details>
 
-</details>
+  </details>
 
----
+  ---
 
-<details>
-  <summary>GET</summary>
+  <details>
+    <summary>GET</summary>
 
-- GET `http://localhost:8001/authors/api/v2/<id>` exibe os dados do próprioe só o mesmo pode acessar.
+  - GET `http://localhost:8001/authors/api/v2/<id>` exibe os dados do próprioe só o mesmo pode acessar.
 	  <br>
 	  Para essa ação, o usuário deve enviar o "access" token no Header da requisição.
 	  `Authorization`  `Bearer <access token>`
 	
 	---
 	
-- GET `http://localhost:8001/authors/api/v2/me` exibe os dados do usuário autenticado.
-  <br>
-  Para essa ação, o usuário deve enviar o "access" token no Header da requisição.
+  - GET `http://localhost:8001/authors/api/v2/me` exibe os dados do usuário autenticado.
+    <br>
+    Para essa ação, o usuário deve enviar o "access" token no Header da requisição.
   `Authorization`  `Bearer <access token>`
 	
----
+  ---
 	  
-- GET `http://localhost:8001/authors/api/v2/` exibe todas as receitas publicadas.
+  - GET `http://localhost:8001/authors/api/v2/` exibe todas as receitas publicadas.
 	  
----
+  ---
   
-- GET `http://localhost:8001/authors/api/v2/<id>` uma receita publicada de acordo com o id.
+  - GET `http://localhost:8001/authors/api/v2/<id>` uma receita publicada de acordo com o id.
 	  
----
+  ---
 	  
-- GET `http://localhost:8001/authors/api/v2/?category_id=<id>` busca receitas publicada de acordo com a categoria.
+  - GET `http://localhost:8001/authors/api/v2/?category_id=<id>` busca receitas publicada de acordo com a categoria.
 	
----
+  ---
 	  
-- GET `http://localhost:8001/authors/api/v2/?q=<search>` busca receitas de acordo com a palavra passada "<search>".
+  - GET `http://localhost:8001/authors/api/v2/?q=<search>` busca receitas de acordo com a palavra passada "<search>".
 	
 </details>
 
 ---
 
-<details>
-  <summary>PATCH</summary>
+  <details>
+    <summary>PATCH</summary>
 
-  Para todos os métodos PATCH, o usuário devera enviar o "access" token no Header da requisição.
-  `Authorization`  `Bearer <access token>`
+Para todos os métodos PATCH, o usuário devera enviar o "access" token no Header da requisição.
+    `Authorization`  `Bearer <access token>`
 	
-  - PATCH `http://localhost:8001/authors/api/v2/<id>/` para atualizar dados do usuário. Utilize um body nesse formato:
-	
-	```jsx
+   - PATCH `http://localhost:8001/authors/api/v2/<id>/` para atualizar dados do usuário. Utilize um body nesse formato:
+   
+	  ```jsx
 	  {
 	    "last_name": "Cruz"
 	  }
@@ -146,7 +146,7 @@
 	
 	---
 	
-  - PATCH `http://localhost:8001/recipes/api/v2/<id>/` para atualizar a receita. Utilize um body nesse formato:
+   - PATCH `http://localhost:8001/recipes/api/v2/<id>/` para atualizar a receita. Utilize um body nesse formato:
 	
 	```jsx
 	    {
@@ -155,29 +155,48 @@
 	    }
 	```
 
+  </details>
+
+  ---
+
+  <details>
+    <summary>DELETE</summary>
+
+    Para todos os métodos DELETE, o usuário devera enviar o "access" token no Header da requisição.
+    `Authorization`  `Bearer <access token>`
+  
+  - DELETE `http://localhost:8001/authors/api/v2/<id>` deleta o usuário.
+  
+  ---
+  
+  - DELETE `http://localhost:8001/recipes/api/v2/<id>` deleta a receita se a mesma pertencer ao usuário.
+
+ </details>
+
+---
+
+  <details>
+   <summary>HELP</summary>
+     Ao passar a `Authorization` é obrigatório o uso da palavra `Bearer` antes do token:
+     <img src="public/bearer_token.png">
+
+  </details>
+
 </details>
 
 ---
 
-<details>
-  <summary>DELETE</summary>
+### 🛠 Tecnologias e Bibliotecas utilizadas no desenvolvimento do projeto
 
-  Para todos os métodos DELETE, o usuário devera enviar o "access" token no Header da requisição.
-  `Authorization`  `Bearer <access token>`
-  
-- DELETE `http://localhost:8001/authors/api/v2/<id>` deleta o usuário.
-  
----
-  
-- DELETE `http://localhost:8001/recipes/api/v2/<id>` deleta a receita se a mesma pertencer ao usuário.
+- **[Python](https://docs.python.org/3/)**
+- **[Django](https://docs.djangoproject.com/pt-br/4.2/)**
+- **[Rest Framework](https://www.django-rest-framework.org/)**
+- **[Simple Jwt](https://django-rest-framework-simplejwt.readthedocs.io/en/latest/getting_started.html)**
+- **[Pytest](https://pytest.org/en/7.4.x/index.html)**
+- **[Django testing](https://docs.djangoproject.com/en/4.2/topics/testing/)**
+- **[Selenium](https://www.selenium.dev/documentation/)**
+- **[Django debug toolbar](https://django-debug-toolbar.readthedocs.io/en/latest/)**
+- **[Pillow](https://pillow.readthedocs.io/en/stable/)**
+- **[CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)**
 
-</details>
 
----
-
-<details>
-  <summary>HELP</summary>
-	Ao passar a `Authorization` é obrigatório o uso da palavra `Bearer` antes do token:
-  <img src="public/bearer_token.png">
-
-</details>
