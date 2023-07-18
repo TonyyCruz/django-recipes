@@ -53,9 +53,9 @@ class RecipeForm(forms.ModelForm):
         required=False,
         widget=forms.Select(
             choices=[
-                ("portions", "potion(s)"),
-                ("units", "unit(s)"),
-                ("pieces", "piece(s)"),
+                ("portion", "portion"),
+                ("unit", "unit"),
+                ("piece", "piece"),
             ],
         ),
     )
@@ -63,8 +63,8 @@ class RecipeForm(forms.ModelForm):
     preparation_time_unit = forms.CharField(
         widget=forms.Select(
             choices=[
-                ("minute", "minute(s)"),
-                ("hour", "hour(s)"),
+                ("minute", "minute"),
+                ("hour", "hour"),
             ],
         ),
     )

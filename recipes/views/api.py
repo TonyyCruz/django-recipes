@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.pagination import PageNumberPagination
@@ -37,9 +38,15 @@ class RecipeAPIv2ViewSet(ModelViewSet):
     def get_queryset(self):
         qs = super().get_queryset()
         category_id = self.request.query_params.get("category_id", "")
+        query = self.request.query_params.get("q", "")
 
         if category_id != "" and category_id.isnumeric():
             qs = qs.filter(category_id=category_id)
+
+        if query != "":
+            qs = qs.filter(
+                Q(title__icontains=query) | Q(description__icontains=query)
+            )
         return qs
 
     def get_permissions(self):

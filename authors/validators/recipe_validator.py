@@ -64,6 +64,11 @@ class RecipeValidator(BaseValidator):
                 "Preparation time unit is required."
             )
 
+        if preparation_time_unit not in ("minute", "hour"):
+            self.errors["preparation_time_unit"].append(
+                'Preparation time unit must be "minute" or "hour".'
+            )
+
     def validate_servings(self):
         servings = self.data.get("servings", "")
 
@@ -77,6 +82,11 @@ class RecipeValidator(BaseValidator):
 
         if not servings_unit:
             self.errors["servings_unit"].append("Serving unit is required.")
+
+        if servings_unit not in ("portion", "unit", "piece"):
+            self.errors["servings_unit"].append(
+                'Serving unit must be "portion", "unit" or "piece".'
+            )
 
     def validate_preparation_steps(self):
         preparation_steps = self.data.get("preparation_steps", "")
