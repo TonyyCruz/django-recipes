@@ -87,6 +87,9 @@
     }
   ```
     ps: Para enviar a imagem, os mesmos dados devem ser enviados por multipart form com a inclusão do campo "cover".
+  	<details>
+  		<img src="public/multipart_form.png">
+	</details>
 
 </details>
 
@@ -170,6 +173,11 @@
 
 </details>
 
-<br>
-
 ---
+
+<details>
+  <summary>HELP</summary>
+	Ao passar a `Authorization` é obrigatório o uso da palavra `Bearer` antes do token:
+  <img src="public/bearer_token.png">
+
+</details>
