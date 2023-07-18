@@ -276,7 +276,7 @@ _Rode na raiz do projeto o comando_
 _Via CLI use o comando_
 
 ```jsx
-docker exec -it blogs_api bash
+docker exec -it recipes bash
 ```
 - Ele te dará acesso ao terminal interativo do container recipes criado pelo compose, que está rodando em segundo plano.
 
