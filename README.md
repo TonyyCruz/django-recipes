@@ -19,6 +19,8 @@
 
 <h2 align="center">Rotas utilizáveis na API</h2>
 
+- É recomendado utilizar algum cliente HTTP, como [Postman](https://www.postman.com/) ou o [Insomnia](https://insomnia.rest/download).
+
 <details>
   <summary><strong>Ver rotas</strong></summary><br />
 
@@ -243,4 +245,29 @@ _Rode o servidor_
  ```
   
  ⚠️Atenção: Não esqueça de renomear/configurar o arquivo .env.example (deve ser criado um arquivo `.env` com o conteudo do `.env.example` configurado)
+</details>
+
+---
+
+<details>
+  <summary><strong>:whale: Rodando no Docker</strong></summary><br />
+ 
+ 
+_Rode na raiz do projeto o comando_
+
+```jsx
+  docker-compose up -d
+```
+
+- Esse serviço irá inicializar um container chamados `recipes`.
+- A partir daqui você pode rodar o container via CLI ou abri-lo no VS Code.
+
+_Via CLI use o comando_
+```jsx
+docker exec -it blogs_api bash
+```
+- Ele te dará acesso ao terminal interativo do container recipes criado pelo compose, que está rodando em segundo plano.
+
+## Este container estara espelhando os arquivos da sua máquina.
+
 </details>
