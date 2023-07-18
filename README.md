@@ -198,5 +198,49 @@ Para todos os métodos PATCH, o usuário devera enviar o "access" token no Heade
 - **[Django debug toolbar](https://django-debug-toolbar.readthedocs.io/en/latest/)**
 - **[Pillow](https://pillow.readthedocs.io/en/stable/)**
 - **[CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)**
+- **[Node.js](https://nodejs.org/en/)**
 
+---
 
+### 🚀 Como executar o projeto
+
+_Clone o repositorio_
+
+```jsx
+  git clone git@github.com:TonyyCruz/django-recipes.git
+  cd django-recipes/
+```
+
+---
+
+<details>
+  <summary><strong>:computer: Rodando Localmente</strong></summary><br />
+    Será necessário ter o Node instalado:
+    - [Node.js](https://nodejs.org/en/)
+
+ _Crie o ambiente virtual_
+
+ ```jsx
+  python3 -m venv .venv
+ ```
+
+_Ative o ambiente virtual_
+
+ ```jsx
+  source .venv/bin/activate
+ ```
+ 
+ _Instale as dependências com o comando_
+ 
+ ```jsx
+  python -m pip install -r dev-requirements.txt
+ ```
+
+_Rode o servidor_
+ 
+ ```jsx
+  python manage.py runserver
+ ```
+  
+ ⚠️Atenção: Não esqueça de renomear/configurar o arquivo .env.example (deve ser criado um arquivo `.env` com o conteudo do `.env.example` configurado)
+</details>
