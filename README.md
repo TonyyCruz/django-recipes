@@ -211,8 +211,7 @@ Para todos os métodos PATCH, o usuário devera enviar o "access" token no Heade
 _Clone o repositorio_
 
 ```jsx
-  git clone git@github.com:TonyyCruz/django-recipes.git
-  cd django-recipes/
+  git clone git@github.com:TonyyCruz/django-recipes.git && cd django-recipes
 ```
 
 ---
