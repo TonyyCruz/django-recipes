@@ -16,3 +16,78 @@
 </p>
 
 <br>
+
+// ---------------------------------------------------------------------------------------------------------------------------------
+
+<h2 align="center">Rotas utilizáveis na API</h2>
+
+<details>
+  <summary><strong>Ver rotas</strong></summary><br />
+
+  <details>
+    <summary>POST</summary>
+  
+  - POST `http://localhost:8001/authors/api/v2/` para cadastrar novo usuario. Utilize um body nesse formato:
+    
+    ```jsx
+      {
+      	"first_name": "SeuNome",
+      	"last_name": "SeuSobrenome",
+      	"username": "SeuUsername",
+      	"password": "SeuPassword1.",
+      	"email": "algo2@email.com"
+      }
+    ```
+
+  ---
+    
+  - POST `http://localhost:8001/recipes/api/token/` para fazer login e receber um token. Utilize um body nesse formato:
+    
+    ```jsx
+      {
+      	"username": "SeuUsername",
+      	"password": "SeuPassword1.",
+      }
+    ```
+      
+  ---
+
+- POST `http://localhost:8001/recipes/api/token/refresh/` para atualizar o token. Utilize um body nesse formato:
+  
+  ```jsx
+    {
+	    "refresh": "<O "refresh" token que foi recebido ao fazer login>"
+    }
+  ```
+    
+---
+
+- POST `http://localhost:8001/recipes/api/token/verify/` para validar o token. Utilize um body nesse formato:
+  
+  ```jsx
+    {
+	    "token": "<O "access" token que foi recebido ao fazer login>"
+    }
+  ```
+    
+---
+  
+- POST `http://localhost:8001/recipes/api/v2/` para criar uma nova receita. Utilize um body nesse formato:
+  <br>
+  Para essa ação, o usuário deve enviar o "access" token no Header da requiseção.
+  `Authorization`  `Bearer <access token>`
+
+  ```jsx
+    {
+    	"title": "Minha receita",
+    	"description": "Uma receita deliciosa",
+    	"preparation_time":10,
+    	"preparation_time_unit": "minute",
+    	"servings": 10,
+    	"servings_unit": "portion",
+    	"preparation_steps": "Descrição dos passos necessários para a criação bem sucedida da receita."
+    }
+  ```
+    ps: Para enviar a imagem, os mesmos dados devem ser enviados por multipart form com a inclusão do campo "cover".
+
+</details>
