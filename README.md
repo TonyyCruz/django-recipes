@@ -13,6 +13,7 @@
   Também foi disponibilizado uma API construida em Rest Framework, que possibilita também um CRUD na aplicação atravez de métodos HTTP, 
   possibilitando também a adição e login de usuários, tendo sua validação através de Jwt validators, possibilitando também a criação edição
   e deleção de receitas.
+  Foram feitos testes unitários funcionais e ponta a ponta cobrindo 90% da aplicação, foi utilizado: pytest, django testing e selenium.
 </p>
 
 <br>
@@ -215,6 +216,10 @@ _Clone o repositorio_
 
 ---
 
+- Renomeie e configurar o arquivo .env.example (deve ser criado um arquivo `.env` com o conteudo do `.env.example` configurado)
+
+---
+
 <details>
   <summary><strong>:computer: Rodando Localmente</strong></summary><br />
     Será necessário ter o Node instalado:
@@ -243,8 +248,14 @@ _Rode o servidor_
  ```jsx
   python manage.py runserver
  ```
+
+_Rodar os testes_
+ 
+ ```jsx
+  python -m pytest
+ ```
   
- ⚠️Atenção: Não esqueça de renomear/configurar o arquivo .env.example (deve ser criado um arquivo `.env` com o conteudo do `.env.example` configurado)
+ ⚠️ Atenção: Não esqueça de que você deve estar com o ambiente virtual ativo.
 </details>
 
 ---
@@ -263,10 +274,17 @@ _Rode na raiz do projeto o comando_
 - A partir daqui você pode rodar o container via CLI ou abri-lo no VS Code.
 
 _Via CLI use o comando_
+
 ```jsx
 docker exec -it blogs_api bash
 ```
 - Ele te dará acesso ao terminal interativo do container recipes criado pelo compose, que está rodando em segundo plano.
+
+_Rodar os testes_
+ 
+ ```jsx
+  python -m pytest
+ ```
 
 ## Este container estara espelhando os arquivos da sua máquina.
 
