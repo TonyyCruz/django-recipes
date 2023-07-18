@@ -17,8 +17,6 @@
 
 <br>
 
-// ---------------------------------------------------------------------------------------------------------------------------------
-
 <h2 align="center">Rotas utilizáveis na API</h2>
 
 <details>
@@ -74,7 +72,7 @@
   
 - POST `http://localhost:8001/recipes/api/v2/` para criar uma nova receita. Utilize um body nesse formato:
   <br>
-  Para essa ação, o usuário deve enviar o "access" token no Header da requiseção.
+  Para essa ação, o usuário deve enviar o "access" token no Header da requisição.
   `Authorization`  `Bearer <access token>`
 
   ```jsx
@@ -91,3 +89,87 @@
     ps: Para enviar a imagem, os mesmos dados devem ser enviados por multipart form com a inclusão do campo "cover".
 
 </details>
+
+---
+
+<details>
+  <summary>GET</summary>
+
+- GET `http://localhost:8001/authors/api/v2/<id>` exibe os dados do próprioe só o mesmo pode acessar.
+	  <br>
+	  Para essa ação, o usuário deve enviar o "access" token no Header da requisição.
+	  `Authorization`  `Bearer <access token>`
+	
+	---
+	
+- GET `http://localhost:8001/authors/api/v2/me` exibe os dados do usuário autenticado.
+  <br>
+  Para essa ação, o usuário deve enviar o "access" token no Header da requisição.
+  `Authorization`  `Bearer <access token>`
+	
+---
+	  
+- GET `http://localhost:8001/authors/api/v2/` exibe todas as receitas publicadas.
+	  
+---
+  
+- GET `http://localhost:8001/authors/api/v2/<id>` uma receita publicada de acordo com o id.
+	  
+---
+	  
+- GET `http://localhost:8001/authors/api/v2/?category_id=<id>` busca receitas publicada de acordo com a categoria.
+	
+---
+	  
+- GET `http://localhost:8001/authors/api/v2/?q=<search>` busca receitas de acordo com a palavra passada "<search>".
+	
+</details>
+
+---
+
+<details>
+  <summary>PATCH</summary>
+
+  Para todos os métodos PATCH, o usuário devera enviar o "access" token no Header da requisição.
+  `Authorization`  `Bearer <access token>`
+	
+  - PATCH `http://localhost:8001/authors/api/v2/<id>/` para atualizar dados do usuário. Utilize um body nesse formato:
+	
+	```jsx
+	  {
+	    "last_name": "Cruz"
+	  }
+	```
+	
+	---
+	
+  - PATCH `http://localhost:8001/recipes/api/v2/<id>/` para atualizar a receita. Utilize um body nesse formato:
+	
+	```jsx
+	    {
+	      "title": "Novo titulo",
+	      "description": "Nova descrição",
+	    }
+	```
+
+</details>
+
+---
+
+<details>
+  <summary>DELETE</summary>
+
+  Para todos os métodos DELETE, o usuário devera enviar o "access" token no Header da requisição.
+  `Authorization`  `Bearer <access token>`
+  
+- DELETE `http://localhost:8001/authors/api/v2/<id>` deleta o usuário.
+  
+---
+  
+- DELETE `http://localhost:8001/recipes/api/v2/<id>` deleta a receita se a mesma pertencer ao usuário.
+
+</details>
+
+<br>
+
+---
