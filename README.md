@@ -134,57 +134,57 @@
 
 ---
 
-  <details>
-    <summary>PATCH</summary>
+<details>
+<summary>PATCH</summary>
 
 Para todos os métodos PATCH, o usuário devera enviar o "access" token no Header da requisição.
     `Authorization`  `Bearer <access token>`
 	
-   - PATCH `http://localhost:8001/authors/api/v2/<id>/` para atualizar dados do usuário. Utilize um body nesse formato:
+- PATCH `http://localhost:8001/authors/api/v2/<id>/` para atualizar dados do usuário. Utilize um body nesse formato:
    
-	  ```jsx
-	  {
-	    "last_name": "Cruz"
-	  }
-	```
+```jsx
+  {
+    "last_name": "Cruz"
+  }
+```
 	
-	---
+---
 	
-   - PATCH `http://localhost:8001/recipes/api/v2/<id>/` para atualizar a receita. Utilize um body nesse formato:
+- PATCH `http://localhost:8001/recipes/api/v2/<id>/` para atualizar a receita. Utilize um body nesse formato:
 	
-	```jsx
-	    {
-	      "title": "Novo titulo",
-	      "description": "Nova descrição",
-	    }
-	```
+```jsx
+    {
+      "title": "Novo titulo",
+      "description": "Nova descrição",
+    }
+```
 
-  </details>
+</details>
 
-  ---
+---
 
-  <details>
-    <summary>DELETE</summary>
+<details>
+<summary>DELETE</summary>
 
-    Para todos os métodos DELETE, o usuário devera enviar o "access" token no Header da requisição.
-    `Authorization`  `Bearer <access token>`
+Para todos os métodos DELETE, o usuário devera enviar o "access" token no Header da requisição.<br>
+`Authorization`  `Bearer <access token>`
   
-  - DELETE `http://localhost:8001/authors/api/v2/<id>` deleta o usuário.
+- DELETE `http://localhost:8001/authors/api/v2/<id>` deleta o usuário.
   
-  ---
+---
   
-  - DELETE `http://localhost:8001/recipes/api/v2/<id>` deleta a receita se a mesma pertencer ao usuário.
+- DELETE `http://localhost:8001/recipes/api/v2/<id>` deleta a receita se a mesma pertencer ao usuário.
 
  </details>
 
 ---
 
-  <details>
-   <summary>HELP</summary>
-     Ao passar a `Authorization` é obrigatório o uso da palavra `Bearer` antes do token:
-     <img src="public/bearer_token.png">
+<details>
+<summary>HELP</summary>
+Ao passar a `Authorization` é obrigatório o uso da palavra `Bearer` antes do token:
+<img src="public/bearer_token.png">
 
-  </details>
+</details>
 
 </details>
 
