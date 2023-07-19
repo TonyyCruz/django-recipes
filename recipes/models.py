@@ -123,16 +123,15 @@ class Recipe(models.Model):
     def clean(self, *args, **kwargs):
         error_messages = defaultdict(list)
 
-        # FOI COMENTADO POIS RECIPES CRIADAS ANTERIORMENTE ESTAVAM DANDO ERRO
-        # recipe_from_db = Recipe.objects.filter(
-        #     title__iexact=self.title
-        # ).first()
+        recipe_from_db = Recipe.objects.filter(
+            title__iexact=self.title
+        ).first()
 
-        # if recipe_from_db:
-        #     if recipe_from_db.pk != self.pk:
-        #         error_messages["title"].append(
-        #             "Found recipes with the same title"
-        #         )
+        if recipe_from_db:
+            if recipe_from_db.pk != self.pk:
+                error_messages["title"].append(
+                    "This recipe title already exists"
+                )
 
         if error_messages:
             raise ValidationError(error_messages)

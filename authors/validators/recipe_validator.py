@@ -1,8 +1,8 @@
+from django.utils.text import slugify
+
+from recipes.models import Recipe
+
 from .base_validate import BaseValidator
-
-# from django.utils.text import slugify
-
-# from recipes.models import Recipe
 
 
 class RecipeValidator(BaseValidator):
@@ -20,11 +20,11 @@ class RecipeValidator(BaseValidator):
                 "Title must have less than 65 characters."
             )
 
-        # title_slug = slugify(title)
-        # slug_title_exists = Recipe.objects.filter(slug=title_slug).exists()
+        title_slug = slugify(title)
+        slug_title_exists = Recipe.objects.filter(slug=title_slug).exists()
 
-        # if slug_title_exists:
-        #     self.errors["title"].append("This recipe title already exists")
+        if slug_title_exists:
+            self.errors["title"].append("This recipe title already exists")
 
     def validate_description(self):
         description = self.data.get("description", "")
