@@ -18,6 +18,108 @@
 
 <br>
 
+---
+
+### 🛠 Tecnologias e Bibliotecas utilizadas no desenvolvimento do projeto
+
+- **[Python](https://docs.python.org/3/)**
+- **[Django](https://docs.djangoproject.com/pt-br/4.2/)**
+- **[Rest Framework](https://www.django-rest-framework.org/)**
+- **[Simple Jwt](https://django-rest-framework-simplejwt.readthedocs.io/en/latest/getting_started.html)**
+- **[Pytest](https://pytest.org/en/7.4.x/index.html)**
+- **[Django testing](https://docs.djangoproject.com/en/4.2/topics/testing/)**
+- **[Selenium](https://www.selenium.dev/documentation/)**
+- **[Django debug toolbar](https://django-debug-toolbar.readthedocs.io/en/latest/)**
+- **[Pillow](https://pillow.readthedocs.io/en/stable/)**
+- **[CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)**
+
+---
+
+### 🚀 Como executar o projeto
+
+_Clone o repositorio_
+
+```jsx
+  git clone git@github.com:TonyyCruz/django-recipes.git && cd django-recipes
+```
+
+---
+
+- Renomeie e configurar o arquivo .env.example (deve ser criado um arquivo `.env` com o conteudo do `.env.example` configurado)
+
+---
+
+<details>
+  <summary><strong>:computer: Rodando Localmente</strong></summary><br />
+
+ _Crie o ambiente virtual_
+
+ ```jsx
+  python3 -m venv .venv
+ ```
+
+_Ative o ambiente virtual_
+
+ ```jsx
+  source .venv/bin/activate
+ ```
+ 
+ _Instale as dependências com o comando_
+ 
+ ```jsx
+  python -m pip install -r dev-requirements.txt
+ ```
+
+_Rode o servidor_
+ 
+ ```jsx
+  python manage.py runserver
+ ```
+
+_Rodar os testes_
+ 
+ ```jsx
+  python -m pytest
+ ```
+  
+ ⚠️ Atenção: Não esqueça de que você deve estar com o ambiente virtual ativo.
+</details>
+
+---
+
+<details>
+  <summary><strong>:whale: Rodando no Docker</strong></summary><br />
+ 
+ 
+_Rode na raiz do projeto o comando_
+
+```jsx
+  docker-compose up -d
+```
+
+- Esse serviço irá inicializar um container chamado `recipes` e adicionará uma imagem docker chamada django-recipes_web.
+- A partir daqui você pode rodar o container via CLI ou abri-lo no VS Code.
+
+_Via CLI use o comando_
+
+```jsx
+docker exec -it recipes bash
+```
+- Ele te dará acesso ao terminal interativo do container recipes criado pelo compose, que está rodando em segundo plano.
+
+_Rodar os testes_
+ 
+ ```jsx
+  python -m pytest
+ ```
+
+## Este container estara espelhando os arquivos da sua máquina.
+
+</details>
+<br>
+
+---
+
 <h2 align="center">Rotas utilizáveis na API</h2>
 
 - É recomendado utilizar algum cliente HTTP, como [Postman](https://www.postman.com/) ou o [Insomnia](https://insomnia.rest/download).
@@ -189,99 +291,11 @@ Ao passar a `Authorization` é obrigatório o uso da palavra `Bearer` antes do t
 
 ---
 
-### 🛠 Tecnologias e Bibliotecas utilizadas no desenvolvimento do projeto
+<h2 align="center">Funcionamento</h2>
+<br>
 
-- **[Python](https://docs.python.org/3/)**
-- **[Django](https://docs.djangoproject.com/pt-br/4.2/)**
-- **[Rest Framework](https://www.django-rest-framework.org/)**
-- **[Simple Jwt](https://django-rest-framework-simplejwt.readthedocs.io/en/latest/getting_started.html)**
-- **[Pytest](https://pytest.org/en/7.4.x/index.html)**
-- **[Django testing](https://docs.djangoproject.com/en/4.2/topics/testing/)**
-- **[Selenium](https://www.selenium.dev/documentation/)**
-- **[Django debug toolbar](https://django-debug-toolbar.readthedocs.io/en/latest/)**
-- **[Pillow](https://pillow.readthedocs.io/en/stable/)**
-- **[CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)**
-
----
-
-### 🚀 Como executar o projeto
-
-_Clone o repositorio_
-
-```jsx
-  git clone git@github.com:TonyyCruz/django-recipes.git && cd django-recipes
-```
-
----
-
-- Renomeie e configurar o arquivo .env.example (deve ser criado um arquivo `.env` com o conteudo do `.env.example` configurado)
-
----
-
-<details>
-  <summary><strong>:computer: Rodando Localmente</strong></summary><br />
-
- _Crie o ambiente virtual_
-
- ```jsx
-  python3 -m venv .venv
- ```
-
-_Ative o ambiente virtual_
-
- ```jsx
-  source .venv/bin/activate
- ```
- 
- _Instale as dependências com o comando_
- 
- ```jsx
-  python -m pip install -r dev-requirements.txt
- ```
-
-_Rode o servidor_
- 
- ```jsx
-  python manage.py runserver
- ```
-
-_Rodar os testes_
- 
- ```jsx
-  python -m pytest
- ```
-  
- ⚠️ Atenção: Não esqueça de que você deve estar com o ambiente virtual ativo.
-</details>
-
----
-
-<details>
-  <summary><strong>:whale: Rodando no Docker</strong></summary><br />
- 
- 
-_Rode na raiz do projeto o comando_
-
-```jsx
-  docker-compose up -d
-```
-
-- Esse serviço irá inicializar um container chamado `recipes` e adicionará uma imagem docker chamada django-recipes_web.
-- A partir daqui você pode rodar o container via CLI ou abri-lo no VS Code.
-
-_Via CLI use o comando_
-
-```jsx
-docker exec -it recipes bash
-```
-- Ele te dará acesso ao terminal interativo do container recipes criado pelo compose, que está rodando em segundo plano.
-
-_Rodar os testes_
- 
- ```jsx
-  python -m pytest
- ```
-
-## Este container estara espelhando os arquivos da sua máquina.
-
-</details>
+- A aplicação roda na url `http://localhost:8000/`
+- Para facilitar a sua experiência, tem um super usuário cadstrado `Username: admin` `password: admin`.
+- A área de administração do site fica em `http://localhost:8000/admin`.
+- Qualquer usuário cadastrado pode criar receitas, mas apenas administradores podem publicá-las.
+- Foram adicionadas algumas receitas fictícias para a visualização.
