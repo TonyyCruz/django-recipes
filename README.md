@@ -1,6 +1,6 @@
 <h1 align="center">Django Recipes</h1>
-<p align="center">Neste projeto, foi desenvolvida uma aplicação full stack de um site de receitas utilizando Django
-  e uma API utilizando Rest Framework separada da aplicação mas que alimenta o mesmo banco de dados.</p>
+<p align="center">Neste projeto, foi desenvolvida uma aplicação full stack de um site de receitas utilizando Django Web Framework
+  e Django Rest Framework possibilitando fazer um CRUD de receitas com um controle por parte dos administradores.</p>
 
 ---
 
