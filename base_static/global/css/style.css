@@ -610,7 +610,7 @@ a:hover {
   min-height: 100vh;
   overflow-y: auto;
   background: var(--color-gray-4);
-  z-index: 2;
+  z-index: 10;
   transition: all 300ms ease-in-out;
 }
 
@@ -659,7 +659,7 @@ a:hover {
   background: var(--color-gray-4);
   border: none;
   font-size: 2rem;
-  z-index: 2;
+  z-index: 10;
   padding: 1rem;
   visibility: visible;
   opacity: 1;
@@ -674,8 +674,11 @@ a:hover {
   left: 5px;
 }
 
-
-/* ==========================DESENVOLVIMENTO====================== */
-.dev-border {
-  border: 1px solid red;
+.background-menu-layer {
+  height: 100vh;
+  width: 100vw;
+  background: var(--color-gray-4);
+  opacity: 0.3;
+  z-index: 2;
+  position: fixed;
 }
