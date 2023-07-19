@@ -23,13 +23,12 @@
 - É recomendado utilizar algum cliente HTTP, como [Postman](https://www.postman.com/) ou o [Insomnia](https://insomnia.rest/download).
 
 <details>
-	<p align="center">⚠️ Atenção, caso opte por rodar localmente a porta será 8000 e não 8001</p>
   <summary><strong>Ver rotas</strong></summary><br />
 
   <details>
     <summary>POST</summary>
   
-  - POST `http://localhost:8001/authors/api/v2/` para cadastrar novo usuario. Utilize um body nesse formato:
+  - POST `http://localhost:8000/authors/api/v2/` para cadastrar novo usuario. Utilize um body nesse formato:
     
     ```jsx
       {
@@ -43,7 +42,7 @@
 
   ---
     
-  - POST `http://localhost:8001/recipes/api/token/` para fazer login e receber um token. Utilize um body nesse formato:
+  - POST `http://localhost:8000/recipes/api/token/` para fazer login e receber um token. Utilize um body nesse formato:
     
     ```jsx
       {
@@ -54,7 +53,7 @@
       
   ---
 
-- POST `http://localhost:8001/recipes/api/token/refresh/` para atualizar o token. Utilize um body nesse formato:
+- POST `http://localhost:8000/recipes/api/token/refresh/` para atualizar o token. Utilize um body nesse formato:
   
   ```jsx
     {
@@ -64,7 +63,7 @@
     
 ---
 
-- POST `http://localhost:8001/recipes/api/token/verify/` para validar o token. Utilize um body nesse formato:
+- POST `http://localhost:8000/recipes/api/token/verify/` para validar o token. Utilize um body nesse formato:
   
   ```jsx
     {
@@ -74,7 +73,7 @@
     
 ---
   
-- POST `http://localhost:8001/recipes/api/v2/` para criar uma nova receita. Utilize um body nesse formato:
+- POST `http://localhost:8000/recipes/api/v2/` para criar uma nova receita. Utilize um body nesse formato:
   <br>
   Para essa ação, o usuário deve enviar o "access" token no Header da requisição.
   `Authorization`  `Bearer <access token>`
@@ -102,33 +101,33 @@
   <details>
     <summary>GET</summary>
 
-  - GET `http://localhost:8001/authors/api/v2/<id>` exibe os dados do próprioe só o mesmo pode acessar.
+  - GET `http://localhost:8000/authors/api/v2/<id>` exibe os dados do próprioe só o mesmo pode acessar.
 	  <br>
 	  Para essa ação, o usuário deve enviar o "access" token no Header da requisição.
 	  `Authorization`  `Bearer <access token>`
 	
 	---
 	
-  - GET `http://localhost:8001/authors/api/v2/me` exibe os dados do usuário autenticado.
+  - GET `http://localhost:8000/authors/api/v2/me` exibe os dados do usuário autenticado.
     <br>
     Para essa ação, o usuário deve enviar o "access" token no Header da requisição.
   `Authorization`  `Bearer <access token>`
 	
   ---
 	  
-  - GET `http://localhost:8001/authors/api/v2/` exibe todas as receitas publicadas.
+  - GET `http://localhost:8000/authors/api/v2/` exibe todas as receitas publicadas.
 	  
   ---
   
-  - GET `http://localhost:8001/authors/api/v2/<id>` uma receita publicada de acordo com o id.
+  - GET `http://localhost:8000/authors/api/v2/<id>` uma receita publicada de acordo com o id.
 	  
   ---
 	  
-  - GET `http://localhost:8001/authors/api/v2/?category_id=<id>` busca receitas publicada de acordo com a categoria.
+  - GET `http://localhost:8000/authors/api/v2/?category_id=<id>` busca receitas publicada de acordo com a categoria.
 	
   ---
 	  
-  - GET `http://localhost:8001/authors/api/v2/?q=<search>` busca receitas de acordo com a palavra passada "<search>".
+  - GET `http://localhost:8000/authors/api/v2/?q=<search>` busca receitas de acordo com a palavra passada "<search>".
 	
 </details>
 
@@ -140,7 +139,7 @@
 Para todos os métodos PATCH, o usuário devera enviar o "access" token no Header da requisição.
     `Authorization`  `Bearer <access token>`
 	
-- PATCH `http://localhost:8001/authors/api/v2/<id>/` para atualizar dados do usuário. Utilize um body nesse formato:
+- PATCH `http://localhost:8000/authors/api/v2/<id>/` para atualizar dados do usuário. Utilize um body nesse formato:
    
 ```jsx
   {
@@ -150,7 +149,7 @@ Para todos os métodos PATCH, o usuário devera enviar o "access" token no Heade
 	
 ---
 	
-- PATCH `http://localhost:8001/recipes/api/v2/<id>/` para atualizar a receita. Utilize um body nesse formato:
+- PATCH `http://localhost:8000/recipes/api/v2/<id>/` para atualizar a receita. Utilize um body nesse formato:
 	
 ```jsx
     {
@@ -169,11 +168,11 @@ Para todos os métodos PATCH, o usuário devera enviar o "access" token no Heade
 Para todos os métodos DELETE, o usuário devera enviar o "access" token no Header da requisição.<br>
 `Authorization`  `Bearer <access token>`
   
-- DELETE `http://localhost:8001/authors/api/v2/<id>` deleta o usuário.
+- DELETE `http://localhost:8000/authors/api/v2/<id>` deleta o usuário.
   
 ---
   
-- DELETE `http://localhost:8001/recipes/api/v2/<id>` deleta a receita se a mesma pertencer ao usuário.
+- DELETE `http://localhost:8000/recipes/api/v2/<id>` deleta a receita se a mesma pertencer ao usuário.
 
  </details>
 

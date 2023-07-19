@@ -27,4 +27,4 @@ services:
 
     # porta utilizada <servidor>:<container>
     ports:
-      - 8001:8001
+      - 8000:8000
