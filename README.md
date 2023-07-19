@@ -266,7 +266,7 @@ _Rode na raiz do projeto o comando_
   docker-compose up -d
 ```
 
-- Esse serviço irá inicializar um container chamados `recipes`.
+- Esse serviço irá inicializar um container chamado `recipes` e adicionará uma imagem docker chamada django-recipes_web.
 - A partir daqui você pode rodar o container via CLI ou abri-lo no VS Code.
 
 _Via CLI use o comando_
