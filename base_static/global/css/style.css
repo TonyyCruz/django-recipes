@@ -633,6 +633,11 @@ a:hover {
   font-size: 2rem;
   z-index: 3;
   cursor: pointer;
+  transition: all 300ms ease-in-out;
+}
+
+.button-close-menu:hover {
+  color: var(--color-primary);
 }
 
 .menu-nav {
