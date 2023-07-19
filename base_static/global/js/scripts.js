@@ -1,3 +1,4 @@
+// Controla o alerta do usuário ao excluir uma receita
 (() => {
   const form = document.querySelectorAll('.form-delete');
   const recipes = document.querySelectorAll('.recipe-name');
@@ -20,12 +21,15 @@
 })();
 
 
+// Controla a exobição e ocultação do menu.
 (() => {
   const buttonCloseMenu = document.querySelector('.button-close-menu');
   const buttonShowMenu = document.querySelector('.button-show-menu');
   const menuContainer = document.querySelector('.menu-container');
+  const backgroundMenuLayer = document.querySelector('.background-menu-layer');
 
   const buttonShowMenuVisibleClass = 'button-show-menu-visible';
+  const backgroundMenuLayerVisible = 'background-menu-layer-visible'
   const menuHiddenClass = 'menu-hidden';
   const displayNoneClass = 'hidden-text';
 
@@ -33,12 +37,14 @@
     buttonShowMenu.classList.remove(buttonShowMenuVisibleClass);
     buttonShowMenu.classList.add(displayNoneClass);
     menuContainer.classList.remove(menuHiddenClass);
+    backgroundMenuLayer.classList.remove(displayNoneClass)
   };
 
   const closeMenu = () => {
     buttonShowMenu.classList.add(buttonShowMenuVisibleClass);
     buttonShowMenu.classList.remove(displayNoneClass);
     menuContainer.classList.add(menuHiddenClass);
+    backgroundMenuLayer.classList.add(displayNoneClass)
   };
 
   if (buttonShowMenu) {
@@ -49,5 +55,10 @@
   if (buttonCloseMenu) {
     buttonCloseMenu.removeEventListener('click', closeMenu);
     buttonCloseMenu.addEventListener('click', closeMenu);
+  };
+
+  if (backgroundMenuLayer) {
+    backgroundMenuLayer.removeEventListener('click', closeMenu);
+    backgroundMenuLayer.addEventListener('click', closeMenu);
   };
 })();
