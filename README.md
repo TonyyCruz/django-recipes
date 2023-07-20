@@ -113,6 +113,8 @@ _Rodar os testes_
   python -m pytest
  ```
 
+Ps: Os testes em selenium só estão funcionando rodando localmente.
+
 ## Este container estara espelhando os arquivos da sua máquina.
 
 </details>
