@@ -282,6 +282,7 @@ Para todos os métodos DELETE, o usuário devera enviar o "access" token no Head
 
 <details>
 <summary>HELP</summary>
+
 Ao passar a `Authorization` é obrigatório o uso da palavra `Bearer` antes do token:
 <img src="public/bearer_token.png">
 
