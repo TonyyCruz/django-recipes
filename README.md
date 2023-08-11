@@ -13,7 +13,7 @@
   Também foi disponibilizado uma API construida em Rest Framework, que possibilita também um CRUD na aplicação atravez de métodos HTTP, 
   possibilitando também a adição e login de usuários, tendo sua validação através de Jwt validators, possibilitando também a criação edição
   e deleção de receitas.
-  Foram feitos testes unitários funcionais e ponta a ponta cobrindo 90% da aplicação, foi utilizado: pytest, django testing e selenium.
+  Foram feitos testes unitários funcionais e ponta a ponta cobrindo 90% da aplicação, foram utilizados: pytest, django testing e selenium.
 </p>
 
 <br>
